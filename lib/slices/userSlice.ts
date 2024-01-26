@@ -4,6 +4,7 @@ import { RootState } from "../store";
 const initialState: UserType = {
   username: "",
   password: "",
+  loggedIn: false,
 };
 
 export const userSlice = createSlice({
@@ -29,12 +30,18 @@ export const userSlice = createSlice({
 
       state.password = password;
     },
+
+    setLoggedin: (state, action: PayloadAction<{ loggedIn: boolean }>) => {
+      console.log("Use logged in set to : ", action.payload.loggedIn);
+      state.loggedIn = action.payload.loggedIn;
+    },
   },
 });
 
-export const { setUserName, setPassword } = userSlice.actions;
+export const { setUserName, setPassword, setLoggedin } = userSlice.actions;
 
 export const selectUsername = (state: RootState) => state.userSlice.username;
 export const selectpassword = (state: RootState) => state.userSlice.password;
+export const selectLoggedIn = (state: RootState) => state.userSlice.loggedIn;
 
 export default userSlice.reducer;

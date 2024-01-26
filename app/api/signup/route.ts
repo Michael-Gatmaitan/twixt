@@ -1,7 +1,5 @@
 import connectDB from "@/lib/mongodb";
 import User from "@/models/User";
-// import { redirect } from "next/dist/server/api-utils";
-import { redirect } from "next/navigation";
 
 export async function POST(req: Request) {
   const body: UserType = await req.json();
@@ -21,5 +19,5 @@ export async function POST(req: Request) {
     password: body.password,
   });
 
-  return new Response("New user signedin", { status: 200 });
+  return new Response("New user signed up", { status: 200 });
 }

@@ -1,22 +1,24 @@
-"use client";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import Button from "../(ui-components)/Button";
+import TWIXTLogo from '@/public/logo/twixt.svg';
+import NavMenu from "./NavMenu";
+import Sidebar from "./Sidebar";
 
 const Nav = () => (
-  <nav className="sticky top-0 w-full bg-gray-900 p-4 flex justify-between items-center">
-    <h1 className="text-2xl font-sans text-white font-bold">Twixt</h1>
+  <nav className="fixed top-0 w-full z-50 bg-neutral-950 flex justify-between items-center py-3 px-4 lg:py-3 lg:px-12 container-shadow">
+    <NavMenu />
 
-    <div className="nav-buttons flex gap-2">
-      <Link href="/login">
-        <button className="primary-button">Login</button>
+    <Link className="nav-logo" href="/">
+      <Image src={TWIXTLogo} alt="twixt_logo" className="h-8" />
+    </Link>
 
-      </Link>
-
-      <Link href="/signin">
-        <button className="secondary-button">Signin</button>
-      </Link>
+    <div className="nav-profile">
+      <div className="w-6 h-6 bg-white rounded-full border-r-8 border-red-500" />
     </div>
+
+    <Sidebar />
+
   </nav>
 );
 

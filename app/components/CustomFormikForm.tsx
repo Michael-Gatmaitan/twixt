@@ -1,29 +1,29 @@
 "use client";
 import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLabelWarning } from "@/lib/hooks/formWarning";
+import { useAppDispatch } from "@/lib/hooks/reduxHooks";
+import { setLoggedin } from "@/lib/slices/userSlice";
 
 interface FormikFormProps {
-  formType: "login" | "signin";
+  formType: "login" | "signup";
 }
 
-interface UserValInitialState {
-  username: string;
-  password: string;
-}
-
-const initalFormValues: UserValInitialState = {
+const initalFormValues: IUserValidation = {
   username: "",
   password: "",
 };
 
 const CustomFormikForm = ({ formType }: FormikFormProps) => {
+  const dispatch = useAppDispatch();
+
   const router = useRouter();
   const [usernameExists, setUsernameExists] = useState(false);
   const [accountNotExists, setAccountNotExists] = useState(false);
 
+  const [accountCreated, setAccountCreated] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
   useLabelWarning(usernameExists, setUsernameExists);
@@ -33,8 +33,8 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
     <Formik
       initialValues={initalFormValues}
       onSubmit={async (
-        values: UserValInitialState,
-        { setSubmitting, resetForm }: FormikHelpers<UserValInitialState>
+        values: IUserValidation,
+        { setSubmitting }: FormikHelpers<IUserValidation>
       ) => {
         setSubmitting(true);
 
@@ -52,6 +52,8 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
               if (!data.ok) {
                 console.log("Account do not exists.");
               } else {
+                // Redux set loggedin to true
+                dispatch(setLoggedin({ loggedIn: true }));
                 return data.json()
               }
             })
@@ -60,11 +62,11 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
                   setAccountNotExists(true);
                 }
               });
-          } else if (formType === "signin") {
+          } else if (formType === "signup") {
             try {
-              console.log("Requesting for creating account / sign in");
+              console.log("Requesting for creating account / sign up");
 
-              await fetch("http://localhost:3000/api/signin", {
+              await fetch("http://localhost:3000/api/signup", {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
@@ -76,7 +78,9 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
                 if (res.status === 409) {
                   setUsernameExists(true);
                 } else {
-                  router.push("/login");
+                  setAccountCreated(true);
+
+                  setTimeout(() => router.push("/login"), 500);
                 }
               });
             } catch (e) {
@@ -98,7 +102,7 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
 
         };
 
-        const usernameRegex = /^[A-Za-z][A-Za-z0-9_]{7,29}$/;
+        const usernameRegex = /^[A-Za-z][A-Za-z0-9_]{6,29}$/;
 
         if (!values.username) {
           error.username = "Username required!";
@@ -124,8 +128,8 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
         handleBlur,
         handleChange,
       }) => (
-        <Form className="grid gap-2 mt-4 w-full px-4 lg:w-10/12">
-          <label htmlFor="username">Username justify-centerjustify-centerjustify-centerjustify-centerjustify-centerjustify-center</label>
+        <Form className="container grid gap-2 mt-4 px-4 2xl:max-w-4xl">
+          <label className="form-label" htmlFor="username">Username</label>
           <Field
             className="form-input"
             type="text"
@@ -145,7 +149,7 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
             {`"${values.username}"`} already exists
           </span> : null}
 
-          <label htmlFor="password">Password</label>
+          <label className="form-label" htmlFor="password">Password</label>
           <Field
             className="form-input"
             type={showPassword ? "text" : "password"}
@@ -162,15 +166,15 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
             <input className="w-4 h-4" type="checkbox" about="show_password" name="show_password" onChange={(e) => {
               setShowPassword(e.target.checked);
             }} />
-            <label htmlFor="show_password" className="text-sm opacity-80">Show password</label>
+            <label htmlFor="show_password" className="text-sm text-white opacity-80">Show password</label>
           </div>
 
           <button
-            className="secondary-button"
+            className="primary-btn"
             type="submit"
             disabled={!!errors.username || !!errors.password || isSubmitting || usernameExists}
           >
-            {formType === "login" ? "Login" : "Signin"}
+            {formType === "login" ? "Login" : "Create account"}
           </button>
 
           <span className="form-label">
@@ -191,7 +195,7 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
             )}
           </span>
 
-          <span className="text-green-500">Account created successfully.</span>
+          {accountCreated ? <span className="text-green-500">Account created successfully.</span> : null}
         </Form>
       )}
     </Formik>

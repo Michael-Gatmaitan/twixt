@@ -1,16 +1,26 @@
 import type { Metadata } from "next";
-import { Inter, Montserrat, Playfair_Display } from "next/font/google";
+import { Montserrat, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import ReduxProvider from "@/lib/ReduxProvider";
 import Nav from "./components/Nav";
 
-const inter = Inter({
+// const inter = Inter({
+//   subsets: ["latin"],
+//   weight: ["400", "600", "500", "700", "800"],
+//   variable: "--font-inter",
+// });
+
+const montserrat = Montserrat({
   subsets: ["latin"],
-  weight: ["400", "600", "500", "700", "800"],
-  variable: "--font-inter",
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-montserrat"
 });
 
-const montserrat = Montserrat({ subsets: ["latin"] });
+const sourceSansPro = Source_Sans_3({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-sourcesanspro"
+});
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -24,9 +34,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable}`}>
+      <body className={`${montserrat.variable} ${sourceSansPro.variable}`}>
         <ReduxProvider>
           <Nav />
+          {/* <Sidebar /> */}
           {children}
         </ReduxProvider>
       </body>
