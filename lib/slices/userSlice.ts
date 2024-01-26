@@ -11,34 +11,31 @@ export const userSlice = createSlice({
   name: "userslice",
   initialState,
   reducers: {
-    setUserName: (state, action: PayloadAction<{ username: string }>) => {
+    setUsername: (state, action: PayloadAction<string>) => {
       // set username
-      const { username } = action.payload;
-      if (username === "") {
-        throw new Error("Username cannot be empty");
-      }
+      const username = action.payload;
+      if (username === "") throw new Error("Username cannot be empty");
 
-      state.username = action.payload.username;
+      state.username = username;
     },
 
-    setPassword: (state, action: PayloadAction<{ password: string }>) => {
+    setPassword: (state, action: PayloadAction<string>) => {
       // set password
-      const { password } = action.payload;
-      if (password === "") {
-        throw new Error("User password cannot be empty");
-      }
+      const password = action.payload;
+      if (password === "") throw new Error("User password cannot be empty");
 
       state.password = password;
     },
 
-    setLoggedin: (state, action: PayloadAction<{ loggedIn: boolean }>) => {
-      console.log("Use logged in set to : ", action.payload.loggedIn);
-      state.loggedIn = action.payload.loggedIn;
+    setLoggedin: (state, action: PayloadAction<boolean>) => {
+      const loggedIn = action.payload;
+      console.log("Use logged in set to : ", loggedIn);
+      state.loggedIn = loggedIn;
     },
   },
 });
 
-export const { setUserName, setPassword, setLoggedin } = userSlice.actions;
+export const { setUsername, setPassword, setLoggedin } = userSlice.actions;
 
 export const selectUsername = (state: RootState) => state.userSlice.username;
 export const selectpassword = (state: RootState) => state.userSlice.password;

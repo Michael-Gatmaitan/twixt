@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLabelWarning } from "@/lib/hooks/formWarning";
 import { useAppDispatch } from "@/lib/hooks/reduxHooks";
-import { setLoggedin } from "@/lib/slices/userSlice";
+import { setLoggedin, setPassword, setUsername } from "@/lib/slices/userSlice";
 
 interface FormikFormProps {
   formType: "login" | "signup";
@@ -53,7 +53,15 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
                 console.log("Account do not exists.");
               } else {
                 // Redux set loggedin to true
-                dispatch(setLoggedin({ loggedIn: true }));
+                dispatch(setUsername(values.username));
+                dispatch(setPassword(values.password))
+                dispatch(setLoggedin(true));
+
+                localStorage.setItem("username", values.username);
+                localStorage.setItem("password", values.password);
+
+                // Go to posts
+                router.push("/posts");
                 return data.json()
               }
             })
@@ -128,7 +136,7 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
         handleBlur,
         handleChange,
       }) => (
-        <Form className="container grid gap-2 mt-4 px-4 2xl:max-w-4xl">
+        <Form className="container grid gap-2 mt-2 px-4 2xl:max-w-4xl">
           <label className="form-label" htmlFor="username">Username</label>
           <Field
             className="form-input"

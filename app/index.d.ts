@@ -11,4 +11,5 @@ interface IUserValidation {
 
 interface IStates {
   showSidebar: boolean;
+  showLogoutModal: boolean;
 }

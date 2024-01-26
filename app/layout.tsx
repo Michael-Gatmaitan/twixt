@@ -3,6 +3,9 @@ import { Montserrat, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
 import ReduxProvider from "@/lib/ReduxProvider";
 import Nav from "./components/Nav";
+import LogoutModal from "./components/modals/LogoutModal";
+import useCheckUserLoggin from "@/lib/hooks/checkUserLoggedIn";
+import HooksComponent from "@/lib/HooksComponent";
 
 // const inter = Inter({
 //   subsets: ["latin"],
@@ -32,13 +35,17 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+
   return (
     <html lang="en">
       <body className={`${montserrat.variable} ${sourceSansPro.variable}`}>
         <ReduxProvider>
-          <Nav />
-          {/* <Sidebar /> */}
-          {children}
+          <HooksComponent>
+            <Nav />
+            <LogoutModal />
+            {/* <Sidebar /> */}
+            {children}
+          </HooksComponent>
         </ReduxProvider>
       </body>
     </html>

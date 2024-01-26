@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import type { RootState } from "@reduxjs/toolkit/query";
-import { actionAsyncStorage } from "next/dist/client/components/action-async-storage.external";
+import { RootState } from "../store";
 
 const initialState: IStates = {
   showSidebar: false,
+  showLogoutModal: false,
 };
 
 export const stateSlice = createSlice({
@@ -13,9 +13,18 @@ export const stateSlice = createSlice({
     toggleShowSidebar: (state, action: PayloadAction<boolean>) => {
       state.showSidebar = action.payload;
     },
+
+    toggleShowLogoutModal: (state, action: PayloadAction<boolean>) => {
+      state.showLogoutModal = action.payload;
+    },
   },
 });
 
-export const { toggleShowSidebar } = stateSlice.actions;
+export const { toggleShowSidebar, toggleShowLogoutModal } = stateSlice.actions;
+
+export const selectShowSidebar = (state: RootState) =>
+  state.statesSlice.showSidebar;
+export const selectShowLogoutModal = (state: RootState) =>
+  state.statesSlice.showLogoutModal;
 
 export default stateSlice.reducer;

@@ -12,7 +12,7 @@ html {
 
 body {
   font-family: var(--font-montserrat);
-  @apply bg-neutral-950;
+  @apply bg-neutral-950 text-white;
 }
 
 .ssp-font {

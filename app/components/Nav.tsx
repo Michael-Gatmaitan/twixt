@@ -6,7 +6,7 @@ import NavMenu from "./NavMenu";
 import Sidebar from "./Sidebar";
 
 const Nav = () => (
-  <nav className="fixed top-0 w-full z-50 bg-neutral-950 flex justify-between items-center py-3 px-4 lg:py-3 lg:px-12 container-shadow">
+  <nav className="sticky top-0 w-full z-50 bg-neutral-950 flex justify-between items-center py-3 px-4 lg:py-3 lg:px-12 container-shadow">
     <NavMenu />
 
     <Link className="nav-logo" href="/">

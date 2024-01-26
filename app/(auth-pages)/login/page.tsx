@@ -1,5 +1,5 @@
 import React from "react";
-import CustomFormikForm from "../components/CustomFormikForm";
+import CustomFormikForm from "../../components/CustomFormikForm";
 import { FormikHelpers } from "formik";
 
 const page = () => {

@@ -1,27 +1,44 @@
 "use client"
-import React, { MouseEvent } from 'react'
+import React, { MouseEvent, useEffect, useMemo, useState } from 'react'
 import { useAppSelector, useAppDispatch } from '@/lib/hooks/reduxHooks';
-import { AiFillHome, AiFillInfoCircle, AiOutlineLogin, AiOutlineUserAdd } from 'react-icons/ai';
+import {
+  AiFillHome as HomeIcon,
+  AiFillInfoCircle as AboutIcon,
+  AiOutlineLogin as LoginIcon,
+  AiOutlineLogout as LogoutIcon,
+  AiOutlineUserAdd as RequestsSentIcon,
+  AiOutlineUserSwitch as FriendRequestsIcon,
+  AiOutlineUsergroupAdd as SignupIcon
+} from 'react-icons/ai';
 import Link from 'next/link';
-import { toggleShowSidebar } from '@/lib/slices/statesSlice';
-
-const buttons = [
-  { label: "Home", path: "/", Icon: AiFillHome, id: 1 },
-  { label: "About", path: "/about", Icon: AiFillInfoCircle, id: 2 },
-  { label: "Login", path: "/login", Icon: AiOutlineLogin, id: 3 },
-  { label: "Signup", path: "/signup", Icon: AiOutlineUserAdd, id: 4 },
-];
+import { toggleShowLogoutModal, toggleShowSidebar } from '@/lib/slices/statesSlice';
+import { selectLoggedIn } from '@/lib/slices/userSlice';
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
+  const loggedIn = useAppSelector(selectLoggedIn);
   const showSidebar = useAppSelector(state => state.statesSlice.showSidebar);
 
   const closeSidebar = (e: MouseEvent<HTMLButtonElement>) => {
-    console.log(e);
-    if (showSidebar) {
-      dispatch(toggleShowSidebar(false));
-    }
+    if (showSidebar) dispatch(toggleShowSidebar(false));
   }
+
+  const buttons = useMemo(() => loggedIn ? [
+    { label: "Home", path: "/", Icon: HomeIcon, id: 1 },
+    { label: "About", path: "/about", Icon: AboutIcon, id: 2 },
+    { label: "Friend requests", path: "/fr-requests", Icon: FriendRequestsIcon, id: 3 },
+    { label: "Requests sent", path: "/fr-reqs-sent", Icon: RequestsSentIcon, id: 4 },
+    // { label: "Logout", path: "/logout", Icon: LogoutIcon, id: 5 },
+  ] : [
+    { label: "Home", path: "/", Icon: HomeIcon, id: 1 },
+    { label: "About", path: "/about", Icon: AboutIcon, id: 2 },
+    { label: "Login", path: "/login", Icon: LoginIcon, id: 3 },
+    { label: "Signup", path: "/signup", Icon: SignupIcon, id: 4 },
+  ], [loggedIn]);
+
+  useEffect(() => {
+    console.log(buttons);
+  }, [buttons]);
 
   return (
     <main className={`
@@ -36,6 +53,11 @@ const Sidebar = () => {
           <button.Icon className="w-[24px] h-[24px]" /> {button.label}
         </SidebarButton>
       ))}
+
+      {loggedIn ? <button onClick={() => dispatch(toggleShowLogoutModal(true))} className="ssp-font w-full text-white flex gap-[18px] text-[24px] p-4 font-medium items-center hover:bg-neutral-900 transition">
+        <LogoutIcon />
+        Logout
+      </button> : null}
     </main>
   )
 }
