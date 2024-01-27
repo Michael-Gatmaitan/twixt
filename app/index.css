@@ -1,0 +1,43 @@
+* {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-montserrat);
+}
+
+.ssp-font {
+  font-family: var(--font-sourcesanspro);
+}
+
+.form-input {
+  @apply px-4 py-2 rounded-md border-2 bg-neutral-800 border-neutral-600
+  focus:ring-2 text-white ring-neutral-400 outline-none;
+}
+
+.form-label {
+  @apply text-sm text-white;
+}
+
+.form-label-error {
+  @apply text-sm text-red-600;
+}
+
+.primary-btn {
+  @apply py-2 px-4 rounded-md text-black bg-white disabled:bg-neutral-500;
+}
+
+.secondary-btn {
+  @apply py-2 px-4 rounded-md text-white bg-neutral-700;
+}
+
+/* .nav-style {
+  @apply sticky top-0 w-full bg-neutral-950 flex justify-between items-start py-6 px-4
+  lg:bg-red-200 lg:py-3 lg:px-2 sm:bg-green-400;
+} */
+
+/* .sidebar-button {
+  @apply;
+} */

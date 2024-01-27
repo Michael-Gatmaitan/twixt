@@ -1,11 +1,13 @@
 import type { Metadata } from "next";
 import { Montserrat, Source_Sans_3 } from "next/font/google";
 import "./globals.css";
+import "./index.css";
 import ReduxProvider from "@/lib/ReduxProvider";
 import Nav from "./components/Nav";
 import LogoutModal from "./components/modals/LogoutModal";
-import useCheckUserLoggin from "@/lib/hooks/checkUserLoggedIn";
 import HooksComponent from "@/lib/HooksComponent";
+import { ThemeProvider } from "@/components/ui/theme-provider";
+import Sidebar from "@/app/components/Sidebar";
 
 // const inter = Inter({
 //   subsets: ["latin"],
@@ -40,12 +42,20 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${montserrat.variable} ${sourceSansPro.variable}`}>
         <ReduxProvider>
-          <HooksComponent>
-            <Nav />
-            <LogoutModal />
-            {/* <Sidebar /> */}
-            {children}
-          </HooksComponent>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <HooksComponent>
+              <Nav />
+              <Sidebar />
+              <LogoutModal />
+              {/* <Sidebar /> */}
+              {children}
+            </HooksComponent>
+          </ThemeProvider>
         </ReduxProvider>
       </body>
     </html>

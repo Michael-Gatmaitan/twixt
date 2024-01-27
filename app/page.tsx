@@ -1,9 +1,66 @@
+"use client"
+import { Button } from "@/components/ui/button";
+import { Moon, Sun } from "lucide-react"
+import { useTheme } from "next-themes"
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+
+export function ModeToggle() {
+  const { setTheme } = useTheme()
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="outline" size="icon">
+          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+          <span className="sr-only">Toggle theme</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={() => setTheme("light")}>
+          Light
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme("dark")}>
+          Dark
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme("system")}>
+          System
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+
 export default function Home() {
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="flex items-center">
-        <h1 className="font-bold">Welcome to twixt</h1>
+      <header>
+        <title>Twixt | Home</title>
+      </header>
+      <div className="flex items-center gap-2">
+        <Card>
+          <CardHeader>
+            <CardTitle>Michael Gatamitan</CardTitle>
+            <CardDescription>Active</CardDescription>
+          </CardHeader>
+          <CardContent>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consequatur modi distinctio illum et fugit sunt quibusdam. Minus quae ducimus cupiditate, neque soluta in quaerat molestias veniam voluptatum fuga laboriosam totam!</CardContent>
+          <CardFooter>
+            <div className="flex justify-between w-full">
+              <Button>Like</Button>
+              <Button variant="secondary">Commnet</Button>
+            </div>
+          </CardFooter>
+        </Card>
+
       </div>
-    </main>
+      <ModeToggle />
+    </main >
   );
 }

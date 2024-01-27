@@ -13,6 +13,7 @@ import {
 import Link from 'next/link';
 import { toggleShowLogoutModal, toggleShowSidebar } from '@/lib/slices/statesSlice';
 import { selectLoggedIn } from '@/lib/slices/userSlice';
+import { Button } from '@/components/ui/button';
 
 const Sidebar = () => {
   const dispatch = useAppDispatch();
@@ -36,15 +37,12 @@ const Sidebar = () => {
     { label: "Signup", path: "/signup", Icon: SignupIcon, id: 4 },
   ], [loggedIn]);
 
-  useEffect(() => {
-    console.log(buttons);
-  }, [buttons]);
-
   return (
     <main className={`
-      w-5/6 h-full fixed top-[56px] left-0 flex flex-col
-      bg-neutral-950 transition pt-[64px]
-      container-shadow
+      container
+      w-5/6 h-full fixed top-0 left-0 flex flex-col
+      transition mt-[56px] pt-8 border-r
+      bg-background
       lg:hidden
       ${showSidebar ? "-translate-x-0" : "-translate-x-full"}`}>
       {/* border-r-[3px] border-neutral-900 lg:hidden */}
@@ -54,10 +52,10 @@ const Sidebar = () => {
         </SidebarButton>
       ))}
 
-      {loggedIn ? <button onClick={() => dispatch(toggleShowLogoutModal(true))} className="ssp-font w-full text-white flex gap-[18px] text-[24px] p-4 font-medium items-center hover:bg-neutral-900 transition">
+      {loggedIn ? <Button variant="ghost" onClick={closeSidebar} className='h-[68px] flex justify-start gap-[18px] text-2xl ssp-font'>
         <LogoutIcon />
         Logout
-      </button> : null}
+      </Button> : null}
     </main>
   )
 }
@@ -67,9 +65,12 @@ interface ISidebarButton { children: React.ReactNode, path: string, closeSidebar
 const SidebarButton = ({ children, path, closeSidebar }: ISidebarButton) => {
 
   return (
-    <Link href={path}>
-      <button onClick={closeSidebar} className="ssp-font w-full text-white flex gap-[18px] text-[24px] p-4 font-medium items-center hover:bg-neutral-900 transition">{children}</button>
-    </Link>
+    <Button asChild variant="ghost" onClick={closeSidebar} className='h-[68px] flex justify-start gap-[18px] text-2xl ssp-font'>
+      <Link href={path}>
+        {/* <button onClick={closeSidebar} className="rounded-md ssp-font w-full text-white flex gap-[18px] text-[24px] p-4 font-medium items-center hover:bg-neutral-900 transition">{children}</button> */}
+        {children}
+      </Link>
+    </Button>
   );
 }
 
