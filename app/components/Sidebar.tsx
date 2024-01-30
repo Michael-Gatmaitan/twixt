@@ -1,5 +1,5 @@
 "use client"
-import React, { MouseEvent, useEffect, useMemo, useState } from 'react'
+import React, { MouseEvent, useMemo } from 'react'
 import { useAppSelector, useAppDispatch } from '@/lib/hooks/reduxHooks';
 import {
   AiFillHome as HomeIcon,
@@ -20,18 +20,25 @@ const Sidebar = () => {
   const loggedIn = useAppSelector(selectLoggedIn);
   const showSidebar = useAppSelector(state => state.statesSlice.showSidebar);
 
-  const closeSidebar = (e: MouseEvent<HTMLButtonElement>) => {
+
+  const closeSidebar = () => {
     if (showSidebar) dispatch(toggleShowSidebar(false));
   }
 
+  const handleShowLogoutModal = () => {
+    closeSidebar();
+
+    dispatch(toggleShowLogoutModal(true));
+  }
+
   const buttons = useMemo(() => loggedIn ? [
-    { label: "Home", path: "/", Icon: HomeIcon, id: 1 },
+    { label: "Feed", path: "/", Icon: HomeIcon, id: 1 },
     { label: "About", path: "/about", Icon: AboutIcon, id: 2 },
     { label: "Friend requests", path: "/fr-requests", Icon: FriendRequestsIcon, id: 3 },
     { label: "Requests sent", path: "/fr-reqs-sent", Icon: RequestsSentIcon, id: 4 },
     // { label: "Logout", path: "/logout", Icon: LogoutIcon, id: 5 },
   ] : [
-    { label: "Home", path: "/", Icon: HomeIcon, id: 1 },
+    { label: "Feed", path: "/", Icon: HomeIcon, id: 1 },
     { label: "About", path: "/about", Icon: AboutIcon, id: 2 },
     { label: "Login", path: "/login", Icon: LoginIcon, id: 3 },
     { label: "Signup", path: "/signup", Icon: SignupIcon, id: 4 },
@@ -52,7 +59,7 @@ const Sidebar = () => {
         </SidebarButton>
       ))}
 
-      {loggedIn ? <Button variant="ghost" onClick={closeSidebar} className='h-[68px] flex justify-start gap-[18px] text-2xl ssp-font'>
+      {loggedIn ? <Button variant="ghost" onClick={handleShowLogoutModal} className='h-[68px] flex justify-start gap-[18px] text-2xl ssp-font'>
         <LogoutIcon />
         Logout
       </Button> : null}

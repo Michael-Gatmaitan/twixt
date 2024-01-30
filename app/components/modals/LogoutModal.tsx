@@ -9,7 +9,7 @@ const LogoutModal = () => {
 
   return (
     showLogoutModal ? (
-      <main className="w-screen h-screen absolute top-0 left-0 bg-opacity-50 bg-black grid justify-center place-content-center z-50">
+      <main className="w-screen h-screen absolute top-0 left-0 bg-opacity-50 bg-black grid place-items-center z-50">
         <Modal />
       </main>) : null
   )
@@ -17,18 +17,24 @@ const LogoutModal = () => {
 
 const Modal = () => {
   const dispatch = useAppDispatch();
+
+  const clearLoginData = () => {
+    localStorage.setItem("username", "");
+    localStorage.setItem("password", "");
+
+    dispatch(toggleShowLogoutModal(false));
+  }
+
   return (
-    <div className="w-3/4 p-3 border border-neutral-700 bg-neutral-950 rounded-xl">
+    <div className="w-3/6 p-3 border border-neutral-700 bg-neutral-950 rounded-xl">
       <div className="text-2xl">Are you sure you want to logout?</div>
 
       <div className="flex gap-2">
         {/* <button className='primary-btn'>Yes</button> */}
-        <Button>Yes</Button>
-        <button className='secondary-btn grow' onClick={() => {
-          dispatch(toggleShowLogoutModal(false));
-        }}>Cancel</button>
+        <Button onClick={clearLoginData}>Yes</Button>
+        <button className='secondary-btn grow' onClick={() => dispatch(toggleShowLogoutModal(false))}>Cancel</button>
       </div>
-    </div>
+    </div >
   )
 }
 

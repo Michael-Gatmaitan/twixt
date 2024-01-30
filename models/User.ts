@@ -10,6 +10,10 @@ const userSchema = new Schema({
     type: String,
     required: [true, "Username required"],
   },
+  bio: {
+    type: String,
+    required: [true, "Bio need to be at least empty."],
+  },
 });
 
 // Create model

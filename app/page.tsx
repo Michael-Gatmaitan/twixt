@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
-export function ModeToggle() {
+function ModeToggle() {
   const { setTheme } = useTheme()
 
   return (
@@ -40,7 +40,7 @@ export function ModeToggle() {
 
 export default function Home() {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+    <main className="flex container flex-col items-center justify-between">
       <header>
         <title>Twixt | Home</title>
       </header>

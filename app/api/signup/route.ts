@@ -17,6 +17,7 @@ export async function POST(req: Request) {
   await User.create({
     username: body.username,
     password: body.password,
+    bio: "",
   });
 
   return new Response("New user signed up", { status: 200 });

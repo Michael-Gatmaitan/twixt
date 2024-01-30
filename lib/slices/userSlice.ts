@@ -4,6 +4,7 @@ import { RootState } from "../store";
 const initialState: UserType = {
   username: "",
   password: "",
+  mongodbID: "",
   loggedIn: false,
 };
 
@@ -27,6 +28,12 @@ export const userSlice = createSlice({
       state.password = password;
     },
 
+    setMongodbID: (state, action: PayloadAction<string>) => {
+      const mongodbID = action.payload;
+      console.log("MongoDB id has been set.");
+      state.mongodbID = mongodbID;
+    },
+
     setLoggedin: (state, action: PayloadAction<boolean>) => {
       const loggedIn = action.payload;
       console.log("Use logged in set to : ", loggedIn);
@@ -35,10 +42,12 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setUsername, setPassword, setLoggedin } = userSlice.actions;
+export const { setUsername, setPassword, setMongodbID, setLoggedin } =
+  userSlice.actions;
 
 export const selectUsername = (state: RootState) => state.userSlice.username;
 export const selectpassword = (state: RootState) => state.userSlice.password;
 export const selectLoggedIn = (state: RootState) => state.userSlice.loggedIn;
+export const selectMongodbID = (state: RootState) => state.userSlice.mongodbID;
 
 export default userSlice.reducer;

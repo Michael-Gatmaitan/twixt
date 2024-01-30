@@ -9,8 +9,6 @@ const page = () => {
       <main className="flex justify-center w-full flex-col items-center">
         <h1 className="text-3xl font-bold text-center text-white pt-4">Log in</h1>
         <CustomFormikForm formType="login" />
-
-        <blockquote>Hi</blockquote>
       </main>
     </div>
   );

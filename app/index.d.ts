@@ -1,6 +1,7 @@
 interface UserType {
   username: string;
   password: string;
+  mongodbID: string;
   loggedIn: boolean;
 }
 

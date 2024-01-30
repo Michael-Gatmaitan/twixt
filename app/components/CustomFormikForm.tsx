@@ -5,7 +5,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLabelWarning } from "@/lib/hooks/formWarning";
 import { useAppDispatch } from "@/lib/hooks/reduxHooks";
-import { setLoggedin, setPassword, setUsername } from "@/lib/slices/userSlice";
+import { setLoggedin, setMongodbID, setPassword, setUsername } from "@/lib/slices/userSlice";
+import { Button } from "@/components/ui/button";
 
 interface FormikFormProps {
   formType: "login" | "signup";
@@ -52,21 +53,21 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
               if (!data.ok) {
                 console.log("Account do not exists.");
               } else {
-                // Redux set loggedin to true
-                dispatch(setUsername(values.username));
-                dispatch(setPassword(values.password))
-                dispatch(setLoggedin(true));
-
                 localStorage.setItem("username", values.username);
                 localStorage.setItem("password", values.password);
-
                 // Go to posts
                 router.push("/posts");
                 return data.json()
               }
             })
-              .then(user => {
-                if (user === undefined) {
+              .then((user) => {
+                console.log(user);
+                if (user !== undefined) {
+                  dispatch(setUsername(user.username));
+                  dispatch(setPassword(user.password));
+                  dispatch(setMongodbID(user._id));
+                  dispatch(setLoggedin(true));
+                } else {
                   setAccountNotExists(true);
                 }
               });
@@ -85,6 +86,8 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
                 // Username exists | 409 -> Conflict
                 if (res.status === 409) {
                   setUsernameExists(true);
+                } else if (res.status === 500) {
+                  console.log("No internet connection, internal server error")
                 } else {
                   setAccountCreated(true);
 
@@ -177,13 +180,13 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
             <label htmlFor="show_password" className="text-sm text-white opacity-80">Show password</label>
           </div>
 
-          <button
+          <Button
             className="primary-btn"
             type="submit"
             disabled={!!errors.username || !!errors.password || isSubmitting || usernameExists}
           >
             {formType === "login" ? "Login" : "Create account"}
-          </button>
+          </Button>
 
           <span className="form-label">
             {formType === "login" ? (

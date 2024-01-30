@@ -12,7 +12,12 @@ const useCheckUserLoggin = () => {
   useEffect(() => {
     const storageUsername: string | null = localStorage.getItem("username");
     const storagePassword: string | null = localStorage.getItem("password");
-    if (storageUsername !== null && storagePassword !== null) {
+    if (
+      storageUsername !== null &&
+      storagePassword !== null &&
+      storageUsername !== "" &&
+      storagePassword !== ""
+    ) {
       console.log("Account in local storage detected.");
 
       dispatch(setUsername(storageUsername));
