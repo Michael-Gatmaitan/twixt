@@ -46,7 +46,7 @@ export const { setUsername, setPassword, setMongodbID, setLoggedin } =
   userSlice.actions;
 
 export const selectUsername = (state: RootState) => state.userSlice.username;
-export const selectpassword = (state: RootState) => state.userSlice.password;
+export const selectPassword = (state: RootState) => state.userSlice.password;
 export const selectLoggedIn = (state: RootState) => state.userSlice.loggedIn;
 export const selectMongodbID = (state: RootState) => state.userSlice.mongodbID;
 

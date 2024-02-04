@@ -7,6 +7,7 @@ import React, { useState } from 'react'
 import { useAppDispatch, useAppSelector } from '@/lib/hooks/reduxHooks';
 import { toggleShowSidebar } from '@/lib/slices/statesSlice';
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
+import { Button } from '@/components/ui/button';
 
 const NavMenu = () => {
   const dispatch = useAppDispatch();
@@ -18,10 +19,12 @@ const NavMenu = () => {
 
   return (
     // biome-ignore lint/a11y/useKeyWithClickEvents: <onClick is safe here>
-    <div className="nav-menu h-6 w-6 lg:hidden" onClick={handleMenuClick}>
+    <div className="nav-menu lg:hidden" onClick={handleMenuClick}>
       {/* <Image src={showSidebar ? CloseIcon : MenuIcon} alt="menu_icon" />
        */}
-      {showSidebar ? <AiOutlineClose className='text-white text-2xl' /> : <AiOutlineMenu className='text-white text-2xl' />}
+      <Button variant="ghost">
+        {showSidebar ? <AiOutlineClose className='text-2xl' /> : <AiOutlineMenu className='text-2xl' />}
+      </Button>
     </div>
   )
 }

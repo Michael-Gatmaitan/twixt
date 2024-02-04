@@ -1,25 +1,40 @@
 "use client"
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Form, FormField, FormDescription, FormLabel, FormItem, FormControl, FormMessage } from '@/components/ui/form';
+import { Form, FormField, FormLabel, FormItem, FormControl, FormMessage } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { useAppSelector } from '@/lib/hooks/reduxHooks';
+import { selectMongodbID } from '@/lib/slices/userSlice';
 
-const formSchema = z.object({
-  postContent: z.string().min(2, { message: "Min of 2" }).max(64, { message: "Limit exceed" })
-})
+const FormSchema = z.object({
+  postContent: z.string().min(2, { message: "Min of 2" })
+    .max(64, { message: "Limit exceed" })
+});
 
 const PostForm = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      postContent: "Post"
-    }
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const mongodbID = useAppSelector(selectMongodbID);
+
+  const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     console.log(values);
+
+    console.log({ mongodbID, ...values })
+
+    const postReq = await fetch("http://localhost:3000/api/posts", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({ mongodbID, ...values })
+    });
+    alert("Submitted");
   }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -29,16 +44,18 @@ const PostForm = () => {
           render={({ field }) => {
             return (
               <FormItem>
-                <FormLabel>Post Content
+                <FormLabel>
+                  Post Content
                 </FormLabel>
                 <FormControl>
                   <Input placeholder='Post content' {...field} />
                 </FormControl>
-                <FormDescription>Post at least 2-64 characters.</FormDescription>
                 <FormMessage />
               </FormItem>
             )
           }} />
+
+        <Button className="mt-4" type='submit'>Post</Button>
       </form>
     </Form>
   )

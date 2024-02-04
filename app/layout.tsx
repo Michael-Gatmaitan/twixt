@@ -4,7 +4,7 @@ import "./globals.css";
 import "./index.css";
 import ReduxProvider from "@/lib/ReduxProvider";
 import Nav from "./components/Nav";
-import LogoutModal from "./components/modals/LogoutModal";
+import LogoutModal from "./components/modals/Logout/LogoutModal";
 import HooksComponent from "@/lib/HooksComponent";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import Sidebar from "@/app/components/Sidebar";
@@ -46,7 +46,7 @@ export default function RootLayout({
             attribute="class"
             defaultTheme="system"
             enableSystem
-            disableTransitionOnChange
+          // disableTransitionOnChange
           >
             <HooksComponent>
               <Nav />

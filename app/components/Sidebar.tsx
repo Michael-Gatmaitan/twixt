@@ -8,20 +8,30 @@ import {
   AiOutlineLogout as LogoutIcon,
   AiOutlineUserAdd as RequestsSentIcon,
   AiOutlineUserSwitch as FriendRequestsIcon,
-  AiOutlineUsergroupAdd as SignupIcon
+  AiOutlineUsergroupAdd as SignupIcon,
+  AiOutlineSearch as SearchIcon
 } from 'react-icons/ai';
 import Link from 'next/link';
 import { toggleShowLogoutModal, toggleShowSidebar } from '@/lib/slices/statesSlice';
-import { selectLoggedIn } from '@/lib/slices/userSlice';
+import { selectLoggedIn, selectMongodbID } from '@/lib/slices/userSlice';
 import { Button } from '@/components/ui/button';
+import { useRouter } from 'next/navigation';
 
 const Sidebar = () => {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const loggedIn = useAppSelector(selectLoggedIn);
+  const userMongodbID = useAppSelector(selectMongodbID);
   const showSidebar = useAppSelector(state => state.statesSlice.showSidebar);
 
 
-  const closeSidebar = () => {
+  const closeSidebar = (path?: string) => {
+    console.log(path);
+    if (path === "/me") {
+      router.push("/me");
+    }
+
+
     if (showSidebar) dispatch(toggleShowSidebar(false));
   }
 
@@ -32,17 +42,19 @@ const Sidebar = () => {
   }
 
   const buttons = useMemo(() => loggedIn ? [
-    { label: "Feed", path: "/", Icon: HomeIcon, id: 1 },
-    { label: "About", path: "/about", Icon: AboutIcon, id: 2 },
-    { label: "Friend requests", path: "/fr-requests", Icon: FriendRequestsIcon, id: 3 },
-    { label: "Requests sent", path: "/fr-reqs-sent", Icon: RequestsSentIcon, id: 4 },
+    { label: "Profile", path: `/me/${userMongodbID}`, Icon: HomeIcon, id: 1 },
+    { label: "Search User", path: "/search-user", Icon: SearchIcon, id: 2 },
+    { label: "Feed", path: "/", Icon: HomeIcon, id: 3 },
+    { label: "About", path: "/about", Icon: AboutIcon, id: 4 },
+    { label: "Friend requests", path: "/fr-requests", Icon: FriendRequestsIcon, id: 5 },
+    { label: "Requests sent", path: "/fr-reqs-sent", Icon: RequestsSentIcon, id: 6 },
     // { label: "Logout", path: "/logout", Icon: LogoutIcon, id: 5 },
   ] : [
     { label: "Feed", path: "/", Icon: HomeIcon, id: 1 },
     { label: "About", path: "/about", Icon: AboutIcon, id: 2 },
     { label: "Login", path: "/login", Icon: LoginIcon, id: 3 },
     { label: "Signup", path: "/signup", Icon: SignupIcon, id: 4 },
-  ], [loggedIn]);
+  ], [loggedIn, userMongodbID]);
 
   return (
     <main className={`
@@ -67,12 +79,12 @@ const Sidebar = () => {
   )
 }
 
-interface ISidebarButton { children: React.ReactNode, path: string, closeSidebar: (e: MouseEvent<HTMLButtonElement>) => void };
+interface ISidebarButton { children: React.ReactNode, path: string, closeSidebar: (path?: string) => void };
 
 const SidebarButton = ({ children, path, closeSidebar }: ISidebarButton) => {
 
   return (
-    <Button asChild variant="ghost" onClick={closeSidebar} className='h-[68px] flex justify-start gap-[18px] text-2xl ssp-font'>
+    <Button asChild variant="ghost" onClick={() => closeSidebar(path)} className='h-[68px] flex justify-start gap-[18px] text-2xl ssp-font'>
       <Link href={path}>
         {/* <button onClick={closeSidebar} className="rounded-md ssp-font w-full text-white flex gap-[18px] text-[24px] p-4 font-medium items-center hover:bg-neutral-900 transition">{children}</button> */}
         {children}

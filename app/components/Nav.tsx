@@ -10,7 +10,7 @@ const Nav = () => (
       <NavMenu />
 
       <Link className="nav-logo" href="/">
-        <Image src={TWIXTLogo} alt="twixt_logo" className="h-8" />
+        <Image src={TWIXTLogo} alt="twixt_logo" className="h-8" height={32} />
       </Link>
 
       <div className="nav-profile">

@@ -41,9 +41,6 @@ function ModeToggle() {
 export default function Home() {
   return (
     <main className="flex container flex-col items-center justify-between">
-      <header>
-        <title>Twixt | Home</title>
-      </header>
       <div className="flex items-center gap-2">
         <Card>
           <CardHeader>

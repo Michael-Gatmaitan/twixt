@@ -4,7 +4,8 @@ import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useLabelWarning } from "@/lib/hooks/formWarning";
-import { useAppDispatch } from "@/lib/hooks/reduxHooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks/reduxHooks";
+import { selectMongodbID } from "@/lib/slices/userSlice";
 import { setLoggedin, setMongodbID, setPassword, setUsername } from "@/lib/slices/userSlice";
 import { Button } from "@/components/ui/button";
 
@@ -19,6 +20,7 @@ const initalFormValues: IUserValidation = {
 
 const CustomFormikForm = ({ formType }: FormikFormProps) => {
   const dispatch = useAppDispatch();
+  const mongodbID = useAppSelector(selectMongodbID);
 
   const router = useRouter();
   const [usernameExists, setUsernameExists] = useState(false);
@@ -53,10 +55,7 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
               if (!data.ok) {
                 console.log("Account do not exists.");
               } else {
-                localStorage.setItem("username", values.username);
-                localStorage.setItem("password", values.password);
                 // Go to posts
-                router.push("/posts");
                 return data.json()
               }
             })
@@ -67,6 +66,12 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
                   dispatch(setPassword(user.password));
                   dispatch(setMongodbID(user._id));
                   dispatch(setLoggedin(true));
+
+                  localStorage.setItem("username", values.username);
+                  localStorage.setItem("password", values.password);
+                  localStorage.setItem("mongodbID", mongodbID);
+
+                  router.push("/posts");
                 } else {
                   setAccountNotExists(true);
                 }
@@ -74,7 +79,7 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
           } else if (formType === "signup") {
             try {
               console.log("Requesting for creating account / sign up");
-
+              // use process.env.NEXT_PUBLIC_URL for prod
               await fetch("http://localhost:3000/api/signup", {
                 method: "POST",
                 headers: {
