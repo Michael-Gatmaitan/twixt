@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks/reduxHooks";
 import { selectMongodbID } from "@/lib/slices/userSlice";
 import { setLoggedin, setMongodbID, setPassword, setUsername } from "@/lib/slices/userSlice";
 import { Button } from "@/components/ui/button";
+import { IUserValidation } from "..";
 
 interface FormikFormProps {
   formType: "login" | "signup";
@@ -197,7 +198,7 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
             {formType === "login" ? (
               <>
                 Dont have an account?{" "}
-                <Link className="underline" href="/signin">
+                <Link className="underline" href="/signup">
                   Signin here.
                 </Link>
               </>

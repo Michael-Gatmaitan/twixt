@@ -1,7 +1,8 @@
+import { IPost } from "@/app";
 import mongoose, { Schema, models } from "mongoose";
 
-const postSchema = new Schema({
-  mongodbID: {
+const postSchema = new Schema<IPost>({
+  userID: {
     type: String,
     required: [true, "MongodbID required"],
   },
@@ -9,12 +10,11 @@ const postSchema = new Schema({
     type: String,
     required: [true, "Post content requiried"],
   },
+  createdAt: {
+    type: Date,
+    default: () => Date.now(),
+  },
 });
 
-const Post =
-  models.Post ||
-  mongoose.model<{ mongodbID: string; postContent: string }>(
-    "Post",
-    postSchema
-  );
+const Post = models.Post || mongoose.model<IPost>("Post", postSchema);
 export default Post;

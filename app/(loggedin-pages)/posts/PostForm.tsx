@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useAppSelector } from '@/lib/hooks/reduxHooks';
 import { selectMongodbID } from '@/lib/slices/userSlice';
+import React, { useState, FormEvent } from 'react';
 
 const FormSchema = z.object({
   postContent: z.string().min(2, { message: "Min of 2" })
@@ -35,6 +36,23 @@ const PostForm = () => {
     alert("Submitted");
   }
 
+  // const sub = async () => {
+  //   const postReq = await fetch("http://localhost:3000/api/posts", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json"
+  //     },
+  //     body: JSON.stringify({ mongodbID,  })
+  //   });
+  //   alert("Submitted");
+
+  // }
+  // const [val, setVal] = useState("");
+
+  // const handleChange = (e: FormEvent<HTMLInputElement>) => {
+  //   setVal(e.currentTarget.value);
+  // }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -54,6 +72,8 @@ const PostForm = () => {
               </FormItem>
             )
           }} />
+
+        {/* <input type="text" onChange={handleChange} /> */}
 
         <Button className="mt-4" type='submit'>Post</Button>
       </form>

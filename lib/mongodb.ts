@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { ConnectOptions } from "mongodb";
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
@@ -25,6 +26,9 @@ async function connectDB() {
   if (!cached.promise) {
     const opts = {
       bufferCommands: false,
+      // useNewUrlParser: true,
+      // useUnifiedTopology: true,
+      // useCreateIndex: true,
     };
 
     // biome-ignore lint/style/noNonNullAssertion: <explanation>
