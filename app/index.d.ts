@@ -13,7 +13,7 @@ interface IUserValidation {
 }
 
 interface IUser {
-  _id: ObjectId;
+  _id: string;
   username: string;
   password: string;
   bio: string;
@@ -38,4 +38,5 @@ interface IFriendship {
   user1ID: string;
   user2ID: string;
   status: "pending" | "accepted" | "rejected";
+  createdAt: Date;
 }

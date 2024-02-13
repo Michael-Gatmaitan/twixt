@@ -3,9 +3,11 @@ import connectDB from "@/lib/mongodb";
 import { IUser, UserType } from "@/app";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import { cookies } from "next/headers";
 
 export async function POST(req: Request) {
   await connectDB();
+  const cookieStore = cookies();
 
   try {
     const { username, password }: UserType = await req.json();
@@ -41,7 +43,9 @@ export async function POST(req: Request) {
       { expiresIn: "1h" }
     );
 
-    console.log(token);
+    cookieStore.set("mongodbid", userAccount._id);
+
+    console.log(cookieStore.get("mongodbid"));
 
     return new Response(JSON.stringify(userAccount), { status: 200 });
   } catch (err) {

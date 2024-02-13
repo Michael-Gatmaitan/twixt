@@ -2,6 +2,8 @@ import connectDB from "@/lib/mongodb";
 import User from "@/models/User";
 import { type NextRequest } from "next/server";
 
+// url params: userID, m
+
 export async function GET(req: NextRequest, res: Response) {
   const searchParams = req.nextUrl.searchParams;
   const userIDq = searchParams.get("userID");
@@ -9,7 +11,7 @@ export async function GET(req: NextRequest, res: Response) {
   await connectDB();
   try {
     if (!userIDq) {
-      return new Response(JSON.stringify({ message: "No user detected" }), {
+      return new Response(JSON.stringify({ message: "No userID passed" }), {
         status: 500,
       });
     }

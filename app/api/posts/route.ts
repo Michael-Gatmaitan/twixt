@@ -2,9 +2,14 @@ import { IPost } from "@/app";
 import connectDB from "@/lib/mongodb";
 import Post from "@/models/Post";
 import mongoose from "mongoose";
-
+import { cookies } from "next/headers";
 // Get all USER_POSTS in database
 export async function GET() {
+  const cookieStore = cookies();
+
+  const mongodbid = cookieStore.get("mongodbid");
+  console.log(mongodbid?.value);
+
   try {
     await connectDB();
     const posts: IPost[] = await Post.find();
