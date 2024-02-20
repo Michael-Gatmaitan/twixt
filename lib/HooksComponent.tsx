@@ -1,9 +1,13 @@
 "use client"
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useCheckUserCookies } from './hooks/checkUserAlreadyLoggedIn'
+import { useSetAuth } from './hooks/auth'
 // import useCheckUserLoggin from './hooks/checkUserAlreadyLoggedIn'
 
 const HooksComponent = ({ children }: { children: React.ReactNode }) => {
   // useCheckUserLoggin();
+  // useCheckUserCookies();
+  useSetAuth();
 
   return (
     <React.Fragment>

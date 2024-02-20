@@ -3,6 +3,7 @@ import Link from "next/link";
 import React from "react";
 import TWIXTLogo from '@/public/logo/twixt.svg';
 import NavMenu from "./NavMenu";
+import ToggleMode from "./ToggleMode";
 
 const Nav = () => (
   <header className="sticky top-0 w-full z-50 bg-background/95 border-border/40 backdrop-blur border-b">
@@ -13,9 +14,10 @@ const Nav = () => (
         <Image src={TWIXTLogo} alt="twixt_logo" className="h-8" height={32} />
       </Link>
 
-      <div className="nav-profile">
+      {/* <div className="nav-profile">
         <div className="w-6 h-6 bg-white rounded-full border-r-8 border-red-500" />
-      </div>
+      </div> */}
+      <ToggleMode />
     </nav>
   </header>
 );

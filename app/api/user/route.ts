@@ -16,8 +16,6 @@ export async function GET(req: NextRequest, res: Response) {
       });
     }
 
-    console.log(`query:? ${userIDq}`);
-
     const user = await User.findOne({
       _id: userIDq,
     });

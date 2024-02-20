@@ -1,8 +1,13 @@
 import React from "react";
 import CustomFormikForm from "../../components/CustomFormikForm";
 import { FormikHelpers } from "formik";
+// import { getCookie } from "cookies-next";
 
 const page = () => {
+
+  // if (getCookie("mongodbid")) {
+  //   return <div>You are already logged in.</div>
+  // }
 
   return (
     <div className="account-page">

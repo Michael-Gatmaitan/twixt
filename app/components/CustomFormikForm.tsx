@@ -9,6 +9,8 @@ import { selectMongodbID } from "@/lib/slices/userSlice";
 import { setLoggedin, setMongodbID, setPassword, setUsername } from "@/lib/slices/userSlice";
 import { Button } from "@/components/ui/button";
 import { IUserValidation } from "..";
+import { setCookie } from "cookies-next";
+import { loginAction } from "@/lib/actions";
 
 interface FormikFormProps {
   formType: "login" | "signup";
@@ -32,6 +34,8 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
 
   useLabelWarning(usernameExists, setUsernameExists);
   useLabelWarning(accountNotExists, setAccountNotExists);
+
+
 
   return (
     <Formik
@@ -62,17 +66,19 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
             })
               .then((user) => {
                 console.log(user);
+
+                setCookie("authorize", user._id, {
+                  // maxAge: 60 * 60 * 24 * 7,
+                  path: "/",
+                });
+
                 if (user !== undefined) {
                   dispatch(setUsername(user.username));
                   dispatch(setPassword(user.password));
                   dispatch(setMongodbID(user._id));
                   dispatch(setLoggedin(true));
 
-                  localStorage.setItem("username", values.username);
-                  localStorage.setItem("password", values.password);
-                  localStorage.setItem("mongodbID", mongodbID);
-
-                  router.push("/posts");
+                  // router.push("/posts");
                 } else {
                   setAccountNotExists(true);
                 }
@@ -145,7 +151,7 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
         handleBlur,
         handleChange,
       }) => (
-        <Form className="container grid gap-2 mt-2 px-4 2xl:max-w-4xl">
+        <Form action={loginAction} className="container grid gap-2 mt-2 px-4 2xl:max-w-4xl">
           <label className="form-label" htmlFor="username">Username</label>
           <Field
             className="form-input"

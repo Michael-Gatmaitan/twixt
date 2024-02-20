@@ -1,11 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
+import { UserType } from "@/app";
 
 const initialState: UserType = {
   username: "",
   password: "",
   mongodbID: "",
   loggedIn: false,
+  authorized: false,
 };
 
 export const userSlice = createSlice({
@@ -39,15 +41,26 @@ export const userSlice = createSlice({
       console.log("Use logged in set to : ", loggedIn);
       state.loggedIn = loggedIn;
     },
+
+    setAuthorized: (state, action: PayloadAction<boolean>) => {
+      state.authorized = action.payload;
+    },
   },
 });
 
-export const { setUsername, setPassword, setMongodbID, setLoggedin } =
-  userSlice.actions;
+export const {
+  setUsername,
+  setPassword,
+  setMongodbID,
+  setLoggedin,
+  setAuthorized,
+} = userSlice.actions;
 
 export const selectUsername = (state: RootState) => state.userSlice.username;
 export const selectPassword = (state: RootState) => state.userSlice.password;
 export const selectLoggedIn = (state: RootState) => state.userSlice.loggedIn;
 export const selectMongodbID = (state: RootState) => state.userSlice.mongodbID;
+export const selectAuthorized = (state: RootState) =>
+  state.userSlice.authorized;
 
 export default userSlice.reducer;

@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
   const cookieStore = cookies();
   // user1ID, user2ID
   const searchParams = req.nextUrl.searchParams;
-  const user1ID = cookieStore.get("mongodbid")?.value;
+  const user1ID = cookieStore.get("authorize")?.value;
   const user2ID = searchParams.get("userID");
 
   const friendship: IFriendship | null = await Friendship.findOne({
@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
   // user1ID, user2ID
   const cookieStore = cookies();
   const searchParams = req.nextUrl.searchParams;
-  const user1ID = cookieStore.get("mongodbid")?.value;
+  const user1ID = cookieStore.get("authorize")?.value;
   const user2ID = searchParams.get("userID");
 
   if (!user1ID || !user2ID) {

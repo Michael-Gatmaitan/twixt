@@ -1,5 +1,6 @@
 import { IPost } from "@/app"
-import PostComponent from "@/app/(ui-components)/PostComponent";
+// import PostComponent from "@/app/(ui-components)/PostComponent";
+import PostComponent from "@/app/components/PostComponent";
 
 const PostGroup = async () => {
   const req = await fetch('http://localhost:3000/api/posts');

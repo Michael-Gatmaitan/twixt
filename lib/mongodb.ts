@@ -1,43 +1,48 @@
 import mongoose from "mongoose";
-import { ConnectOptions } from "mongodb";
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
 if (!MONGODB_URI) {
-  throw new Error(
-    "Please define the MONGODB_URI environment variable inside .env.local"
-  );
+  throw new Error("MONGODB URI UNDEFINED");
 }
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-const gbl: any = global;
+// if (!MONGODB_URI) {
+//   throw new Error(
+//     "Please define the MONGODB_URI environment variable inside .env.local"
+//   );
+// }
 
-let cached = gbl.mongoose;
+// // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+// const gbl: any = global;
 
-if (!cached) {
-  cached = gbl.mongoose = { conn: null, promise: null };
-}
+// let cached = gbl.mongoose;
 
-async function connectDB() {
-  if (cached.conn) {
-    return cached.conn;
-  }
+// if (!cached) {
+//   cached = gbl.mongoose = { conn: null, promise: null };
+// }
 
-  if (!cached.promise) {
-    const opts = {
-      bufferCommands: false,
-      // useNewUrlParser: true,
-      // useUnifiedTopology: true,
-      // useCreateIndex: true,
-    };
+// async function connectDB() {
+//   if (cached.conn) {
+//     return cached.conn;
+//   }
 
-    // biome-ignore lint/style/noNonNullAssertion: <explanation>
-    cached.promise = mongoose.connect(MONGODB_URI!, opts).then((mongoose) => {
-      return mongoose;
-    });
-  }
-  cached.conn = await cached.promise;
-  return cached.conn;
-}
+//   if (!cached.promise) {
+//     const opts = {
+//       bufferCommands: false,
+//       // useNewUrlParser: true,
+//       // useUnifiedTopology: true,
+//       // useCreateIndex: true,
+//     };
+
+//     // biome-ignore lint/style/noNonNullAssertion: <explanation>
+//     cached.promise = mongoose.connect(MONGODB_URI!, opts).then((mongoose) => {
+//       return mongoose;
+//     });
+//   }
+//   cached.conn = await cached.promise;
+//   return cached.conn;
+// }
+
+const connectDB = async () => await mongoose.connect(MONGODB_URI);
 
 export default connectDB;

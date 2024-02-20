@@ -1,10 +1,16 @@
 import { ObjectId } from "mongoose";
 
+interface IOTPResult {
+  message: string;
+  athorize: boolean;
+}
+
 interface UserType {
   username: string;
   password: string;
   mongodbID: string;
   loggedIn: boolean;
+  authorized: boolean;
 }
 
 interface IUserValidation {
@@ -40,3 +46,8 @@ interface IFriendship {
   status: "pending" | "accepted" | "rejected";
   createdAt: Date;
 }
+
+// Friend requests fetch return TYPES
+// interface FriendRequesters {
+
+// }

@@ -4,8 +4,12 @@ import { IUser, UserType } from "@/app";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
+// import { setCookie } from "cookies-next";
+import { NextRequest } from "next/server";
 
-export async function POST(req: Request) {
+export async function POST(req: NextRequest) {
+  // const res = new NextResponse();
+
   await connectDB();
   const cookieStore = cookies();
 
@@ -43,9 +47,10 @@ export async function POST(req: Request) {
       { expiresIn: "1h" }
     );
 
-    cookieStore.set("mongodbid", userAccount._id);
-
-    console.log(cookieStore.get("mongodbid"));
+    // cookieStore.set("mongodbid", userAccount._id, {
+    //   maxAge: 60 * 60 * 24 * 2 * 60,
+    //   path: "/",
+    // });
 
     return new Response(JSON.stringify(userAccount), { status: 200 });
   } catch (err) {

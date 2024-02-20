@@ -3,17 +3,27 @@ import React from 'react'
 import { useAppSelector, useAppDispatch } from '@/lib/hooks/reduxHooks'
 import { selectShowLogoutModal, toggleShowLogoutModal, } from '@/lib/slices/statesSlice'
 import { Button } from '@/components/ui/button'
+import { deleteCookie } from 'cookies-next';
+import { setLoggedin, setMongodbID, setPassword, setUsername } from '@/lib/slices/userSlice'
+import { useRouter } from 'next/navigation'
 
 const LogoutModal = () => {
   const showLogoutModal = useAppSelector(selectShowLogoutModal);
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   const clearLoginData = () => {
-    localStorage.setItem("username", "");
-    localStorage.setItem("password", "");
-    localStorage.setItem("mongodbID", "");
 
+    // dispatch(setUsername(""));
+    // dispatch(setPassword(""));
+    // dispatch(setMongodbID(""));
+    dispatch(setLoggedin(false));
     dispatch(toggleShowLogoutModal(false));
+    deleteCookie("authorize");
+
+    router.replace("/login");
+
+
   }
   return (
     showLogoutModal ? (

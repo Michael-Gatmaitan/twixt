@@ -1,12 +1,14 @@
 "use client";
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Button } from '@/components/ui/button';
+import { getCookie } from 'cookies-next';
 
 interface IFriendshipButtons {
   userID: string;
 };
 
 const FriendshipButtons = ({ userID }: IFriendshipButtons) => {
+  const userCookieID = getCookie("authorize");
   const [friendshipStatus, setFriendship] = useState("");
   // const [loading, setLoading] = useState(true);
 
@@ -24,25 +26,31 @@ const FriendshipButtons = ({ userID }: IFriendshipButtons) => {
     // setLoading(false);
   }, [userID]);
 
-  const updateFriendship = async () => {
+  const updateFriendship = useMemo(() => {
 
-    // create a friendship if it doens't exist.
-    if (friendshipStatus === "no connection") {
-      const frReq = await fetch(`http://localhost:3000/api/friendship?userID=${userID}`, {
-        method: "POST"
-      });
+    return async () => {
 
-      const frReqRes = await frReq.json();
+      // create a friendship if it doens't exist.
+      if (friendshipStatus === "no connection") {
+        const frReq = await fetch(`http://localhost:3000/api/friendship?userID=${userID}`, {
+          method: "POST"
+        });
 
-      console.log(frReqRes)
+        const frReqRes = await frReq.json();
+
+        console.log(frReqRes)
+      }
     }
-  };
+  }, [friendshipStatus, userID]);
 
 
   console.log(friendshipStatus);
 
   return (
     <div className="mt-6 gap-2 flex">
+      {/* {userCookieID === userID ?
+        <div>Your profile</div> :
+        <> */}
       <Button onClick={updateFriendship}>
         {
           friendshipStatus === "pending" ? "Request sent"
@@ -53,6 +61,8 @@ const FriendshipButtons = ({ userID }: IFriendshipButtons) => {
       </Button>
 
       <Button variant="secondary">Message</Button>
+      {/* </>
+      } */}
     </div>
   )
 }

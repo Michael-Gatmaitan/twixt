@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
+import React from 'react'
 // import MenuIcon from '@/public/icons/menu.svg';
 // import CloseIcon from '@/public/icons/close.svg';
 // import Image from 'next/image';
@@ -18,11 +18,10 @@ const NavMenu = () => {
   }
 
   return (
-    // biome-ignore lint/a11y/useKeyWithClickEvents: <onClick is safe here>
-    <div className="nav-menu lg:hidden" onClick={handleMenuClick}>
+    <div className="nav-menu lg:hidden">
       {/* <Image src={showSidebar ? CloseIcon : MenuIcon} alt="menu_icon" />
        */}
-      <Button variant="ghost">
+      <Button variant="ghost" onClick={handleMenuClick}>
         {showSidebar ? <AiOutlineClose className='text-2xl' /> : <AiOutlineMenu className='text-2xl' />}
       </Button>
     </div>

@@ -5,10 +5,9 @@ import mongoose from "mongoose";
 import { cookies } from "next/headers";
 // Get all USER_POSTS in database
 export async function GET() {
-  const cookieStore = cookies();
+  // const cookieStore = cookies();
 
-  const mongodbid = cookieStore.get("mongodbid");
-  console.log(mongodbid?.value);
+  // const mongodbid = cookieStore.get("authorize");
 
   try {
     await connectDB();
@@ -29,7 +28,7 @@ export async function POST(req: Request) {
 
   await connectDB();
 
-  if (mongodbID === "" || postContent === "") {
+  if (mongodbID === undefined || postContent === "") {
     console.log(mongodbID, postContent);
     throw new Error("MongodbID or Post Content cannot be empty");
   }

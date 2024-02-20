@@ -13,6 +13,10 @@ const useUserLoggedIn = () => {
     if (!loggedIn) {
       if (path.includes("login")) {
         router.push("/");
+      } else if (path.includes("posts")) {
+        router.push("/");
+      } else if (path.includes("fr")) {
+        router.push("/");
       }
     }
   }, [loggedIn, router, path]);

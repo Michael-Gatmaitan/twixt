@@ -1,15 +1,13 @@
 import { NextRequest } from "next/server";
 import { cookies } from "next/headers";
-import { CookieIcon, User } from "lucide-react";
 import Friendship from "@/models/Friendship";
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
   const urlHasParams = searchParams.size !== 0;
 
-  const cookieStore = cookies();
-
-  const mongodbid = cookieStore.get("mongodbid");
+  const mongodbid = req.cookies.get("authorize")?.value;
+  // const mongodbid = getCookie("authorize");
 
   console.log(`${mongodbid} mongoooo`);
 
@@ -19,7 +17,7 @@ export async function GET(req: NextRequest) {
     });
 
   const friendRequests = await Friendship.find({
-    user1ID: mongodbid,
+    user2ID: mongodbid,
     status: "pending",
   });
 
