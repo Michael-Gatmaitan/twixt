@@ -17,7 +17,7 @@ const FriendRequester = async ({ requesterID }: IFriendRequester) => {
 
   return (
     <div>
-
+      {requesterRes.username}
     </div>
   )
 }

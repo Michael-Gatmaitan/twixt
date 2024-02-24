@@ -4,13 +4,18 @@ import Friendship from '@/models/Friendship';
 import User from '@/models/User';
 import React from 'react'
 import FriendRequester from './FriendRequester';
+import { getCookie } from 'cookies-next';
 
 const page = async () => {
-  // await connectDB();
+  await connectDB();
 
-  // const frRequestReq = await fetch("http://localhost:3000/api/fr-requests");
-  // const frReqsResult: IFriendship[] = await frRequestReq.json();
-  // console.log(frReqsResult);
+  const usermongoID = getCookie("authorize");
+  console.log(usermongoID);
+
+  const frRequestReq = await fetch(`http://localhost:3000/api/fr-requests?userID=${usermongoID}`);
+  const frReqsResult: IFriendship[] = await frRequestReq.json();
+
+  console.log(frReqsResult);
 
   return (
     <div>

@@ -4,24 +4,21 @@ import Friendship from "@/models/Friendship";
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
-  const urlHasParams = searchParams.size !== 0;
 
-  const mongodbid = req.cookies.get("authorize")?.value;
-  // const mongodbid = getCookie("authorize");
-
-  console.log(`${mongodbid} mongoooo`);
+  const mongodbid = searchParams.get("userID");
 
   if (!mongodbid)
-    return new Response(JSON.stringify({ message: "mongodbid not found" }), {
-      status: 500,
-    });
+    return new Response(
+      JSON.stringify({ message: "FR REQ: mongodbid not found" }),
+      {
+        status: 500,
+      }
+    );
 
   const friendRequests = await Friendship.find({
     user2ID: mongodbid,
     status: "pending",
   });
-
-  console.log(urlHasParams);
 
   if (friendRequests) {
     console.log(friendRequests);
@@ -31,5 +28,6 @@ export async function GET(req: NextRequest) {
     return new Response(JSON.stringify(friendRequests));
   }
 
+  // this means there's no friend-req user have recieved.
   return new Response(JSON.stringify([]));
 }

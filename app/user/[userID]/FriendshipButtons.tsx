@@ -1,14 +1,14 @@
 "use client";
 import React, { useEffect, useMemo, useState } from 'react'
 import { Button } from '@/components/ui/button';
-import { getCookie } from 'cookies-next';
+// import { getCookie } from 'cookies-next';
 
 interface IFriendshipButtons {
   userID: string;
 };
 
 const FriendshipButtons = ({ userID }: IFriendshipButtons) => {
-  const userCookieID = getCookie("authorize");
+  // const userCookieID = getCookie("authorize");
   const [friendshipStatus, setFriendship] = useState("");
   // const [loading, setLoading] = useState(true);
 
