@@ -1,30 +1,20 @@
-import { IFriendship, IUser } from '@/app';
-import connectDB from '@/lib/mongodb';
-import Friendship from '@/models/Friendship';
-import User from '@/models/User';
-import React from 'react'
 import FriendRequester from './FriendRequester';
-import { getCookie } from 'cookies-next';
+import GetFrRequests from './GetFrRequests';
 
-const page = async () => {
-  await connectDB();
+// we need to fetch in client side
 
-  const usermongoID = getCookie("authorize");
-  console.log(usermongoID);
-
-  const frRequestReq = await fetch(`http://localhost:3000/api/fr-requests?userID=${usermongoID}`);
-  const frReqsResult: IFriendship[] = await frRequestReq.json();
-
-  console.log(frReqsResult);
+const page = () => {
 
   return (
-    <div>
+    <main className='container'>
       Friend requests
+
+      <GetFrRequests />
 
       {/* {frReqsResult.map((frReq) => (
         <FriendRequester requesterID={frReq.user2ID} key={frReq._id} />
       ))} */}
-    </div>
+    </main>
   )
 }
 

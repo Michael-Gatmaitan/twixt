@@ -8,9 +8,8 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks/reduxHooks";
 import { selectMongodbID } from "@/lib/slices/userSlice";
 import { setLoggedin, setMongodbID, setPassword, setUsername } from "@/lib/slices/userSlice";
 import { Button } from "@/components/ui/button";
-import { IUserValidation } from "..";
+import { IUser, IUserValidation } from "..";
 import { setCookie } from "cookies-next";
-import { loginAction } from "@/lib/actions";
 
 interface FormikFormProps {
   formType: "login" | "signup";
@@ -35,7 +34,9 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
   useLabelWarning(usernameExists, setUsernameExists);
   useLabelWarning(accountNotExists, setAccountNotExists);
 
-
+  // async function setCookie(id: string) {
+  //   await fetch(`http://localhost:3000/api/cookie?userID=${id}`);
+  // }
 
   return (
     <Formik
@@ -64,23 +65,28 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
                 return data.json()
               }
             })
-              .then((user) => {
-                console.log(user);
+              .then((user: IUser | undefined) => {
 
-                setCookie("authorize", user._id, {
-                  // maxAge: 60 * 60 * 24 * 7,
-                  path: "/",
-                });
+                try {
 
-                if (user !== undefined) {
-                  dispatch(setUsername(user.username));
-                  dispatch(setPassword(user.password));
-                  dispatch(setMongodbID(user._id));
-                  dispatch(setLoggedin(true));
+                  if (user !== undefined) {
 
-                  // router.push("/posts");
-                } else {
-                  setAccountNotExists(true);
+                    setCookie("authorize", user._id, {
+                      // maxAge: 60 * 60 * 24 * 7,
+                      path: "/",
+                    });
+
+                    dispatch(setUsername(user.username));
+                    dispatch(setPassword(user.password));
+                    dispatch(setMongodbID(user._id));
+                    dispatch(setLoggedin(true));
+
+                    // router.push("/posts");
+                  } else {
+                    setAccountNotExists(true);
+                  }
+                } catch (err) {
+                  console.log(err);
                 }
               });
           } else if (formType === "signup") {
@@ -151,7 +157,7 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
         handleBlur,
         handleChange,
       }) => (
-        <Form action={loginAction} className="container grid gap-2 mt-2 px-4 2xl:max-w-4xl">
+        <Form className="container grid gap-2 mt-2 px-4 2xl:max-w-4xl">
           <label className="form-label" htmlFor="username">Username</label>
           <Field
             className="form-input"

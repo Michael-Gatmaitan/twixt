@@ -30,6 +30,8 @@ interface IUser {
 interface IStates {
   showSidebar: boolean;
   showLogoutModal: boolean;
+  friendRequests: IFriendRequests[];
+  friendRequestsSent: IFrRequestsSent[];
 }
 
 interface IPost {
@@ -45,6 +47,19 @@ interface IFriendship {
   user2ID: string;
   status: "pending" | "accepted" | "rejected";
   createdAt: Date;
+}
+
+// Fr requests
+interface IFriendRequests {
+  _id: string;
+  user1ID: string;
+  createdAt: string;
+}
+
+interface IFrRequestsSent {
+  _id: string;
+  user2ID: string;
+  createdAt: string;
 }
 
 // Friend requests fetch return TYPES

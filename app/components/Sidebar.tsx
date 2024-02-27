@@ -1,5 +1,5 @@
 "use client"
-import React, { MouseEvent, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import { useAppSelector, useAppDispatch } from '@/lib/hooks/reduxHooks';
 import {
   AiFillHome as HomeIcon,
@@ -21,7 +21,6 @@ const Sidebar = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const loggedIn = useAppSelector(selectLoggedIn);
-  const userMongodbID = useAppSelector(selectMongodbID);
   const showSidebar = useAppSelector(state => state.statesSlice.showSidebar);
 
 
@@ -42,7 +41,7 @@ const Sidebar = () => {
   }
 
   const buttons = useMemo(() => loggedIn ? [
-    { label: "Profile", path: `/me/${userMongodbID}`, Icon: HomeIcon, id: 1 },
+    { label: "Profile", path: "/me", Icon: HomeIcon, id: 1 },
     { label: "Search User", path: "/search-user", Icon: SearchIcon, id: 2 },
     { label: "Feed", path: "/", Icon: HomeIcon, id: 3 },
     { label: "About", path: "/about", Icon: AboutIcon, id: 4 },
@@ -54,7 +53,7 @@ const Sidebar = () => {
     { label: "About", path: "/about", Icon: AboutIcon, id: 2 },
     { label: "Login", path: "/login", Icon: LoginIcon, id: 3 },
     { label: "Signup", path: "/signup", Icon: SignupIcon, id: 4 },
-  ], [loggedIn, userMongodbID]);
+  ], [loggedIn]);
 
   return (
     <main className={`

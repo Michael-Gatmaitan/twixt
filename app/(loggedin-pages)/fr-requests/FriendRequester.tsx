@@ -1,24 +1,37 @@
+import { Button } from '@/components/ui/button';
+import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import React from 'react'
+import FRButtons from './FRButtons';
 
 interface IFriendRequester {
-  requesterID: string
+  friendshipID: string,
+  requesterID: string,
+  createdAt: string
 };
 
-const FriendRequester = async ({ requesterID }: IFriendRequester) => {
+const FriendRequester = async ({ friendshipID, requesterID, createdAt }: IFriendRequester) => {
 
   const requesterReq = await fetch(`http://localhost:3000/api/user?userID=${requesterID}`);
-  const requesterRes = await requesterReq.json();
+  const requester = await requesterReq.json();
 
-  console.log(requesterRes);
-
-  if (!requesterRes._id) {
+  if (!requester._id) {
     return <div>Requester not found</div>
   }
 
   return (
-    <div>
-      {requesterRes.username}
-    </div>
+    <Card>
+      <CardHeader>
+        <CardTitle>
+          {requester.username}
+        </CardTitle>
+
+        <CardDescription>{createdAt}</CardDescription>
+      </CardHeader>
+
+      <CardFooter>
+        <FRButtons friendshipID={friendshipID} />
+      </CardFooter>
+    </Card>
   )
 }
 
