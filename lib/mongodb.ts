@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { extendTailwindMerge } from "tailwind-merge";
 
 const MONGODB_URI = process.env.MONGODB_URI;
 
@@ -12,8 +13,7 @@ if (!MONGODB_URI) {
 //   );
 // }
 
-// // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-// const gbl: any = global;
+// const gbl = global;
 
 // let cached = gbl.mongoose;
 
@@ -29,9 +29,6 @@ if (!MONGODB_URI) {
 //   if (!cached.promise) {
 //     const opts = {
 //       bufferCommands: false,
-//       // useNewUrlParser: true,
-//       // useUnifiedTopology: true,
-//       // useCreateIndex: true,
 //     };
 
 //     // biome-ignore lint/style/noNonNullAssertion: <explanation>

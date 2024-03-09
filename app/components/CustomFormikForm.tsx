@@ -97,7 +97,7 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
             try {
               console.log("Requesting for creating account / sign up");
               // use process.env.NEXT_PUBLIC_URL for prod
-              await fetch("${apiUrl}/signup", {
+              await fetch(`${apiUrl}/signup`, {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
@@ -117,7 +117,7 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
                 }
               });
             } catch (e) {
-              console.log("Something wrong with signing user", e)
+              console.log("Something wrong with signing up user", e)
             }
           }
         };
@@ -215,7 +215,7 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
               <>
                 Dont have an account?{" "}
                 <Link className="underline" href="/signup">
-                  Signin here.
+                  Signup here.
                 </Link>
               </>
             ) : (
