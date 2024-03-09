@@ -21,7 +21,7 @@ const NavMenu = () => {
     <div className="nav-menu lg:hidden">
       {/* <Image src={showSidebar ? CloseIcon : MenuIcon} alt="menu_icon" />
        */}
-      <Button variant="ghost" onClick={handleMenuClick}>
+      <Button className="px-2" variant="ghost" onClick={handleMenuClick}>
         {showSidebar ? <AiOutlineClose className='text-2xl' /> : <AiOutlineMenu className='text-2xl' />}
       </Button>
     </div>

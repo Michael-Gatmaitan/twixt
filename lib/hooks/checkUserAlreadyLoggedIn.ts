@@ -6,12 +6,14 @@ import { setUsername, setPassword, setLoggedin } from "../slices/userSlice";
 import { useRouter } from "next/navigation";
 import { cookies } from "next/headers";
 
+// const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 // const useCheckUserLoggin = () => {
 //   const dispatch = useAppDispatch();
 //   const router = useRouter();
 
 //   async function getUser(lsUsername: string, lsPassword: string) {
-//     const req = await fetch("http://localhost:3000/api/login", {
+//     const req = await fetch(`${apiUrl}/login`, {
 //       method: "POST",
 //       headers: {
 //         "Content-Type": "application/json",

@@ -39,13 +39,13 @@ export async function PUT(req: NextRequest) {
   // We will also delete this from database.
   try {
     const cancelRequest = await Friendship.deleteOne({
-      _id: body.friendshipID
+      _id: body.friendshipID,
     });
     console.log(cancelRequest);
-    return new Response(JSON.stringify({ message: "Request deleted successfully"}));
-  } catch(err) {
+    return new Response(
+      JSON.stringify({ message: "Request deleted successfully" })
+    );
+  } catch (err) {
     return new Response(JSON.stringify({ message: err }));
   }
-
-
 }

@@ -2,6 +2,9 @@ import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import React from 'react'
 import FRButtons from './FRButtons';
+import Link from 'next/link';
+
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 interface IFriendRequester {
   friendshipID: string,
@@ -11,7 +14,7 @@ interface IFriendRequester {
 
 const FriendRequester = async ({ friendshipID, requesterID, createdAt }: IFriendRequester) => {
 
-  const requesterReq = await fetch(`http://localhost:3000/api/user?userID=${requesterID}`);
+  const requesterReq = await fetch(`${apiUrl}/user?userID=${requesterID}`);
   const requester = await requesterReq.json();
 
   if (!requester._id) {
@@ -21,14 +24,16 @@ const FriendRequester = async ({ friendshipID, requesterID, createdAt }: IFriend
   return (
     <Card>
       <CardHeader>
-        <CardTitle>
-          {requester.username}
-        </CardTitle>
+        <Link href={`/user/${requesterID}`}>
+          <CardTitle>
+            {requester.username}
+          </CardTitle>
+        </Link>
 
         <CardDescription>{createdAt}</CardDescription>
       </CardHeader>
 
-      <CardFooter>
+      <CardFooter className='flex gap-2'>
         <FRButtons friendshipID={friendshipID} />
       </CardFooter>
     </Card>

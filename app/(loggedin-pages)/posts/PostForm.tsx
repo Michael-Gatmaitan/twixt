@@ -9,6 +9,8 @@ import { useAppSelector } from '@/lib/hooks/reduxHooks';
 import { selectMongodbID } from '@/lib/slices/userSlice';
 import React, { useState, FormEvent } from 'react';
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 const FormSchema = z.object({
   postContent: z.string().min(2, { message: "Min of 2" })
     .max(64, { message: "Limit exceed" })
@@ -26,7 +28,7 @@ const PostForm = () => {
 
     console.log({ mongodbID, ...values })
 
-    const postReq = await fetch("http://localhost:3000/api/posts", {
+    const postReq = await fetch(`${apiUrl}/posts`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -37,7 +39,7 @@ const PostForm = () => {
   }
 
   // const sub = async () => {
-  //   const postReq = await fetch("http://localhost:3000/api/posts", {
+  //   const postReq = await fetch(`${apiUrl]}/posts`, {
   //     method: "POST",
   //     headers: {
   //       "Content-Type": "application/json"

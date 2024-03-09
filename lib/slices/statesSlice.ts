@@ -6,6 +6,8 @@ import { staticGenerationAsyncStorage } from "next/dist/client/components/static
 const initialState: IStates = {
   showSidebar: false,
   showLogoutModal: false,
+
+  // For preventing
   friendRequests: [],
   friendRequestsSent: [],
 };

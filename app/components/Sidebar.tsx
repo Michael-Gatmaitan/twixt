@@ -23,13 +23,11 @@ const Sidebar = () => {
   const loggedIn = useAppSelector(selectLoggedIn);
   const showSidebar = useAppSelector(state => state.statesSlice.showSidebar);
 
-
   const closeSidebar = (path?: string) => {
     console.log(path);
     if (path === "/me") {
       router.push("/me");
     }
-
 
     if (showSidebar) dispatch(toggleShowSidebar(false));
   }
@@ -59,10 +57,11 @@ const Sidebar = () => {
     <main className={`
       container
       w-5/6 h-full fixed top-0 left-0 flex flex-col
+      gap-2
       transition mt-[56px] pt-8 border-r
       bg-background
       lg:hidden
-      ${showSidebar ? "-translate-x-0" : "-translate-x-full"}`}>
+      ${showSidebar ? "-translate-x-0 opacity-100" : "-translate-x-full opacity-0"}`}>
       {/* border-r-[3px] border-neutral-900 lg:hidden */}
       {buttons.map(button => (
         <SidebarButton key={button.id} path={button.path} closeSidebar={closeSidebar}>
@@ -83,7 +82,7 @@ interface ISidebarButton { children: React.ReactNode, path: string, closeSidebar
 const SidebarButton = ({ children, path, closeSidebar }: ISidebarButton) => {
 
   return (
-    <Button asChild variant="ghost" onClick={() => closeSidebar(path)} className='h-[68px] flex justify-start gap-[18px] text-2xl ssp-font'>
+    <Button asChild variant="ghost" className='h-[68px] flex justify-start gap-[18px] text-2xl ssp-font px-2 py-2'>
       <Link href={path}>
         {/* <button onClick={closeSidebar} className="rounded-md ssp-font w-full text-white flex gap-[18px] text-[24px] p-4 font-medium items-center hover:bg-neutral-900 transition">{children}</button> */}
         {children}

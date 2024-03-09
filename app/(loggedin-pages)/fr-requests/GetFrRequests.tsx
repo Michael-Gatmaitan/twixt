@@ -7,6 +7,8 @@ import { IFriendRequests } from "@/app";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks/reduxHooks";
 import { selectFriendRequests, setFriendRequests } from "@/lib/slices/statesSlice";
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 export default function GetFrRequests() {
   const friendRequests = useAppSelector(selectFriendRequests);
   const dispatch = useAppDispatch();
@@ -15,7 +17,7 @@ export default function GetFrRequests() {
   useEffect(() => {
     async function getFrReqFunc() {
       const response = await fetch(
-        "http://localhost:3000/api/fr-requests"
+        `${apiUrl}/fr-requests`
       );
       const result: IFriendRequests[] = await response.json();
       console.log(result);

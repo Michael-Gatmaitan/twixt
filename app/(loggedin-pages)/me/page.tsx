@@ -1,11 +1,12 @@
 import React from 'react';
 import User from '@/models/User';
+import MeContent from '@/app/(loggedin-pages)/me/MeContent';
 
 const page = async () => {
 
   return (
     <main className='container'>
-      Hello user
+      <MeContent />
     </main>
   )
 }

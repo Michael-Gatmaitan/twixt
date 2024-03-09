@@ -28,6 +28,8 @@ export async function GET(req: NextRequest, res: Response) {
     return new Response(JSON.stringify(user), { status: 200 });
   } catch (err) {
     console.log(`error: ${err}`);
-    return new Response(JSON.stringify("No user"), { status: 200 });
+    return new Response(JSON.stringify({ message: "No user" }), {
+      status: 200,
+    });
   }
 }

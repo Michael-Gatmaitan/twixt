@@ -4,9 +4,11 @@ import React from 'react'
 import { IPost, IUser } from '..'
 import Link from 'next/link'
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 const PostComponent = async ({ post }: { post: IPost }) => {
 
-  const req = await fetch(`http://localhost:3000/api/user?userID=${post.userID}`);
+  const req = await fetch(`${apiUrl}/user?userID=${post.userID}`);
   const postOwner: IUser = await req.json();
 
   return (

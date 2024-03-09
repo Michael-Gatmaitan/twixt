@@ -3,6 +3,8 @@ import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/comp
 import React from 'react'
 import FRSentButtons from './FRSentButtons';
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 interface IFriendReqReciever {
   friendshipID: string,
   requestReciever: string,
@@ -11,7 +13,7 @@ interface IFriendReqReciever {
 
 const FriendReqReciever = async ({ friendshipID, requestReciever, createdAt }: IFriendReqReciever) => {
 
-  const reqRecieverReq = await fetch(`http://localhost:3000/api/user?userID=${requestReciever}`);
+  const reqRecieverReq = await fetch(`${apiUrl}/user?userID=${requestReciever}`);
   const reqReciever = await reqRecieverReq.json();
 
   return (

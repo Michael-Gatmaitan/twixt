@@ -15,6 +15,8 @@ interface FormikFormProps {
   formType: "login" | "signup";
 }
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 const initalFormValues: IUserValidation = {
   username: "",
   password: "",
@@ -35,7 +37,7 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
   useLabelWarning(accountNotExists, setAccountNotExists);
 
   // async function setCookie(id: string) {
-  //   await fetch(`http://localhost:3000/api/cookie?userID=${id}`);
+  //   await fetch(`${apiUrl}/cookie?userID=${id}`);
   // }
 
   return (
@@ -51,7 +53,7 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
           if (formType === "login") {
             console.log("Requesting for Logging in / log in");
             // Login
-            await fetch("http://localhost:3000/api/login", {
+            await fetch(`${apiUrl}/login`, {
               method: "POST",
               headers: {
                 "Content-Type": "application/json"
@@ -72,9 +74,11 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
                   if (user !== undefined) {
 
                     setCookie("authorize", user._id, {
-                      // maxAge: 60 * 60 * 24 * 7,
+                      maxAge: 60 * 60 * 24 * 7,
                       path: "/",
                     });
+
+                    router.replace("/");
 
                     dispatch(setUsername(user.username));
                     dispatch(setPassword(user.password));
@@ -93,7 +97,7 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
             try {
               console.log("Requesting for creating account / sign up");
               // use process.env.NEXT_PUBLIC_URL for prod
-              await fetch("http://localhost:3000/api/signup", {
+              await fetch("${apiUrl}/signup", {
                 method: "POST",
                 headers: {
                   "Content-Type": "application/json",
@@ -195,7 +199,7 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
             <input className="w-4 h-4" type="checkbox" about="show_password" name="show_password" onChange={(e) => {
               setShowPassword(e.target.checked);
             }} />
-            <label htmlFor="show_password" className="text-sm text-white opacity-80">Show password</label>
+            <label htmlFor="show_password" className="text-sm text-white text-opacity-80">Show password</label>
           </div>
 
           <Button

@@ -24,23 +24,35 @@ export async function GET(req: NextRequest) {
   return new Response(JSON.stringify([]));
 }
 
+interface PUTBodyType {
+  friendshipID: string;
+  response: "accepted" | "rejected";
+}
+
+// Accept or decline route handler
 export async function PUT(req: NextRequest) {
-  const body: { friendshipID: string; response: "accepted" | "rejected" } =
-    await req.json();
+  const body: PUTBodyType = await req.json();
   console.log(body);
 
-  const update = await Friendship.updateOne(
-    {
-      _id: body.friendshipID,
-    },
-    {
-      $set: {
-        status: body.response,
+  try {
+    const update = await Friendship.updateOne(
+      {
+        _id: body.friendshipID,
       },
-    }
-  );
+      {
+        $set: {
+          status: body.response,
+        },
+      }
+    );
 
-  console.log(update);
+    console.log(update);
 
-  return new Response(JSON.stringify({ message: "hello" }), { status: 200 });
+    return new Response(JSON.stringify({ message: "updated" }), {
+      status: 200,
+    });
+  } catch (err) {
+    console.log("There was an error for updating friendship.", err);
+    return new Response(JSON.stringify({ message: "error" }), { status: 400 });
+  }
 }

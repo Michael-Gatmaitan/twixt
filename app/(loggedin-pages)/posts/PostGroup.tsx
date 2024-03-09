@@ -2,8 +2,10 @@ import { IPost } from "@/app"
 // import PostComponent from "@/app/(ui-components)/PostComponent";
 import PostComponent from "@/app/components/PostComponent";
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 const PostGroup = async () => {
-  const req = await fetch('http://localhost:3000/api/posts');
+  const req = await fetch(`${apiUrl}/posts`);
   const posts: IPost[] = await req.json();
 
   return (

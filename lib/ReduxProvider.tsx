@@ -8,6 +8,7 @@ interface ReduxProviderType {
 }
 
 const ReduxProvider = ({ children }: ReduxProviderType) => {
+  // Call an API for checking if user is authorized
   // Store
   return <Provider store={store}>{children}</Provider>;
 };

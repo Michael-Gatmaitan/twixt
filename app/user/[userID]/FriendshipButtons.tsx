@@ -3,6 +3,8 @@ import React, { useEffect, useMemo, useState } from 'react'
 import { Button } from '@/components/ui/button';
 // import { getCookie } from 'cookies-next';
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 interface IFriendshipButtons {
   userID: string;
 };
@@ -14,7 +16,7 @@ const FriendshipButtons = ({ userID }: IFriendshipButtons) => {
 
   useEffect(() => {
     async function getFriendStatus() {
-      const friendshipReq = await fetch(`http://localhost:3000/api/friendship?userID=${userID}`);
+      const friendshipReq = await fetch(`${apiUrl}/friendship?userID=${userID}`);
       const friendshipResult = await friendshipReq.json();
       const friendshipStatus: "pending" | "accepted" | "no connection"
         = friendshipResult.status;
@@ -27,12 +29,11 @@ const FriendshipButtons = ({ userID }: IFriendshipButtons) => {
   }, [userID]);
 
   const updateFriendship = useMemo(() => {
-
     return async () => {
 
       // create a friendship if it doens't exist.
       if (friendshipStatus === "no connection") {
-        const frReq = await fetch(`http://localhost:3000/api/friendship?userID=${userID}`, {
+        const frReq = await fetch(`${apiUrl}/friendship?userID=${userID}`, {
           method: "POST"
         });
 
@@ -61,8 +62,6 @@ const FriendshipButtons = ({ userID }: IFriendshipButtons) => {
       </Button>
 
       <Button variant="secondary">Message</Button>
-      {/* </>
-      } */}
     </div>
   )
 }

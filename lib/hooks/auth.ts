@@ -10,17 +10,18 @@ import {
 } from "../slices/userSlice";
 import { useAppDispatch } from "./reduxHooks";
 
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
 export const useSetAuth = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     const userCookie = getCookie("authorize");
+    console.log(apiUrl);
 
     console.log(userCookie);
     async function getUser() {
-      const req = await fetch(
-        `http://localhost:3000/api/user?userID=${userCookie}`
-      );
+      const req = await fetch(`${apiUrl}/user?userID=${userCookie}`);
       const reqRes = await req.json();
       return reqRes;
     }
