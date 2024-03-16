@@ -1,17 +1,40 @@
-import { IPost } from "@/app";
+import { IFriendship, IPost } from "@/app";
 import connectDB from "@/lib/mongodb";
+import Friendship from "@/models/Friendship";
 import Post from "@/models/Post";
+import { getCookie } from "cookies-next";
 import mongoose from "mongoose";
 import { cookies } from "next/headers";
 // Get all USER_POSTS in database
 export async function GET() {
-  // const cookieStore = cookies();
-
-  // const mongodbid = cookieStore.get("authorize");
+  const cookieStore = cookies();
+  const authID = cookieStore.get("authorize")?.value;
 
   try {
     await connectDB();
-    const posts: IPost[] = await Post.find();
+
+    if (authID === undefined) {
+      return new Response(
+        JSON.stringify({ message: "/posts: auth id undefined" }),
+        { status: 500 }
+      );
+    }
+
+    const friendList: Pick<IFriendship, "user1ID">[] = await Friendship.find(
+      // { user2ID: authID, status: "accepted" },
+      { $or: [{ user2ID: authID }, { user1ID: authID }], status: "accepted" },
+      { user1ID: 1 }
+    );
+
+    const flattenedFriendList = friendList.flatMap((friend) => friend.user1ID);
+
+    console.log(flattenedFriendList);
+
+    const posts: IPost[] = await Post.find({
+      userID: { $in: flattenedFriendList },
+    }).limit(10);
+
+    console.log(friendList, "friend");
 
     return new Response(JSON.stringify(posts));
   } catch (err) {

@@ -10,8 +10,9 @@ import { selectFriendRequests, setFriendRequests } from "@/lib/slices/statesSlic
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export default function GetFrRequests() {
-  const friendRequests = useAppSelector(selectFriendRequests);
   const dispatch = useAppDispatch();
+  const friendRequests = useAppSelector(selectFriendRequests);
+  const [isFrReqsLoading, setIsFrReqsLoading] = useState(true);
   // const [reqsFriendship, setReqsFriendship] = useState<IFriendRequests[]>([]);
 
   useEffect(() => {
@@ -20,6 +21,7 @@ export default function GetFrRequests() {
         `${apiUrl}/fr-requests`
       );
       const result: IFriendRequests[] = await response.json();
+      setIsFrReqsLoading(false);
       console.log(result);
 
       // setReqsFriendship(result);
@@ -28,6 +30,12 @@ export default function GetFrRequests() {
 
     getFrReqFunc();
   }, [dispatch]);
+
+  if (isFrReqsLoading) {
+    return <div>
+      Fetching friend requests
+    </div>
+  }
 
   return (
     <div>

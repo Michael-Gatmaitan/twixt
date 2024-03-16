@@ -27,8 +27,6 @@ const Page = () => {
         <Link href="/posts/create">Create post</Link>
       </Button>
 
-
-
     </div>
   )
 }

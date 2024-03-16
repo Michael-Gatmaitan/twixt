@@ -13,8 +13,16 @@ export async function GET(req: NextRequest) {
   const user2ID = searchParams.get("userID");
 
   const friendship: IFriendship | null = await Friendship.findOne({
-    user1ID: user1ID,
-    user2ID: user2ID,
+    $or: [
+      {
+        user1ID: user1ID,
+        user2ID: user2ID,
+      },
+      {
+        user1ID: user2ID,
+        user2ID: user1ID,
+      },
+    ],
   });
 
   console.log(friendship);
@@ -54,6 +62,7 @@ export async function POST(req: NextRequest) {
       user2ID: user2ID,
     });
 
+    // code below means: If friendship doesn't exists in database
     if (!friendship) {
       console.log("POST: creating new friendship");
       const newFriendship = await Friendship.create({

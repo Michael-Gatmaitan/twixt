@@ -29,7 +29,7 @@ interface PUTBodyType {
   response: "accepted" | "rejected";
 }
 
-// Accept or decline route handler
+// Accept or reject route handler
 export async function PUT(req: NextRequest) {
   const body: PUTBodyType = await req.json();
   console.log(body);

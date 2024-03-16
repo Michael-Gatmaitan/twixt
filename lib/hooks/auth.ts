@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getCookie } from "cookies-next";
 import { IUser } from "@/app";
 import {
@@ -8,6 +8,7 @@ import {
   setMongodbID,
   setLoggedin,
 } from "../slices/userSlice";
+import { toggleAuthProcessing } from "../slices/statesSlice";
 import { useAppDispatch } from "./reduxHooks";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -17,42 +18,44 @@ export const useSetAuth = () => {
 
   useEffect(() => {
     const userCookie = getCookie("authorize");
-    console.log(apiUrl);
+    toggleAuthProcessing(true);
 
-    console.log(userCookie);
-    async function getUser() {
-      const req = await fetch(`${apiUrl}/user?userID=${userCookie}`);
+    async function getUser(id: string) {
+      const req = await fetch(`${apiUrl}/user?userID=${id}`);
       const reqRes = await req.json();
       return reqRes;
     }
 
-    if (!userCookie) return;
-
-    getUser().then((data) => {
-      console.log(data);
-
-      if (data.message) {
-        console.log(data.message);
-        return;
-      }
-
-      if (data === "No user") {
+    if (userCookie !== undefined) {
+      getUser(userCookie).then((data) => {
         console.log(data);
-        return;
-      }
 
-      if (data === undefined) {
-        console.log(`Data has value of ${data}`);
-      }
+        if (data.message) {
+          console.log(data.message);
+          return;
+        }
 
-      const user: IUser = data;
-      dispatch(setUsername(user.username));
-      dispatch(setPassword(user.password));
-      dispatch(setMongodbID(user._id));
-      dispatch(setLoggedin(true));
+        if (data === "No user") {
+          console.log(data);
+          return;
+        }
 
-      // router.replace("/posts");
-    });
+        if (data === undefined) {
+          console.log(`Data has value of ${data}`);
+        }
+
+        const user: IUser = data;
+        dispatch(setUsername(user.username));
+        dispatch(setPassword(user.password));
+        dispatch(setMongodbID(user._id));
+        dispatch(setLoggedin(true));
+
+        // router.replace("/posts");
+      });
+    }
+
+    console.log("Auth fauled");
+    dispatch(toggleAuthProcessing(false));
 
     // console.log(user);
 

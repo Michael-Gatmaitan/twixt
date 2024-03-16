@@ -11,17 +11,22 @@ import {
   AiOutlineUsergroupAdd as SignupIcon,
   AiOutlineSearch as SearchIcon
 } from 'react-icons/ai';
+
 import Link from 'next/link';
-import { toggleShowLogoutModal, toggleShowSidebar } from '@/lib/slices/statesSlice';
-import { selectLoggedIn, selectMongodbID } from '@/lib/slices/userSlice';
-import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
+
+import { selectAuthProcessing, selectShowSidebar, toggleShowLogoutModal, toggleShowSidebar } from '@/lib/slices/statesSlice';
+
+import { selectLoggedIn } from '@/lib/slices/userSlice';
+import { Button } from '@/components/ui/button';
+import { CgSpinner } from 'react-icons/cg';
 
 const Sidebar = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const loggedIn = useAppSelector(selectLoggedIn);
-  const showSidebar = useAppSelector(state => state.statesSlice.showSidebar);
+  const showSidebar = useAppSelector(selectShowSidebar);
+  const authProcessing = useAppSelector(selectAuthProcessing);
 
   const closeSidebar = (path?: string) => {
     console.log(path);
@@ -41,7 +46,7 @@ const Sidebar = () => {
   const buttons = useMemo(() => loggedIn ? [
     { label: "Profile", path: "/me", Icon: HomeIcon, id: 1 },
     { label: "Search User", path: "/search-user", Icon: SearchIcon, id: 2 },
-    { label: "Feed", path: "/", Icon: HomeIcon, id: 3 },
+    { label: "Feed", path: "/posts", Icon: HomeIcon, id: 3 },
     { label: "About", path: "/about", Icon: AboutIcon, id: 4 },
     { label: "Friend requests", path: "/fr-requests", Icon: FriendRequestsIcon, id: 5 },
     { label: "Requests sent", path: "/fr-reqs-sent", Icon: RequestsSentIcon, id: 6 },
@@ -53,6 +58,16 @@ const Sidebar = () => {
     { label: "Signup", path: "/signup", Icon: SignupIcon, id: 4 },
   ], [loggedIn]);
 
+  if (authProcessing) {
+    return (
+      <main className="flex items-center justify-center w-[230px] sm:hidden md:hidden">
+        <div className='text-white text-4xl w-full h-screen grid justify-center items-center'>
+          <CgSpinner className="w-8 h-8 animate-spin" />
+        </div>
+      </main>
+    )
+  }
+
   return (
     <main className={`
       container
@@ -60,7 +75,7 @@ const Sidebar = () => {
       gap-2
       transition mt-[56px] pt-8 border-r
       bg-background
-      lg:hidden
+      lg:sticky lg:-translate-x-0 lg:opacity-100 lg:w-max lg:p-0 lg:pr-4 lg:border-none lg:top-0
       ${showSidebar ? "-translate-x-0 opacity-100" : "-translate-x-full opacity-0"}`}>
       {/* border-r-[3px] border-neutral-900 lg:hidden */}
       {buttons.map(button => (
@@ -82,7 +97,7 @@ interface ISidebarButton { children: React.ReactNode, path: string, closeSidebar
 const SidebarButton = ({ children, path, closeSidebar }: ISidebarButton) => {
 
   return (
-    <Button asChild variant="ghost" className='h-[68px] flex justify-start gap-[18px] text-2xl ssp-font px-2 py-2'>
+    <Button onClick={() => closeSidebar(path)} asChild variant="ghost" className='h-[68px] flex justify-start gap-[18px] text-2xl ssp-font px-4 py-2'>
       <Link href={path}>
         {/* <button onClick={closeSidebar} className="rounded-md ssp-font w-full text-white flex gap-[18px] text-[24px] p-4 font-medium items-center hover:bg-neutral-900 transition">{children}</button> */}
         {children}

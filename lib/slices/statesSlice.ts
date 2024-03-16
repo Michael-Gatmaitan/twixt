@@ -10,6 +10,7 @@ const initialState: IStates = {
   // For preventing
   friendRequests: [],
   friendRequestsSent: [],
+  authProcessing: true,
 };
 
 export const stateSlice = createSlice({
@@ -41,6 +42,10 @@ export const stateSlice = createSlice({
       const friendshipID = action.payload;
       state.friendRequestsSent.filter((fr) => fr._id !== friendshipID);
     },
+
+    toggleAuthProcessing: (state, action: PA<boolean>) => {
+      state.authProcessing = action.payload;
+    },
   },
 });
 
@@ -51,6 +56,7 @@ export const {
   removeFriendRequestByID,
   setFriendRequestsSent,
   removeFriendRequestsSentByID,
+  toggleAuthProcessing,
 } = stateSlice.actions;
 
 export const selectShowSidebar = (state: RootState) =>
@@ -61,5 +67,7 @@ export const selectFriendRequests = (state: RootState) =>
   state.statesSlice.friendRequests;
 export const selectFriendRequestsSent = (state: RootState) =>
   state.statesSlice.friendRequestsSent;
+export const selectAuthProcessing = (state: RootState) =>
+  state.statesSlice.authProcessing;
 
 export default stateSlice.reducer;

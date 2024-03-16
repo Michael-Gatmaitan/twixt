@@ -50,10 +50,12 @@ export default function RootLayout({
           >
             <HooksComponent>
               <Nav />
-              <Sidebar />
               <LogoutModal />
-              {/* <Sidebar /> */}
-              {children}
+
+              <main className="container lg:flex lg:justify-between lg:h-screen">
+                <Sidebar />
+                {children}
+              </main>
             </HooksComponent>
           </ThemeProvider>
         </ReduxProvider>

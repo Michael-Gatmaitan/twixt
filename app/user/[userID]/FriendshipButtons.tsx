@@ -1,18 +1,16 @@
 "use client";
 import React, { useEffect, useMemo, useState } from 'react'
 import { Button } from '@/components/ui/button';
-// import { getCookie } from 'cookies-next';
+import { DropdownMenuItem, DropdownMenuTrigger, DropdownMenu, DropdownMenuContent } from '@/components/ui/dropdown-menu';
+import { getCookie } from 'cookies-next';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-interface IFriendshipButtons {
-  userID: string;
-};
+interface IFriendshipButtons { userID: string };
 
+// todo: Add loading state
 const FriendshipButtons = ({ userID }: IFriendshipButtons) => {
-  // const userCookieID = getCookie("authorize");
-  const [friendshipStatus, setFriendship] = useState("");
-  // const [loading, setLoading] = useState(true);
+  const [friendshipStatus, setFriendship] = useState<"pending" | "accepted" | "no connection" | "">("");
 
   useEffect(() => {
     async function getFriendStatus() {
@@ -22,27 +20,19 @@ const FriendshipButtons = ({ userID }: IFriendshipButtons) => {
         = friendshipResult.status;
 
       setFriendship(friendshipStatus);
+
+      const mongoid = getCookie("authorize");
+      if (friendshipStatus === "pending") {
+        if (friendshipResult.user1ID === mongoid) {
+          console.log("you are the req Sender");
+        } else if (friendshipResult.user2ID === mongoid) {
+          console.log("he/she is the req Sender");
+        }
+      }
     }
 
     getFriendStatus();
-    // setLoading(false);
   }, [userID]);
-
-  const updateFriendship = useMemo(() => {
-    return async () => {
-
-      // create a friendship if it doens't exist.
-      if (friendshipStatus === "no connection") {
-        const frReq = await fetch(`${apiUrl}/friendship?userID=${userID}`, {
-          method: "POST"
-        });
-
-        const frReqRes = await frReq.json();
-
-        console.log(frReqRes)
-      }
-    }
-  }, [friendshipStatus, userID]);
 
 
   console.log(friendshipStatus);
@@ -52,17 +42,72 @@ const FriendshipButtons = ({ userID }: IFriendshipButtons) => {
       {/* {userCookieID === userID ?
         <div>Your profile</div> :
         <> */}
-      <Button onClick={updateFriendship}>
+      {friendshipStatus === "pending" ? <RequestSentButton /> :
+        friendshipStatus === "accepted" ? <AlreadyFriendButton /> :
+          friendshipStatus === "no connection" ? <AddFriendButton userID={userID} /> :
+            <Button disabled>Loading</Button>
+      }
+
+      {/* <Button onClick={updateFriendship}>
         {
           friendshipStatus === "pending" ? "Request sent"
             : friendshipStatus === "accepted" ? "Friends"
               : friendshipStatus === "no connection" ? "Add friend"
                 : "Loading"
         }
-      </Button>
+      </Button> */}
 
       <Button variant="secondary">Message</Button>
     </div>
+  )
+}
+
+const RequestSentButton = () => {
+  const handleRequestSentButtonClick = () => {
+
+  }
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button>Request sent</Button>
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent>
+        <DropdownMenuItem onClick={handleRequestSentButtonClick}>Cancel</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+
+const AlreadyFriendButton = () => {
+  const handleAlreadyFriendButtonClick = () => {
+    console.log("Already friends");
+  }
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button>Friends</Button>
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent>
+        <DropdownMenuItem onClick={handleAlreadyFriendButtonClick}>Unfriend</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+
+const AddFriendButton = ({ userID }: { userID: string }) => {
+  const handleAddFriendButtonClick = async () => {
+    const frReq = await fetch(`${apiUrl}/friendship?userID=${userID}`, {
+      method: "POST"
+    });
+    const frReqRes = await frReq.json();
+    console.log(frReqRes);
+  }
+  return (
+    <Button onClick={handleAddFriendButtonClick}>Add friend</Button>
   )
 }
 

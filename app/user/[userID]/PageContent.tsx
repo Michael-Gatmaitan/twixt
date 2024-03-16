@@ -10,6 +10,8 @@ import UserStatus from './UserStatus';
 const PageContent = ({ params }: { params: { userID: string } }) => {
   const [user, setUser] = useState<IUser | undefined>(undefined);
   const [fetchingUser, setFetchingUser] = useState<boolean>(true);
+  // const [userSentRequest, setUserSentRequest] = useState<boolean>(false);
+  // const [youSentRequest, setYouSentRequest] = useState<boolean>(false);
 
   useEffect(() => {
     const userResult = getUser(params.userID);

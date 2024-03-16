@@ -10,5 +10,10 @@
         "useButtonType": "off"
       }
     }
+  },
+  "javascript": {
+    "formatter": {
+      "semicolons": "asNeeded"
+    }
   }
 }

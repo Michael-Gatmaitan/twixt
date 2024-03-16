@@ -1,5 +1,3 @@
-import { ObjectId } from "mongoose";
-
 interface IOTPResult {
   message: string;
   athorize: boolean;
@@ -32,6 +30,7 @@ interface IStates {
   showLogoutModal: boolean;
   friendRequests: IFriendRequests[];
   friendRequestsSent: IFrRequestsSent[];
+  authProcessing: boolean;
 }
 
 interface IPost {
@@ -56,7 +55,7 @@ interface IFriendRequests {
   createdAt: string;
 }
 
-interface IFrRequestsSent {
+export interface IFrRequestsSent {
   _id: string;
   user2ID: string;
   createdAt: string;

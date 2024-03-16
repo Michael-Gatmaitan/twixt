@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import { formatDistance, subDays } from "date-fns";
 import FriendReqReciever from "./FriendReqReciever";
+// import { IFriendRequestsSent } from "@/app";
 import { IFrRequestsSent } from "@/app";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks/reduxHooks";
 import { selectFriendRequestsSent, setFriendRequestsSent } from "@/lib/slices/statesSlice";
@@ -32,7 +33,7 @@ export default function GetFrRequests() {
   return (
     <div>
       {friendRequestsSent.length === 0 ? (<div>No requests sent.</div>) :
-        friendRequestsSent.map(friendReqSent => {
+        friendRequestsSent.map((friendReqSent: IFrRequestsSent) => {
           const { _id, user2ID, createdAt } = friendReqSent;
           const date = formatDistance(subDays(new Date(createdAt), 0), new Date(), { addSuffix: true });
 
