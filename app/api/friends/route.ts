@@ -1,7 +1,5 @@
 import connectDB from "@/lib/mongodb";
-import { setAuthorized } from "@/lib/slices/userSlice";
 import Friendship from "@/models/Friendship";
-import { stat } from "fs";
 import { cookies } from "next/headers";
 import { NextRequest } from "next/server";
 
@@ -13,7 +11,7 @@ export async function GET(req: NextRequest) {
 
   // if (frStatus === null) return new Error("status params is empty");
 
-  console.log("Status requested: ", frStatus);
+  // console.log("Status requested: ", frStatus);
 
   await connectDB();
 
