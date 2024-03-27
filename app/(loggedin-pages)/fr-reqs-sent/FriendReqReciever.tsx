@@ -1,4 +1,3 @@
-import { Button } from '@/components/ui/button';
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import React from 'react'
 import FRSentButtons from './FRSentButtons';
@@ -36,4 +35,4 @@ const FriendReqReciever = async ({ friendshipID, requestReciever, createdAt }: I
   )
 }
 
-export default FriendReqReciever
+export default FriendReqReciever;

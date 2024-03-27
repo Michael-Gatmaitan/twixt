@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect } from "react";
 import { formatDistance, subDays } from "date-fns";
 import FriendReqReciever from "./FriendReqReciever";
@@ -19,9 +18,13 @@ export default function GetFrRequests() {
     async function getFrReqSentsFunc() {
 
       const response = await fetch(`${apiUrl}/fr-req-sent`);
-      const result: IFrRequestsSent[] = await response.json();
+      let result = await response.json();
 
       console.log(result);
+
+      if (result.message) {
+        result = [];
+      }
 
       // setReqsFriendship(result);
       dispatch(setFriendRequestsSent(result));

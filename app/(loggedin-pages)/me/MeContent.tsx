@@ -41,7 +41,8 @@ const MeContent = () => {
   return (
     <div>
       <div className="text-4xl">
-        {me.username}
+        <p>{me.username}</p>
+        <p>{me._id}</p>
       </div>
     </div>
   )

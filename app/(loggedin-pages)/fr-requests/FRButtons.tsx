@@ -1,5 +1,6 @@
 "use client"
 import { Button } from '@/components/ui/button'
+import { updateFriendship } from '@/lib/api_calls/updateFriendship';
 import React, { useState } from 'react'
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
@@ -25,15 +26,17 @@ const FRButtons = ({ friendshipID }: IFRButtons) => {
       response: status
     };
 
-    const req = await fetch(`${apiUrl}/fr-requests?friendshipID=${friendshipID}`, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(reqBody)
-    });
+    const res = await updateFriendship(reqBody);
 
-    const res = await req.json();
+    // const req = await fetch(`${apiUrl}/fr-requests?friendshipID=${friendshipID}`, {
+    //   method: "PUT",
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   }w,
+    //   body: JSON.stringify(reqBody)
+    // });
+
+    // const res = await req.json();
 
     console.log(res);
   }

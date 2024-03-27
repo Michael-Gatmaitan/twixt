@@ -20,6 +20,7 @@ const page = () => {
       ))} */}
     </main>
   )
+
 }
 
 export default page

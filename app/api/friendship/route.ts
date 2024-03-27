@@ -12,6 +12,8 @@ export async function GET(req: NextRequest) {
   const user1ID = cookieStore.get("authorize")?.value;
   const user2ID = searchParams.get("userID");
 
+  let areYouTheRequestSender = false;
+
   const friendship: IFriendship | null = await Friendship.findOne({
     $or: [
       {
@@ -25,6 +27,10 @@ export async function GET(req: NextRequest) {
     ],
   });
 
+  if (friendship?.user1ID === user1ID) {
+    areYouTheRequestSender = true;
+  }
+
   console.log(friendship);
 
   if (friendship) {
@@ -32,13 +38,16 @@ export async function GET(req: NextRequest) {
   } else {
     console.log(`GET: No friendship found with ${user2ID}`);
     return new Response(
-      JSON.stringify({
-        status: "no connection",
-      })
+      JSON.stringify([
+        null,
+        {
+          status: "no connection",
+        },
+      ])
     );
   }
 
-  return new Response(JSON.stringify(friendship));
+  return new Response(JSON.stringify([areYouTheRequestSender, friendship]));
 }
 
 export async function POST(req: NextRequest) {
@@ -73,6 +82,20 @@ export async function POST(req: NextRequest) {
 
       return new Response(JSON.stringify(newFriendship));
     }
+
+    const updateFriendshipThatExists = await Friendship.updateOne(
+      {
+        user1ID: user1ID,
+        user2ID: user2ID,
+      },
+      {
+        $set: {
+          status: "pending",
+        },
+      }
+    );
+
+    console.log(updateFriendshipThatExists);
 
     console.log("POST: Friendship created in the past");
 

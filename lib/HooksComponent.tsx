@@ -1,6 +1,5 @@
 "use client"
 import React, { useEffect, useMemo } from 'react'
-import { useCheckUserCookies } from './hooks/checkUserAlreadyLoggedIn'
 import { useSetAuth } from './hooks/auth'
 import { useRouter, usePathname } from 'next/navigation'
 import { getCookie } from 'cookies-next'
@@ -8,8 +7,6 @@ import { useCloseSidebarOnPathnameChange } from './hooks/closeSidebarOnPathnameC
 // import useCheckUserLoggin from './hooks/checkUserAlreadyLoggedIn'
 
 const HooksComponent = ({ children }: { children: React.ReactNode }) => {
-  // useCheckUserLoggin();
-  // useCheckUserCookies();
   useCloseSidebarOnPathnameChange();
 
   const router = useRouter();

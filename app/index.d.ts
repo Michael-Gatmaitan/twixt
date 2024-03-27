@@ -44,7 +44,7 @@ interface IFriendship {
   _id: string;
   user1ID: string;
   user2ID: string;
-  status: "pending" | "accepted" | "rejected";
+  status: "pending" | "accepted" | "rejected" | "no connection" | "";
   createdAt: Date;
 }
 

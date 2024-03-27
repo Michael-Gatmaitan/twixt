@@ -1,50 +1,38 @@
 "use client";
-import React, { useEffect, useMemo, useState } from 'react'
+import React from 'react'
 import { Button } from '@/components/ui/button';
 import { DropdownMenuItem, DropdownMenuTrigger, DropdownMenu, DropdownMenuContent } from '@/components/ui/dropdown-menu';
-import { getCookie } from 'cookies-next';
+import { ArrowDown01 } from 'lucide-react';
+import { apiUrl } from '@/lib/apiUrl';
+import AddFriendButton from './(relationship-buttons)/AddFriendButton';
+import RespondRequestButton from './(relationship-buttons)/RespondRequestButton';
+import RequestSentButton from './(relationship-buttons)/RequestSentButton';
+import AlreadyFriendButton from './(relationship-buttons)/AlreadyFriendButton';
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-
-interface IFriendshipButtons { userID: string };
+interface IFriendshipButtons {
+  friendshipID: string;
+  friendshipStatus: "pending" | "accepted" | "rejected" | "no connection" | "";
+  userID: string;
+  areYouTheRequestSender: boolean;
+};
 
 // todo: Add loading state
-const FriendshipButtons = ({ userID }: IFriendshipButtons) => {
-  const [friendshipStatus, setFriendship] = useState<"pending" | "accepted" | "no connection" | "">("");
-
-  useEffect(() => {
-    async function getFriendStatus() {
-      const friendshipReq = await fetch(`${apiUrl}/friendship?userID=${userID}`);
-      const friendshipResult = await friendshipReq.json();
-      const friendshipStatus: "pending" | "accepted" | "no connection"
-        = friendshipResult.status;
-
-      setFriendship(friendshipStatus);
-
-      const mongoid = getCookie("authorize");
-      if (friendshipStatus === "pending") {
-        if (friendshipResult.user1ID === mongoid) {
-          console.log("you are the req Sender");
-        } else if (friendshipResult.user2ID === mongoid) {
-          console.log("he/she is the req Sender");
-        }
-      }
-    }
-
-    getFriendStatus();
-  }, [userID]);
+const FriendshipButtons = ({ friendshipID, friendshipStatus, userID, areYouTheRequestSender }: IFriendshipButtons) => {
 
 
   console.log(friendshipStatus);
 
   return (
     <div className="mt-6 gap-2 flex">
+      <p>{areYouTheRequestSender ? "Yes, im the sender" : "No, im not the sender"}</p>
       {/* {userCookieID === userID ?
         <div>Your profile</div> :
         <> */}
-      {friendshipStatus === "pending" ? <RequestSentButton /> :
-        friendshipStatus === "accepted" ? <AlreadyFriendButton /> :
-          friendshipStatus === "no connection" ? <AddFriendButton userID={userID} /> :
+      {friendshipStatus === "pending" ? (
+        areYouTheRequestSender ? <RequestSentButton friendshipID={friendshipID} userID={userID} /> : <RespondRequestButton friendshipID={friendshipID} />
+      ) :
+        friendshipStatus === "accepted" ? <AlreadyFriendButton friendshipID={friendshipID} userID={userID} /> :
+          friendshipStatus === "no connection" || friendshipStatus === "rejected" ? <AddFriendButton friendshipID={friendshipID} userID={userID} /> :
             <Button disabled>Loading</Button>
       }
 
@@ -59,55 +47,6 @@ const FriendshipButtons = ({ userID }: IFriendshipButtons) => {
 
       <Button variant="secondary">Message</Button>
     </div>
-  )
-}
-
-const RequestSentButton = () => {
-  const handleRequestSentButtonClick = () => {
-
-  }
-
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button>Request sent</Button>
-      </DropdownMenuTrigger>
-
-      <DropdownMenuContent>
-        <DropdownMenuItem onClick={handleRequestSentButtonClick}>Cancel</DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
-}
-
-const AlreadyFriendButton = () => {
-  const handleAlreadyFriendButtonClick = () => {
-    console.log("Already friends");
-  }
-
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button>Friends</Button>
-      </DropdownMenuTrigger>
-
-      <DropdownMenuContent>
-        <DropdownMenuItem onClick={handleAlreadyFriendButtonClick}>Unfriend</DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  )
-}
-
-const AddFriendButton = ({ userID }: { userID: string }) => {
-  const handleAddFriendButtonClick = async () => {
-    const frReq = await fetch(`${apiUrl}/friendship?userID=${userID}`, {
-      method: "POST"
-    });
-    const frReqRes = await frReq.json();
-    console.log(frReqRes);
-  }
-  return (
-    <Button onClick={handleAddFriendButtonClick}>Add friend</Button>
   )
 }
 

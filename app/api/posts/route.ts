@@ -2,9 +2,8 @@ import { IFriendship, IPost } from "@/app";
 import connectDB from "@/lib/mongodb";
 import Friendship from "@/models/Friendship";
 import Post from "@/models/Post";
-import { getCookie } from "cookies-next";
-import mongoose from "mongoose";
 import { cookies } from "next/headers";
+
 // Get all USER_POSTS in database
 export async function GET() {
   const cookieStore = cookies();
@@ -30,9 +29,10 @@ export async function GET() {
 
     console.log(flattenedFriendList);
 
-    const posts: IPost[] = await Post.find({
-      userID: { $in: flattenedFriendList },
-    }).limit(10);
+    // const posts: IPost[] = await Post.find({
+    //   userID: { $in: flattenedFriendList },
+    // }).limit(10);
+    const posts: IPost[] = await Post.find();
 
     console.log(friendList, "friend");
 
