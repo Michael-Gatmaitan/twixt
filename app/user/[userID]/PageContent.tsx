@@ -68,9 +68,20 @@ const PageContent = ({ params }: { params: { userID: string } }) => {
     }
 
     getFriendStatus();
-
-
   }, [params.userID, router]);
+
+  const [friends, setFriends] = useState<IFriendship[]>([]);
+  useEffect(() => {
+    async function getFriends() {
+      const fetchFriends = await fetch(`${apiUrl}/friends?userID=${params.userID}`);
+      const friendsResult = await fetchFriends.json();
+
+      console.log(friendsResult);
+      setFriends(friendsResult);
+    }
+
+    getFriends();
+  }, [params.userID]);
 
   if (fetchingUser) {
     return <div>Fetching user</div>
@@ -104,6 +115,16 @@ const PageContent = ({ params }: { params: { userID: string } }) => {
 
       <div className="text-4xl">
         {user.username}
+      </div>
+
+      <div>
+        {friends.length ?
+          friends.map(friend => (
+            <>
+              <code>{friend._id}</code>
+              <h4>{friend.status}</h4>
+            </>
+          )) : <p>This user has no friends.</p>}
       </div>
     </>
   )

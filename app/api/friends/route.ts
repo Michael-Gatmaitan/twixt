@@ -1,33 +1,56 @@
+import { IFriendship } from "@/app";
 import connectDB from "@/lib/mongodb";
 import Friendship from "@/models/Friendship";
-import { cookies } from "next/headers";
 import { NextRequest } from "next/server";
 
 // get all friends
+/**
+ * * By default, userID param should not be empty or null
+ * * If you want:
+ * *    to get all friends info, you only need [userID: string] param
+ * *    to get only the friends count, add the [getFriendsCount: boolean]
+ *
+ * TODO: We need to sure that this GET func is reusable and easy to use!!!
+ **/
+
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
-  const authID = cookies().get("authorize");
-  // const frStatus = searchParams.get("status");
+  const userID = searchParams.get("userID");
+  const getOnlyCountOfFriends = searchParams.get("getFriendsCount");
 
-  // if (frStatus === null) return new Error("status params is empty");
-
-  // console.log("Status requested: ", frStatus);
+  if (userID === undefined || userID === "")
+    return new Response(JSON.stringify({ message: "UserID undefined" }));
 
   await connectDB();
 
-  const friends = await Friendship.find({
-    $or: [
-      {
-        user1ID: authID,
-      },
-      {
-        user2ID: authID,
-      },
-    ],
-    status: "accepted",
-  });
+  let friends: IFriendship[] = [];
 
-  console.log(friends);
+  try {
+    // * This will find all the friend of the provided userID
+    friends = await Friendship.find({
+      $or: [{ user1ID: userID }, { user2ID: userID }],
+      status: "accepted",
+    });
 
-  return new Response(JSON.stringify(friends));
+    // If we want t oget the friend count only
+    if (getOnlyCountOfFriends === "true")
+      return new Response(JSON.stringify({ friendCount: friends.length }));
+
+    // friends.
+    const userFriendsID: string[] = [];
+
+    for (const friend of friends) {
+      const { user1ID, user2ID } = friend;
+      userFriendsID.push(user1ID !== userID ? user1ID : user2ID);
+    }
+
+    console.log(userFriendsID);
+
+    // If we want to get the information of friends
+    return new Response(JSON.stringify(friends));
+  } catch (err) {
+    return new Response(
+      JSON.stringify({ message: "Error in GET /api/friends" })
+    );
+  }
 }
