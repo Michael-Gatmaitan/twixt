@@ -3,6 +3,7 @@ import PostComponent from '@/app/components/posts/PostComponent';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { getPosts } from '@/lib/api_calls/getPosts';
+import { apiUrl } from '@/lib/apiUrl';
 import Link from 'next/link';
 import React, { Suspense } from 'react'
 
@@ -10,6 +11,11 @@ const PostGroup = async () => {
   const posts: Awaited<Promise<IPost[]>> = await getPosts();
   // if (posts.sta)
   console.log(posts);
+
+  const postReq = await fetch(`${apiUrl}/posts?postID=${`65c3ad6c167b16865a54d598`}`)
+  const postRes = await postReq.json();
+
+  console.log(postRes);
 
   try {
     for (const post of posts)

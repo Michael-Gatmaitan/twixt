@@ -1,10 +1,10 @@
 "use client"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 
 
 
 export default function Home() {
+
   return (
     <main className="flex container flex-col items-center justify-between">
       <div className="flex items-center gap-2">

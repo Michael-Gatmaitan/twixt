@@ -8,7 +8,7 @@ import { NextRequest } from "next/server";
 export async function GET(req: NextRequest) {
   const cookieStore = cookies();
   const searchParams = req.nextUrl.searchParams;
-  const authID = cookieStore.get("authorize")?.value;
+  // const authID = cookieStore.get("authorize")?.value;
   const userID_params = searchParams.get("userID");
   const postID_params = searchParams.get("postID");
   // const type_params = searchParams.get("type");
@@ -38,7 +38,7 @@ export async function GET(req: NextRequest) {
     if (postID_params !== null) {
       console.log("Returning a specific post");
 
-      const specificPost = await Post.findOne({
+      const specificPost = await Post.findOne<IPost>({
         _id: postID_params,
       });
       return new Response(JSON.stringify(specificPost));
