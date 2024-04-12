@@ -9,6 +9,7 @@ import React, { Suspense } from 'react'
 const PostGroup = async () => {
   const posts: Awaited<Promise<IPost[]>> = await getPosts();
   // if (posts.sta)
+  console.log(posts);
 
   try {
     for (const post of posts)
