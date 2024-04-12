@@ -12,6 +12,8 @@ export default function Home() {
       </div>
       {/* <ModeToggle /> */}
 
+      <p className="text-2xl">EVERYTHING IS STILL ON GOING TO TESTS LOL</p>
+
       <Link href="posts/create/">CREATE POST</Link>
       <Link href="posts/">POST</Link>
     </main >

@@ -50,18 +50,13 @@ export const useSetAuth = () => {
         dispatch(setMongodbID(user._id));
         dispatch(setLoggedin(true));
 
-        // router.replace("/posts");
+        dispatch(toggleAuthProcessing(false));
       });
+
+      // return;
     }
 
     console.log("Auth fauled");
     dispatch(toggleAuthProcessing(false));
-
-    // console.log(user);
-
-    // const fetchedUser = getUser().then((data) => data);
-    // console.log(fetchedUser);
-
-    // if auth not exists, go to login, else, setLoggedIn to true
   }, [dispatch]);
 };

@@ -6,6 +6,7 @@ import FriendReqReciever from "./FriendReqReciever";
 import { IFrRequestsSent } from "@/app";
 import { useAppSelector, useAppDispatch } from "@/lib/hooks/reduxHooks";
 import { selectFriendRequestsSent, setFriendRequestsSent } from "@/lib/slices/statesSlice";
+import { timeDistance } from "@/lib/time_formatters/timeDistance";
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
@@ -38,7 +39,7 @@ export default function GetFrRequests() {
       {friendRequestsSent.length === 0 ? (<div>No requests sent.</div>) :
         friendRequestsSent.map((friendReqSent: IFrRequestsSent) => {
           const { _id, user2ID, createdAt } = friendReqSent;
-          const date = formatDistance(subDays(new Date(createdAt), 0), new Date(), { addSuffix: true });
+          const date = timeDistance(createdAt);
 
           return (
             <FriendReqReciever key={_id} friendshipID={_id} requestReciever={user2ID} createdAt={date} />

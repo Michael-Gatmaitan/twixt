@@ -1,4 +1,4 @@
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+import { apiUrl } from "../apiUrl";
 
 export async function getUser(userID: string) {
   const req = await fetch(`${apiUrl}/user?userID=${userID}`);

@@ -9,6 +9,7 @@ export async function GET(req: NextRequest, res: Response) {
   const userIDq = searchParams.get("userID");
 
   await connectDB();
+
   try {
     if (!userIDq) {
       return new Response(JSON.stringify({ message: "No userID passed" }), {

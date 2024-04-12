@@ -10,6 +10,16 @@ const postSchema = new Schema<IPost>({
     type: String,
     required: [true, "Post content requiried"],
   },
+  likeCount: {
+    type: Number,
+    required: [true, "Like count required"],
+    default: 0,
+  },
+  commentCount: {
+    type: Number,
+    required: [true, "Comment count in post needed"],
+    default: 0,
+  },
   createdAt: {
     type: Date,
     default: () => Date.now(),

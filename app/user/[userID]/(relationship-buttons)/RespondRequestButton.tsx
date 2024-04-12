@@ -12,6 +12,12 @@ const RespondRequestButton = ({ friendshipID }: { friendshipID: string }) => {
 
     if (responded === "accepted") {
       setAccepted(true);
+    } else if (responded === "rejected") {
+      await fetch(`${apiUrl}/fr-requests?friendshipID=${friendshipID}`, {
+        method: "DELETE",
+
+      });
+      return;
     }
 
     const reqBody = {
@@ -19,15 +25,14 @@ const RespondRequestButton = ({ friendshipID }: { friendshipID: string }) => {
       response: responded
     };
 
-    const req = await fetch(`${apiUrl}/fr-requests?friendshipID=${friendshipID}`, {
+    console.log("Response sent.");
+    await fetch(`${apiUrl}/fr-requests?friendshipID=${friendshipID}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json"
       },
       body: JSON.stringify(reqBody)
     });
-
-    console.log(req);
   };
 
   return (

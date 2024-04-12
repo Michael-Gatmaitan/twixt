@@ -1,10 +1,10 @@
-import PageContent from './PageContent';
+import VisitUserPageContent from './VisitUserPageContent';
 
 const page = ({ params }: { params: { userID: string } }) => {
   return (
     <main className="container">
 
-      <PageContent params={params} />
+      <VisitUserPageContent userID={params.userID} />
     </main>
   )
 }

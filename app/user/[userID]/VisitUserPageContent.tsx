@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
-const PageContent = ({ params }: { params: { userID: string } }) => {
+const VisitUserPageContent = ({ userID }: { userID: string }) => {
   const [user, setUser] = useState<IUser | undefined>(undefined);
   const [fetchingUser, setFetchingUser] = useState<boolean>(true);
   const [friendshipStatus, setFriendshipStatus] =
@@ -25,11 +25,12 @@ const PageContent = ({ params }: { params: { userID: string } }) => {
   // const [youSentRequest, setYouSentRequest] = useState<boolean>(false);
 
   useEffect(() => {
-    if (params.userID === getCookie("authorize")) {
+    if (userID === getCookie("authorize")) {
       router.replace("/me");
       return;
     }
-    const userResult = getUser(params.userID);
+
+    const userResult = getUser(userID);
 
     // we need to have a fallback when user is not found.
     userResult.then((data) => {
@@ -46,7 +47,7 @@ const PageContent = ({ params }: { params: { userID: string } }) => {
     // and pass it the result as a prop
 
     async function getFriendStatus() {
-      const friendshipReq = await fetch(`${apiUrl}/friendship?userID=${params.userID}`);
+      const friendshipReq = await fetch(`${apiUrl}/friendship?userID=${userID}`);
       const [isReqSender, friendshipFetchResult] = await friendshipReq.json();
 
       if (isReqSender !== null) {
@@ -68,12 +69,12 @@ const PageContent = ({ params }: { params: { userID: string } }) => {
     }
 
     getFriendStatus();
-  }, [params.userID, router]);
+  }, [userID, router]);
 
   const [friends, setFriends] = useState<IFriendship[]>([]);
   useEffect(() => {
     async function getFriends() {
-      const fetchFriends = await fetch(`${apiUrl}/friends?userID=${params.userID}`);
+      const fetchFriends = await fetch(`${apiUrl}/friends?userID=${userID}`);
       const friendsResult = await fetchFriends.json();
 
       console.log(friendsResult);
@@ -81,7 +82,7 @@ const PageContent = ({ params }: { params: { userID: string } }) => {
     }
 
     getFriends();
-  }, [params.userID]);
+  }, [userID]);
 
   if (fetchingUser) {
     return <div>Fetching user</div>
@@ -109,13 +110,9 @@ const PageContent = ({ params }: { params: { userID: string } }) => {
       <FriendshipButtons
         friendshipID={friendshipResult._id}
         friendshipStatus={friendshipResult.status}
-        userID={params.userID}
+        userID={userID}
         areYouTheRequestSender={areYouTheRequestSender}
       />
-
-      <div className="text-4xl">
-        {user.username}
-      </div>
 
       <div>
         {friends.length ?
@@ -130,4 +127,4 @@ const PageContent = ({ params }: { params: { userID: string } }) => {
   )
 }
 
-export default PageContent;
+export default VisitUserPageContent;

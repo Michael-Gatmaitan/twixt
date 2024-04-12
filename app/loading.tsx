@@ -1,5 +1,4 @@
 import React from 'react'
-// import { VscLoading } from "react-icons/vsc";
 import { CgSpinner } from "react-icons/cg";
 
 const loading = () => {

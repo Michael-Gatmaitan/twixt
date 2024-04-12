@@ -1,3 +1,5 @@
+import { Stringifier } from "postcss";
+
 interface IOTPResult {
   message: string;
   athorize: boolean;
@@ -37,6 +39,27 @@ interface IPost {
   _id: string;
   userID: string;
   postContent: string;
+  likeCount: number;
+  commentCount: number;
+  createdAt: Date;
+}
+
+interface IComment {
+  _id: string;
+  userID: string;
+  postID: string;
+  commentContent: string;
+  likeCount: number;
+  replyCount: number;
+  createdAt: Date;
+}
+
+interface IReply {
+  _id: string;
+  userID: string;
+  commentID: string;
+  replyContent: string;
+  likeCount: number;
   createdAt: Date;
 }
 
@@ -45,6 +68,13 @@ interface IFriendship {
   user1ID: string;
   user2ID: string;
   status: "pending" | "accepted" | "rejected" | "no connection" | "";
+  createdAt: Date;
+}
+
+interface ILike {
+  _id: string;
+  userID: string;
+  postID: string;
   createdAt: Date;
 }
 

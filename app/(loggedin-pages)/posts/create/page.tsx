@@ -3,7 +3,7 @@ import PostForm from '../PostForm'
 const page = () => {
   return (
     <div className='container'>
-      <PostForm />
+      <PostForm type="posts" />
     </div>
   )
 }

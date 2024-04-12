@@ -1,5 +1,6 @@
 import { NextRequest } from "next/server";
 import Friendship from "@/models/Friendship";
+import connectDB from "@/lib/mongodb";
 
 export async function GET(req: NextRequest) {
   const mongodbid = req.cookies.get("authorize")?.value;
@@ -32,7 +33,8 @@ interface PUTBodyType {
 // Accept or reject route handler
 export async function PUT(req: NextRequest) {
   const body: PUTBodyType = await req.json();
-  console.log(body);
+
+  await connectDB();
 
   try {
     const update = await Friendship.updateOne(
@@ -55,4 +57,16 @@ export async function PUT(req: NextRequest) {
     console.log("There was an error for updating friendship.", err);
     return new Response(JSON.stringify({ message: "error" }), { status: 400 });
   }
+}
+
+export async function DELETE(req: NextRequest) {
+  const body: Pick<PUTBodyType, "friendshipID"> = await req.json();
+
+  await connectDB();
+
+  const deleteFriendship = await Friendship.deleteOne({
+    _id: body.friendshipID,
+  });
+
+  console.log(deleteFriendship);
 }

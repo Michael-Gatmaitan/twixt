@@ -5,7 +5,6 @@ import { cookies } from "next/headers";
 import { type NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
-  await connectDB();
   const cookieStore = cookies();
   // user1ID, user2ID
   const searchParams = req.nextUrl.searchParams;
@@ -14,6 +13,7 @@ export async function GET(req: NextRequest) {
 
   let areYouTheRequestSender = false;
 
+  await connectDB();
   const friendship: IFriendship | null = await Friendship.findOne({
     $or: [
       {
@@ -51,7 +51,6 @@ export async function GET(req: NextRequest) {
 }
 
 export async function POST(req: NextRequest) {
-  await connectDB();
   // user1ID, user2ID
   const cookieStore = cookies();
   const searchParams = req.nextUrl.searchParams;
@@ -66,12 +65,13 @@ export async function POST(req: NextRequest) {
   }
 
   try {
+    await connectDB();
     const friendship: IFriendship | null = await Friendship.findOne({
       user1ID: user1ID,
       user2ID: user2ID,
     });
 
-    // code below means: If friendship doesn't exists in database
+    // * If friendship doesn't exists in database
     if (!friendship) {
       console.log("POST: creating new friendship");
       const newFriendship = await Friendship.create({

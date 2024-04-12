@@ -7,68 +7,74 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { useAppSelector } from '@/lib/hooks/reduxHooks';
 import { selectMongodbID } from '@/lib/slices/userSlice';
-import React, { useState, FormEvent } from 'react';
-
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+import { useRouter } from 'next/navigation';
+import { apiUrl } from '@/lib/apiUrl';
+import { startTransition, useRef } from 'react';
 
 const FormSchema = z.object({
-  postContent: z.string().min(2, { message: "Min of 2" })
+  formContent: z.string().min(2, { message: "Min of 2" })
     .max(64, { message: "Limit exceed" })
 });
 
-const PostForm = () => {
+interface IPostForm {
+  type: "posts" | "comments" | "replies",
+  suppID?: string
+};
+
+const PostForm = ({ type, suppID }: IPostForm) => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
 
+  const formEl = useRef<null | HTMLInputElement>(null);
+
   const mongodbID = useAppSelector(selectMongodbID);
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
-    console.log(values);
 
-    console.log({ mongodbID, ...values })
+    // Post as post
 
-    const postReq = await fetch(`${apiUrl}/posts`, {
+    const reqBody: { mongodbID: string, formContent: string, suppID?: string | undefined } = {
+      mongodbID,
+      ...values
+    };
+
+    if (type === "comments" || type === "replies") {
+      reqBody.suppID = suppID;
+    }
+
+    const postReq = await fetch(`${apiUrl}/${type}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
       },
-      body: JSON.stringify({ mongodbID, ...values })
+      body: JSON.stringify(reqBody)
     });
-    alert("Submitted");
+
+    startTransition(() => {
+      router.refresh();
+    });
+
+    if (formEl.current !== null) formEl.current.value = "";
   }
 
-  // const sub = async () => {
-  //   const postReq = await fetch(`${apiUrl]}/posts`, {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json"
-  //     },
-  //     body: JSON.stringify({ mongodbID,  })
-  //   });
-  //   alert("Submitted");
-
-  // }
-  // const [val, setVal] = useState("");
-
-  // const handleChange = (e: FormEvent<HTMLInputElement>) => {
-  //   setVal(e.currentTarget.value);
-  // }
+  const placeholder = type === "posts" ? "Post something" : type === "comments" ? "Comment to post" : "Reply to user";
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className='flex justify-between items-end gap-2'>
         <FormField
           control={form.control}
-          name="postContent"
+          name="formContent"
           render={({ field }) => {
             return (
               <FormItem>
                 <FormLabel>
-                  Post Content
+                  {placeholder}
                 </FormLabel>
                 <FormControl>
-                  <Input placeholder='Post content' {...field} />
+                  <Input placeholder={placeholder} {...field} ref={formEl} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -77,7 +83,9 @@ const PostForm = () => {
 
         {/* <input type="text" onChange={handleChange} /> */}
 
-        <Button className="mt-4" type='submit'>Post</Button>
+        <Button className="mt-4" type='submit'>
+          {type[0].toUpperCase() + type.slice(1, type.length)}
+        </Button>
       </form>
     </Form>
   )

@@ -1,9 +1,6 @@
 "use client";
 import React from 'react'
 import { Button } from '@/components/ui/button';
-import { DropdownMenuItem, DropdownMenuTrigger, DropdownMenu, DropdownMenuContent } from '@/components/ui/dropdown-menu';
-import { ArrowDown01 } from 'lucide-react';
-import { apiUrl } from '@/lib/apiUrl';
 import AddFriendButton from './(relationship-buttons)/AddFriendButton';
 import RespondRequestButton from './(relationship-buttons)/RespondRequestButton';
 import RequestSentButton from './(relationship-buttons)/RequestSentButton';

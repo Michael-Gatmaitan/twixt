@@ -1,45 +1,46 @@
-"use client";
-import { IPost } from "@/app"
-// import PostComponent from "@/app/(ui-components)/PostComponent";
-import PostComponent from "@/app/components/PostComponent";
-import { useEffect, useState } from "react";
+import { IPost } from '@/app';
+import PostComponent from '@/app/components/posts/PostComponent';
+import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
+import { getPosts } from '@/lib/api_calls/getPosts';
+import Link from 'next/link';
+import React, { Suspense } from 'react'
 
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-
-const PostGroup = () => {
-  const [posts, setPosts] = useState<IPost[]>([]);
-
-  useEffect(() => {
-    async function getPosts() {
-      const req = await fetch(`${apiUrl}/posts`);
-      const posts = await req.json();
-
-      if (posts.message || req.status === 500) {
-        console.log("Error occured in fetching posts");
-        console.log(posts);
-        return;
-      }
-      setPosts(posts);
-    }
-
-    getPosts();
-  }, []);
+const PostGroup = async () => {
+  const posts: Awaited<Promise<IPost[]>> = await getPosts();
+  // if (posts.sta)
 
   try {
-    posts.map(post => console.log(post));
-  } catch (err) {
-    console.log(posts);
-    return (
-      <div>Post invalid</div>
-    )
+    for (const post of posts)
+      post._id;
+  } catch (error) {
+    return <main>
+      <code>Error for loading posts.</code>
+      <Button asChild>
+        <Link href="/">Go home</Link>
+      </Button>
+    </main>
   }
 
   return (
-    <div>
-      {posts.map((post: IPost) => (
-        // <div key={post._id}>{post.postContent}</div>
-        <PostComponent post={post} key={post._id} />
+    <main className='grid gap-2'>
+      sss
+      {posts.map(post => (
+        <Suspense fallback={<PostSKeleton />} key={post._id}>
+          <PostComponent post={post} showComments={false} />
+        </Suspense>
       ))}
+    </main>
+  )
+}
+
+const PostSKeleton = () => {
+  // const rand = Math.floor(Math.random() * 4);
+
+  return (
+    <div className='p-4'>
+      <Skeleton className="h-8 w-2/6 rounded-lg" />
+      <Skeleton className="h-16 mt-2 w-full rounded-lg" />
     </div>
   )
 }
