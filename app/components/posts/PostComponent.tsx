@@ -51,8 +51,8 @@ const PostComponent = async ({ post, showComments }: IPostComponent) => {
           {/* Show comments here */}
           <PostForm suppID={post._id} type='comments' />
 
-          <CommentSection postID={post._id} />
-          {/* {showComments ? <CommentSection postID={post._id} /> : null} */}
+          {/* <CommentSection postID={post._id} /> */}
+          {showComments ? <CommentSection postID={post._id} /> : null}
         </CardFooter>
       </Card>
     </main>

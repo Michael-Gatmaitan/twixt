@@ -7,6 +7,7 @@ import React from 'react'
 import { formatDate } from 'date-fns'
 import PostForm from '@/app/(loggedin-pages)/posts/PostForm';
 import ReplySection from './ReplySection';
+import ReplySectionHandler from './ReplySectionHandler';
 
 const CommentComponent = async (props: { comment: IComment }) => {
   const { comment } = props;
@@ -23,9 +24,9 @@ const CommentComponent = async (props: { comment: IComment }) => {
       </div>
 
       <div className='text-sm'>{props.comment.commentContent}</div>
+      {/* <ReplySection commentID={comment._id} /> */}
 
-      <PostForm suppID={comment._id} type='replies' />
-      <ReplySection commentID={comment._id} />
+      <ReplySectionHandler commentID={comment._id} />
     </div>
   )
 }

@@ -12,10 +12,10 @@ const PostGroup = async () => {
   // if (posts.sta)
   console.log(posts);
 
-  const postReq = await fetch(`${apiUrl}/posts?postID=${`65c3ad6c167b16865a54d598`}`)
-  const postRes = await postReq.json();
+  // const postReq = await fetch(`${apiUrl}/posts?postID=${`65c3ad6c167b16865a54d598`}`)
+  // const postRes = await postReq.json();
 
-  console.log(postRes);
+  // console.log(postRes);
 
   try {
     for (const post of posts)
@@ -31,7 +31,7 @@ const PostGroup = async () => {
 
   return (
     <main className='grid gap-2'>
-      sss
+
       {posts.map(post => (
         <Suspense fallback={<PostSKeleton />} key={post._id}>
           <PostComponent post={post} showComments={false} />
