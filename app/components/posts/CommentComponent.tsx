@@ -26,7 +26,7 @@ const CommentComponent = async (props: { comment: IComment }) => {
       <div className='text-sm'>{props.comment.commentContent}</div>
       {/* <ReplySection commentID={comment._id} /> */}
 
-      <ReplySectionHandler commentID={comment._id} />
+      <ReplySectionHandler commentID={comment._id} replyCount={comment.replyCount} />
     </div>
   )
 }
