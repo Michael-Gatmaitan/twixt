@@ -9,13 +9,6 @@ import React, { Suspense } from 'react'
 
 const PostGroup = async () => {
   const posts: Awaited<Promise<IPost[]>> = await getPosts();
-  // if (posts.sta)
-  console.log(posts);
-
-  // const postReq = await fetch(`${apiUrl}/posts?postID=${`65c3ad6c167b16865a54d598`}`)
-  // const postRes = await postReq.json();
-
-  // console.log(postRes);
 
   try {
     for (const post of posts)

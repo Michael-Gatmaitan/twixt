@@ -3,6 +3,7 @@ import { NextRequest } from "next/server";
 // Create a reply to a comment
 import connectDB from "@/lib/mongodb";
 import Reply from "@/models/Reply";
+import Comment from "@/models/Comment";
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
@@ -44,6 +45,16 @@ export async function POST(req: NextRequest) {
     commentID: suppID,
     replyContent: formContent,
   });
+
+  // Increment replyCount of the comment.
+  await Comment.updateOne(
+    { _id: suppID },
+    {
+      $inc: {
+        replyCount: 1,
+      },
+    }
+  );
 
   console.log(userNewReply);
 

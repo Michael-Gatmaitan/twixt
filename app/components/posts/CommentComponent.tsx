@@ -1,12 +1,12 @@
 import { IComment, IUser } from '@/app'
 import { getUser } from '@/lib/api_calls/getUser'
-import { apiUrl } from '@/lib/apiUrl';
+// import { apiUrl } from '@/lib/apiUrl';
 import { timeDistance } from '@/lib/time_formatters/timeDistance';
 import Link from 'next/link';
 import React from 'react'
-import { formatDate } from 'date-fns'
-import PostForm from '@/app/(loggedin-pages)/posts/PostForm';
-import ReplySection from './ReplySection';
+// import { formatDate } from 'date-fns'
+// import PostForm from '@/app/(loggedin-pages)/posts/PostForm';
+// import ReplySection from './ReplySection';
 import ReplySectionHandler from './ReplySectionHandler';
 
 const CommentComponent = async (props: { comment: IComment }) => {

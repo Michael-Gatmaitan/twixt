@@ -2,7 +2,6 @@
 import { IPost } from '@/app'
 import PostComponent from '@/app/components/posts/PostComponent';
 import { getPost } from '@/lib/api_calls/getPosts'
-import { apiUrl } from '@/lib/apiUrl';
 import React, { useEffect, useState } from 'react'
 
 const Page = ({ params }: { params: { postID: string } }) => {

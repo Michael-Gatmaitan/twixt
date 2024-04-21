@@ -1,12 +1,12 @@
 import { IPost } from "@/app";
 import connectDB from "@/lib/mongodb";
 import Post from "@/models/Post";
-import { cookies } from "next/headers";
+// import { cookies } from "next/headers";
 import { NextRequest } from "next/server";
 
 // Get all USER_POSTS in database
 export async function GET(req: NextRequest) {
-  const cookieStore = cookies();
+  // const cookieStore = cookies();
   const searchParams = req.nextUrl.searchParams;
   // const authID = cookieStore.get("authorize")?.value;
   const userID_params = searchParams.get("userID");

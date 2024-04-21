@@ -9,11 +9,15 @@ const ReplySectionHandler = (props: { commentID: string, replyCount: number }) =
     <>
 
       <Button onClick={() => setShowReplies(prev => !prev)}>Show {props.replyCount} reply</Button>
-      {showReplies ?
-        <Suspense fallback={<p>Reply loading</p>}>
-          <ReplySection commentID={props.commentID} />
-        </Suspense>
-        : null}
+      {
+        props.replyCount === 0 ? <ReplySection commentID={props.commentID} />
+          : showReplies ?
+            <Suspense fallback={<p>Reply loading</p>}>
+              <ReplySection commentID={props.commentID} />
+            </Suspense>
+            :
+            null
+      }
     </>
   )
 }

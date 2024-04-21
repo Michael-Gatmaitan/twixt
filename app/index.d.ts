@@ -74,7 +74,8 @@ interface IFriendship {
 interface ILike {
   _id: string;
   userID: string;
-  postID: string;
+  compID: string;
+  type: "post" | "comment" | "reply";
   createdAt: Date;
 }
 

@@ -1,6 +1,7 @@
 import Comment from "@/models/Comment";
 import connectDB from "@/lib/mongodb";
 import { NextRequest } from "next/server";
+import Post from "@/models/Post";
 
 // Create a comment to a post
 export async function POST(req: NextRequest) {
@@ -19,6 +20,16 @@ export async function POST(req: NextRequest) {
     postID: suppID,
     commentContent: formContent,
   });
+
+  // Increment the commentCount by 1 of the post
+  await Post.updateOne(
+    { _id: suppID },
+    {
+      $inc: {
+        commentCount: 1,
+      },
+    }
+  );
 
   return new Response("Post req");
 }

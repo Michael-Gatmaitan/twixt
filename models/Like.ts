@@ -6,9 +6,13 @@ const likeSchema = new Schema<ILike>({
     type: String,
     required: [true, "UserID required for liking a post"],
   },
-  postID: {
+  compID: {
     type: String,
     required: [true, "PostID required for liking a post"],
+  },
+  type: {
+    type: String,
+    required: [true, "Type of like is required"],
   },
   createdAt: {
     type: Date,
