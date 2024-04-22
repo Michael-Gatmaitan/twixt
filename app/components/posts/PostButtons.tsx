@@ -54,11 +54,11 @@ const PostButtons = (props: IPostButtons) => {
 
     if (!postAlreadyLiked) {
       await postLike({ type: "post", compID: postID, userID: authID })
-      setLikeCountState(likeCountState + 1);
+      setLikeCountState(prev => prev + 1);
       // setPostAlreadyLiked(true);
     } else {
       await deleteLike({ type: "post", compID: postID, userID: authID }).then(data => console.log("Like .then", data));
-      setLikeCountState(likeCountState - 1);
+      setLikeCountState(prev => prev - 1);
     }
   }
 

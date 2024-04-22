@@ -118,7 +118,7 @@ export async function DELETE(req: NextRequest) {
   });
 
   if (body.type === "post") {
-    await Post.updateOne({ postID: body.compID }, { $inc: { likeCount: -1 } });
+    await Post.updateOne({ _id: body.compID }, { $inc: { likeCount: -1 } });
   }
 
   console.log("Deleting like: ", deleteLike.acknowledged);
