@@ -31,7 +31,7 @@ const PostComponent = async ({ post, showComments }: IPostComponent) => {
           <div className="flex justify-between items-center">
             <div>
               <Link href={`/user/${postOwner._id}`}>
-                <CardTitle>{postOwner.username} {post.likeCount} {post.commentCount}</CardTitle>
+                <CardTitle>{postOwner.username}</CardTitle>
               </Link>
 
               <CardDescription>{postOwner.status} </CardDescription>
@@ -46,11 +46,8 @@ const PostComponent = async ({ post, showComments }: IPostComponent) => {
         <CardContent>{post.postContent}</CardContent>
         <CardFooter className="grid">
           {/* className={`${showComments ? "grid" : null}`} */}
-          <PostButtons likeCount={post.likeCount} postID={post._id} />
+          <PostButtons likeCount={post.likeCount} commentCount={post.commentCount} postID={post._id} />
           {showComments ? <hr className="my-4" /> : null}
-
-          {/* Show comments here */}
-          <PostForm suppID={post._id} type='comments' />
 
           {/* <CommentSection postID={post._id} /> */}
           {showComments ? <CommentSection postID={post._id} /> : null}

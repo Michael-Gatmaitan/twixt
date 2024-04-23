@@ -1,17 +1,31 @@
+"use client";
+
 import { IReply } from '@/app';
-import { apiUrl } from '@/lib/apiUrl'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ReplyComponent from './ReplyComponent';
 import PostForm from '@/app/(loggedin-pages)/posts/PostForm';
+import { getReplies } from '@/lib/api_calls/replies';
 
-const ReplySection = async (props: { commentID: string }) => {
-  const repliesReq = await fetch(`${apiUrl}/replies?commentID=${props.commentID}`);
-  const replies: IReply[] = await repliesReq.json();
+const ReplySection = (props: { commentID: string }) => {
+  const [replies, setReplies] = useState<IReply[]>([]);
+
+  const appendNewReply = (newReply: IReply) => {
+    setReplies([...replies, newReply]);
+  }
+
+  useEffect(() => {
+    async function getRepliesFunc() {
+      const replies = await getReplies(props.commentID);
+      setReplies(replies);
+    }
+
+    getRepliesFunc();
+  }, [props.commentID]);
 
   return (
     <>
-      <PostForm suppID={props.commentID} type='replies' />
-      <div className="bg-purple-700">
+      <PostForm suppID={props.commentID} type='replies' appendNewReply={appendNewReply} />
+      <div className="grid gap-2">
         {replies.map(reply => (
           <ReplyComponent key={reply._id} reply={reply} />
         ))}

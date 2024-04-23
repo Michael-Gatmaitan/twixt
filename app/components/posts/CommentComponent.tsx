@@ -9,7 +9,11 @@ import React from 'react'
 // import ReplySection from './ReplySection';
 import ReplySectionHandler from './ReplySectionHandler';
 
-const CommentComponent = async (props: { comment: IComment }) => {
+interface ICommentComponent {
+  comment: IComment
+}
+
+const CommentComponent = async (props: ICommentComponent) => {
   const { comment } = props;
   const commenter: IUser = await getUser(comment.userID);
 

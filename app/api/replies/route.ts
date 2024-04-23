@@ -58,5 +58,5 @@ export async function POST(req: NextRequest) {
 
   console.log(userNewReply);
 
-  return new Response("Post req");
+  return new Response(JSON.stringify(userNewReply));
 }

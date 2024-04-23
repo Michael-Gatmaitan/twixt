@@ -10,6 +10,7 @@ import { selectMongodbID } from '@/lib/slices/userSlice';
 import { useRouter } from 'next/navigation';
 import { apiUrl } from '@/lib/apiUrl';
 import { startTransition, useRef } from 'react';
+import { IComment, IReply } from '@/app';
 
 const FormSchema = z.object({
   formContent: z.string().min(2, { message: "Min of 2" })
@@ -18,10 +19,12 @@ const FormSchema = z.object({
 
 interface IPostForm {
   type: "posts" | "comments" | "replies",
-  suppID?: string
+  suppID?: string;
+  appendNewComment?: (newComment: IComment) => void;
+  appendNewReply?: (newReply: IReply) => void;
 };
 
-const PostForm = ({ type, suppID }: IPostForm) => {
+const PostForm = ({ type, suppID, appendNewComment, appendNewReply }: IPostForm) => {
   const router = useRouter();
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
@@ -52,11 +55,21 @@ const PostForm = ({ type, suppID }: IPostForm) => {
       body: JSON.stringify(reqBody)
     });
 
-    startTransition(() => {
-      router.refresh();
-    });
 
-    if (formEl.current !== null) formEl.current.value = "";
+    if (type === "comments" && appendNewComment !== undefined) {
+      const reqJson: IComment = await postReq.json();
+      appendNewComment(reqJson);
+    }
+
+    if (type === "replies" && appendNewReply !== undefined) {
+      const reqJson: IReply = await postReq.json();
+      appendNewReply(reqJson);
+    }
+
+
+    // startTransition(() => {
+    //   router.refresh();
+    // });
   }
 
   const placeholder = type === "posts" ? "Post something" : type === "comments" ? "Comment to post" : "Reply to user";

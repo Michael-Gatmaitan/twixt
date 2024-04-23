@@ -1,22 +1,39 @@
-// "use client";
-import { IComment } from '@/app';
-import { apiUrl } from '@/lib/apiUrl';
-import React from 'react'
+"use client";
+import React, { useEffect, useState } from 'react'
 import CommentComponent from './CommentComponent';
+import { getComments } from '@/lib/api_calls/comments';
+import { IComment } from '@/app';
+import PostForm from '@/app/(loggedin-pages)/posts/PostForm';
 
-const CommentSection = async (props: { postID: string }) => {
+const CommentSection = (props: { postID: string }) => {
+  const [comments, setComments] = useState<IComment[]>([]);
 
-  console.log("Post id in comment section: ", props.postID)
-  const req = await fetch(`${apiUrl}/comments?postID=${props.postID}`, { cache: "no-store" });
-  const comments: IComment[] = await req.json();
+  const appendNewComment = (newComment: IComment) => {
+    setComments([...comments, newComment]);
+  }
+
+  useEffect(() => {
+    async function getCommentsFunc() {
+      const comments = await getComments(props.postID);
+      setComments(comments);
+    }
+    getCommentsFunc();
+  }, [props.postID]);
+
+  // console.log("Post id in comment section: ", props.postID)
 
   console.log("Comments: ", comments);
   return (
-    <div className="grid gap-2 py-2">
-      {comments.map(comment => (
-        <CommentComponent comment={comment} key={comment._id} />
-      ))}
-    </div>
+    <>
+      {/* Show comments here */}
+      <PostForm suppID={props.postID} type='comments' appendNewComment={appendNewComment} />
+
+      <div className="grid gap-2 py-2">
+        {comments.map(comment => (
+          <CommentComponent comment={comment} key={comment._id} />
+        ))}
+      </div>
+    </>
   )
 }
 

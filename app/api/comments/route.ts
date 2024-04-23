@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
     }
   );
 
-  return new Response("Post req");
+  return new Response(JSON.stringify(userNewComment));
 }
 
 export async function GET(req: NextRequest) {
