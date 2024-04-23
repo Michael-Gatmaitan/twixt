@@ -35,12 +35,12 @@ const VisitUserPageContent = ({ userID }: { userID: string }) => {
     // we need to have a fallback when user is not found.
     userResult.then((data) => {
       setFetchingUser(false);
-      if (data.message) {
-        console.log("error");
-        // user not found
-      } else {
-        setUser(data);
-      }
+      // if (data.message) {
+      //   console.log("error");
+      //   // user not found
+      // } else {
+      setUser(data);
+      // }
     });
 
     // Paste the code here about friendships
