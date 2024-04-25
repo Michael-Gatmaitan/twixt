@@ -8,6 +8,7 @@ import LogoutModal from "./components/modals/Logout/LogoutModal";
 import HooksComponent from "@/lib/HooksComponent";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import Sidebar from "@/app/components/Sidebar";
+import { DayPickerProvider } from "react-day-picker";
 
 // const inter = Inter({
 //   subsets: ["latin"],
@@ -46,7 +47,7 @@ export default function RootLayout({
             attribute="class"
             defaultTheme="system"
             enableSystem
-          // disableTransitionOnChange
+            disableTransitionOnChange
           >
             <HooksComponent>
               <Nav />

@@ -18,15 +18,12 @@ export async function POST(req: NextRequest) {
 
     const userAccount = (await User.findOne({
       username: username,
-    })) as IUser;
+    })) as IUser | undefined;
 
     if (!userAccount)
-      return new Response(
-        JSON.stringify({ message: "Accoun t do not exist" }),
-        {
-          status: 404,
-        }
-      );
+      return new Response(JSON.stringify({ message: "Account do not exist" }), {
+        status: 404,
+      });
 
     const isPasswordValid = await bcrypt.compare(
       password,

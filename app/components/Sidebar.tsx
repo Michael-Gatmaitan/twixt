@@ -72,7 +72,7 @@ const Sidebar = () => {
     <main className={`
       container
       w-5/6 h-full fixed top-0 left-0 flex flex-col gap-2
-      transition mt-[56px] pt-8 border-r
+      transition mt-14 pt-8 border-r
       bg-background
       lg:sticky lg:-translate-x-0 lg:opacity-100 lg:w-max lg:p-0 lg:pr-4 lg:border-none lg:top-0
       ${showSidebar ? "-translate-x-0 opacity-100" : "-translate-x-full opacity-0"}`}>

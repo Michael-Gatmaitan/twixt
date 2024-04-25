@@ -1,15 +1,17 @@
 import React from "react";
 import CustomFormikForm from "../../components/CustomFormikForm";
+import SignupForm from "@/app/components/SignupForm";
 
 const page = () => {
   return (
-    <div className="container">
-      <main className="flex justify-center w-full flex-col items-center">
+    <main className="w-full grid grid-flow-col lg:grid-cols-[600px_minmax(0,_1fr)] mt-14 gap-14">
+      {/* <CustomFormikForm formType="signup" /> */}
+      <SignupForm />
 
-        <h1 className="text-3xl font-bold text-center text-white pt-4">Sign up</h1>
-        <CustomFormikForm formType="signup" />
-      </main>
-    </div>
+      <div className="bg-purple-700 hidden lg:block">
+        <div className="2xl">Discover a new world here with us!</div>
+      </div>
+    </main>
   );
 };
 
