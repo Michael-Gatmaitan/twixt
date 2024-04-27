@@ -4,6 +4,8 @@ import bcrypt from "bcryptjs";
 import connectDB from "@/lib/mongodb";
 import User from "@/models/User";
 import { IUser } from "@/app";
+import { createSession, deleteSession } from "@/lib/session";
+import { redirect } from "next/navigation";
 
 export async function signup(state: FormState, formData: FormData) {
   const validatedFields = SignupFormSchema.safeParse({
@@ -12,11 +14,8 @@ export async function signup(state: FormState, formData: FormData) {
   });
 
   // If any form fields are invalid, return early
-  if (!validatedFields.success) {
-    return {
-      errors: validatedFields.error.flatten().fieldErrors,
-    };
-  }
+  if (!validatedFields.success)
+    return { errors: validatedFields.error.flatten().fieldErrors };
 
   await connectDB();
 
@@ -38,7 +37,7 @@ export async function signup(state: FormState, formData: FormData) {
   const hashedPassword = await bcrypt.hash(validatedFields.data.password, 10);
 
   // Generate hashed password
-  const newUser = await User.create({
+  const newUser: IUser | undefined | null = await User.create({
     username,
     password: hashedPassword,
     bio: "Put some bio here",
@@ -52,6 +51,10 @@ export async function signup(state: FormState, formData: FormData) {
   }
 
   // Call the provider or db to create a user...
+
+  // Create session for new user
+  await createSession(newUser._id);
+  redirect("/me");
 }
 
 export async function login(state: FormState, formData: FormData) {
@@ -71,6 +74,25 @@ export async function login(state: FormState, formData: FormData) {
 
   const { name, password } = validatedFields.data;
 
+  await connectDB();
+  // Find the user in the database;
+  const user: IUser | undefined | null = await User.findOne({
+    username: name,
+  });
+
+  if (!user) return { message: "Invalid user" };
+
+  const isPasswordvalid = await bcrypt.compare(password, user.password);
+
+  if (!isPasswordvalid) return { message: "Password invalid" };
+
   // TODO: create session
+  await createSession(user._id);
+  redirect("/me");
   // TODO:
+}
+
+export async function logout() {
+  deleteSession();
+  redirect("/login");
 }
