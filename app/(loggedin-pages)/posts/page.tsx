@@ -9,13 +9,13 @@ import PostGroup from './PostGroup';
 
 const Page = () => {
 
-  const loggedIn = useAppSelector(selectLoggedIn);
+  // const loggedIn = useAppSelector(selectLoggedIn);
 
-  if (!loggedIn) {
-    return <div className='container'>
-      <h1 className="text-4xl">You must log in first.</h1>
-    </div>
-  }
+  // if (!loggedIn) {
+  //   return <div className='container'>
+  //     <h1 className="text-4xl">You must log in first.</h1>
+  //   </div>
+  // }
 
   return (
     <div className='container mt-4'>
