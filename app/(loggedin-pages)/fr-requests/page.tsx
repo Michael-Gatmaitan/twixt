@@ -1,7 +1,5 @@
-import FriendRequester from './FriendRequester';
 import GetFrRequests from './GetFrRequests';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuRadioGroup, DropdownMenuRadioItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
+import { Suspense } from 'react';
 
 // we need to fetch in client side
 
@@ -13,7 +11,9 @@ const page = () => {
         <div className="text-4xl">Friend requests</div>
       </div>
 
-      <GetFrRequests />
+      <Suspense fallback={<div>Fetching friend requests.</div>}>
+        <GetFrRequests />
+      </Suspense>
 
       {/* {frReqsResult.map((frReq) => (
         <FriendRequester requesterID={frReq.user2ID} key={frReq._id} />

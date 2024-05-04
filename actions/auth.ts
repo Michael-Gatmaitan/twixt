@@ -76,9 +76,14 @@ export async function login(state: FormState, formData: FormData) {
 
   await connectDB();
   // Find the user in the database;
-  const user: IUser | undefined | null = await User.findOne({
-    username: name,
-  });
+  const user: IUser | undefined | null = await User.findOne(
+    {
+      username: name,
+    },
+    { _id: 1, password: 1 }
+  );
+
+  console.log(user, name);
 
   if (!user) return { message: "Invalid user" };
 

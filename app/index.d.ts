@@ -84,6 +84,7 @@ interface IFriendRequests {
   _id: string;
   user1ID: string;
   createdAt: string;
+  message?: string;
 }
 
 export interface IFrRequestsSent {

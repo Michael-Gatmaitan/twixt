@@ -1,5 +1,3 @@
-import React from 'react';
-import User from '@/models/User';
 import MeContent from '@/app/(loggedin-pages)/me/MeContent';
 import MyFriends from './MyFriends';
 

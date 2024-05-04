@@ -1,11 +1,13 @@
+// import { getMyUserData } from "@/lib/dal";
+
 export async function GET(req: Request) {
-  // let me: UserType | null = null;
+  // const me = await getMyUserData();
 
-  // me = await User.findOne({
-  //   _id: ,
-  // });
+  // console.log("meemememe: ", me);
 
-  // console.log(me);
+  // if (me !== null) {
+  //   return new Response(JSON.stringify(me));
+  // }
 
   return new Response(JSON.stringify({ message: "Hello" }), { status: 200 });
 }

@@ -1,6 +1,7 @@
 "use server";
 import { SignJWT, jwtVerify } from "jose";
 import { cookies } from "next/headers";
+
 const secretKey = process.env.SESSION_KEY;
 const encodeKey = new TextEncoder().encode(secretKey);
 
@@ -19,9 +20,12 @@ export async function decrypt(session: string | undefined = "") {
     const { payload } = await jwtVerify(session, encodeKey, {
       algorithms: ["HS256"],
     });
+
+    console.log("Payload in decrypt: ", payload);
     return payload;
   } catch (error) {
-    console.log("Failed to verify session");
+    console.log("Decrypt: Failed to verify session");
+    return null;
   }
 }
 
@@ -38,11 +42,6 @@ export async function createSession(userID: string) {
     sameSite: "lax",
     path: "/",
   });
-
-  // const c = cookies().get("session")?.value;
-  const s = await decrypt(session);
-
-  console.log("expires", s?.expiresAt);
 }
 
 export async function updateSession() {

@@ -12,29 +12,34 @@ export const verifySession = async () => {
   const cookie = cookies().get("session")?.value;
   const session = await decrypt(cookie);
 
-  if (!session?.userID) {
-    redirect("/login");
-  }
+  // if (!session?.userID) redirect("/login");
+  if (!session?.userID) return { isAuth: false, userID: null };
 
-  return { isAuth: true, userID: session.userID };
+  const userID = session.userID as string;
+
+  return { isAuth: true, userID };
 };
 
-export const getUser: () => Promise<IUser | null> = cache(async () => {
+export const getMyUserData: () => Promise<string> = cache(async () => {
   const session = await verifySession();
-  if (!session) return null;
+  if (!session) return "";
 
   try {
     await connectDB();
 
-    const user = await User.findOne({
-      _id: session.userID,
-    });
+    // We dont need to fetch our password here.
+    const user = await User.findOne(
+      {
+        _id: session.userID,
+      },
+      { password: 0 }
+    );
 
-    if (user?._id) return user;
+    if (user?._id) return JSON.stringify(user);
   } catch (error) {
     console.log("Failed to fetch user.");
-    return null;
+    return "";
   }
 
-  return null;
+  return "";
 });

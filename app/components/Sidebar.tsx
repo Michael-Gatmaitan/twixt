@@ -15,18 +15,17 @@ import {
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import { selectAuthProcessing, selectShowSidebar, toggleShowLogoutModal, toggleShowSidebar } from '@/lib/slices/statesSlice';
+import { selectShowSidebar, toggleShowLogoutModal, toggleShowSidebar } from '@/lib/slices/statesSlice';
 
 import { selectLoggedIn } from '@/lib/slices/userSlice';
 import { Button } from '@/components/ui/button';
-import { CgSpinner } from 'react-icons/cg';
+// import { CgSpinner } from 'react-icons/cg';
 
 const Sidebar = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const loggedIn = useAppSelector(selectLoggedIn);
   const showSidebar = useAppSelector(selectShowSidebar);
-  const authProcessing = useAppSelector(selectAuthProcessing);
 
   const closeSidebar = (path?: string) => {
     console.log(path);
@@ -43,30 +42,14 @@ const Sidebar = () => {
     dispatch(toggleShowLogoutModal(true));
   }
 
-  const buttons = useMemo(() => loggedIn ? [
+  const buttons = [
     { label: "Profile", path: "/me", Icon: HomeIcon, id: 1 },
     { label: "Search User", path: "/search-user", Icon: SearchIcon, id: 2 },
     { label: "Feed", path: "/posts", Icon: HomeIcon, id: 3 },
     { label: "About", path: "/about", Icon: AboutIcon, id: 4 },
     { label: "Friend requests", path: "/fr-requests", Icon: FriendRequestsIcon, id: 5 },
     { label: "Requests sent", path: "/fr-reqs-sent", Icon: RequestsSentIcon, id: 6 },
-    // { label: "Logout", path: "/logout", Icon: LogoutIcon, id: 5 },
-  ] : [
-    { label: "Feed", path: "/", Icon: HomeIcon, id: 1 },
-    { label: "About", path: "/about", Icon: AboutIcon, id: 2 },
-    { label: "Login", path: "/login", Icon: LoginIcon, id: 3 },
-    { label: "Signup", path: "/signup", Icon: SignupIcon, id: 4 },
-  ], [loggedIn]);
-
-  if (authProcessing) {
-    return (
-      <main className="flex items-center justify-center w-[230px] sm:hidden md:hidden">
-        <div className='text-white text-4xl w-full h-screen grid justify-center items-center'>
-          <CgSpinner className="w-8 h-8 animate-spin" />
-        </div>
-      </main>
-    )
-  }
+  ];
 
   return (
     <main className={`
@@ -83,10 +66,14 @@ const Sidebar = () => {
         </SidebarButton>
       ))}
 
-      {loggedIn ? <Button variant="ghost" onClick={handleShowLogoutModal} className='h-[68px] flex justify-start gap-[18px] text-2xl ssp-font'>
+      {/* {loggedIn ? <Button variant="ghost" onClick={handleShowLogoutModal} className='h-[68px] flex justify-start gap-[18px] text-2xl ssp-font'>
         <LogoutIcon />
         Logout
-      </Button> : null}
+      </Button> : null} */}
+      <Button variant="ghost" onClick={handleShowLogoutModal} className='h-[68px] flex justify-start gap-[18px] text-2xl ssp-font'>
+        <LogoutIcon />
+        Logout
+      </Button>
     </main>
   )
 }

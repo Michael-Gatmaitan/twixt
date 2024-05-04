@@ -5,10 +5,9 @@ import Link from 'next/link'
 import PostButtons from './PostButtons'
 import { Maximize } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import PostForm from '@/app/(loggedin-pages)/posts/PostForm'
+// import PostForm from '@/app/(loggedin-pages)/posts/PostForm'
 import CommentSection from './CommentSection'
-
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+import { apiUrl } from '@/lib/apiUrl'
 
 interface IPostComponent {
   post: IPost,
@@ -16,13 +15,8 @@ interface IPostComponent {
 }
 
 const PostComponent = async ({ post, showComments }: IPostComponent) => {
-
-  console.log(post.userID)
-
   const req = await fetch(`${apiUrl}/user?userID=${post.userID}`);
   const postOwner: IUser = await req.json();
-
-  console.log(post);
 
   return (
     <main>

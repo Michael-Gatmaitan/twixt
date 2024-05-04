@@ -8,8 +8,7 @@ import LogoutModal from "./components/modals/Logout/LogoutModal";
 import HooksComponent from "@/lib/HooksComponent";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import Sidebar from "@/app/components/Sidebar";
-import { DayPickerProvider } from "react-day-picker";
-import { getUser } from "@/lib/dal";
+import { verifySession } from "@/lib/dal";
 
 // const inter = Inter({
 //   subsets: ["latin"],
@@ -46,6 +45,8 @@ export default async function RootLayout({
   //   alert("user has not session");
   // }
 
+  const session = await verifySession();
+
   return (
     <html lang="en">
       <body className={`${montserrat.variable} ${sourceSansPro.variable}`}>
@@ -61,7 +62,7 @@ export default async function RootLayout({
               <LogoutModal />
 
               <main className="container lg:flex lg:justify-between lg:h-screen">
-                <Sidebar />
+                {session.isAuth ? <Sidebar /> : null}
                 {children}
               </main>
             </HooksComponent>

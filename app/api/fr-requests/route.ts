@@ -1,19 +1,22 @@
 import { NextRequest } from "next/server";
 import Friendship from "@/models/Friendship";
 import connectDB from "@/lib/mongodb";
+import { verifySession } from "@/lib/dal";
 
 export async function GET(req: NextRequest) {
   const mongodbid = req.cookies.get("authorize")?.value;
   console.log("mongoid in fr req route ", mongodbid);
 
-  if (!mongodbid)
+  const session = await verifySession();
+
+  if (!session.userID && !session.isAuth)
     return new Response(JSON.stringify({ message: "id not found" }), {
       status: 500,
     });
 
   const friendRequests = await Friendship.find(
     {
-      user2ID: mongodbid,
+      user2ID: session.userID,
       status: "pending",
     },
     { user1ID: 1, _id: 1, createdAt: 1 }
@@ -22,7 +25,7 @@ export async function GET(req: NextRequest) {
   if (friendRequests) return new Response(JSON.stringify(friendRequests));
 
   // this means there's no friend-req user have recieved.
-  return new Response(JSON.stringify([]));
+  // return new Response(JSON.stringify([]));
 }
 
 interface PUTBodyType {
