@@ -3,18 +3,18 @@ import { apiUrl } from "../apiUrl";
 interface IGetCheckIfLiked {
   type: "posts" | "comments" | "replies";
   compID: string;
-  authID: string;
+  userID: string;
 }
 
 export async function getCheckIfLiked(props: IGetCheckIfLiked) {
-  const { type, compID, authID } = props;
-  if (compID === undefined || authID === undefined) {
-    console.log(compID, authID);
-    throw new Error("CompID or AuthID cannot be undefined");
+  const { type, compID, userID } = props;
+  if (compID === undefined) {
+    console.log(compID, userID);
+    throw new Error("CompID cannot be undefined");
   }
 
   const req = await fetch(
-    `${apiUrl}/like?compID=${compID}&authID=${authID}&doesUserLiked=y`
+    `${apiUrl}/like?compID=${compID}&authID=${userID}&doesUserLiked=y`
   );
 
   console.log(req);

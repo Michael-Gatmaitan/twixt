@@ -27,6 +27,8 @@ interface IUser {
   createdAt: Date;
 }
 
+type IUserWOPassword = Omit<IUser, "password">;
+
 interface IStates {
   showSidebar: boolean;
   showLogoutModal: boolean;

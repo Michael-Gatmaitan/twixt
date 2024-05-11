@@ -2,11 +2,10 @@ import "server-only";
 
 import { cookies } from "next/headers";
 import { decrypt } from "./session";
-import { redirect } from "next/navigation";
 import { cache } from "react";
 import connectDB from "./mongodb";
 import User from "@/models/User";
-import { IUser } from "@/app";
+import { IUser, IUserWOPassword } from "@/app";
 
 export const verifySession = async () => {
   const cookie = cookies().get("session")?.value;
@@ -14,32 +13,28 @@ export const verifySession = async () => {
 
   // if (!session?.userID) redirect("/login");
   if (!session?.userID) return { isAuth: false, userID: null };
-
   const userID = session.userID as string;
-
   return { isAuth: true, userID };
 };
 
-export const getMyUserData: () => Promise<string> = cache(async () => {
-  const session = await verifySession();
-  if (!session) return "";
+export const getMyUserData: () => Promise<IUserWOPassword | null> =
+  async () => {
+    const session = await verifySession();
+    if (!session?.isAuth) return null;
 
-  try {
-    await connectDB();
+    try {
+      await connectDB();
 
-    // We dont need to fetch our password here.
-    const user = await User.findOne(
-      {
-        _id: session.userID,
-      },
-      { password: 0 }
-    );
+      const user = await User.findOne({ _id: session.userID }, { password: 0 });
 
-    if (user?._id) return JSON.stringify(user);
-  } catch (error) {
-    console.log("Failed to fetch user.");
-    return "";
-  }
+      if (user?.id) {
+        const parsedUser: IUserWOPassword = JSON.parse(JSON.stringify(user));
+        return parsedUser;
+      }
+    } catch (err) {
+      console.log("Error fetching user");
+      return null;
+    }
 
-  return "";
-});
+    return null;
+  };

@@ -1,30 +1,18 @@
-"use client";
+
 import { IFriendship } from '@/app';
+import { getUserFriends } from '@/lib/api_calls/getUserFriends';
 import { apiUrl } from '@/lib/apiUrl';
-import { getCookie } from 'cookies-next';
-import React, { useEffect, useState } from 'react';
 
-const MyFriends = () => {
-  const [friends, setFriends] = useState<IFriendship[]>([]);
-  const [friendsIsReady, setFriendsIsReady] = useState(false);
-  useEffect(() => {
+const MyFriends = async (props: { userID: string }) => {
 
-    const authID = getCookie("authorize");
+  const friendsResult = await getUserFriends(props.userID);
 
-    async function getFriends() {
-      const fetchFriends = await fetch(`${apiUrl}/friends?userID=${authID}`);
-      const friendsResult = await fetchFriends.json();
-
-      console.log(friendsResult);
-      setFriends(friendsResult);
-    }
-
-    getFriends();
-  }, []);
+  if (friendsResult === null)
+    return <div>There was an error while fetching your friends</div>
 
   return (
     <div>
-      {friends.map(friend => (
+      {friendsResult.map(friend => (
         <>
           <code>{friend._id}</code>
           <h4>{friend.status}</h4>

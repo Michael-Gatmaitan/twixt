@@ -1,22 +1,18 @@
-import { IUser } from '@/app';
-import { apiUrl } from '@/lib/apiUrl';
-import { getMyUserData } from '@/lib/dal';
+import { IUserWOPassword } from '@/app';
+import { timeDistance } from '@/lib/time_formatters/timeDistance';
 
-const MeContent = async () => {
-
-  // We are now sure that user has session if they accessed this page.
-  const fetchMyData = await getMyUserData();
-  const me: IUser | undefined | null = JSON.parse(fetchMyData);
-
-  if (!me?._id) {
-    return <div>I have no data:&lt;</div>
-  }
+const MeContent = async (props: { me: IUserWOPassword }) => {
+  const { me } = props;
+  const accountCreated = timeDistance(me.createdAt);
 
   return (
     <div>
       <div className="text-4xl">
         <p>{me.username}</p>
         <p>{me._id}</p>
+        <p>{accountCreated}</p>
+        <p>{me.bio}</p>
+        <p>{me.status}</p>
       </div>
     </div>
   )

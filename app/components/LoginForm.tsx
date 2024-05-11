@@ -4,14 +4,20 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { useFormState } from 'react-dom';
+import { useFormStatus } from 'react-dom';
 
 const LoginForm = () => {
   const [state, action] = useFormState(login, undefined);
+  const { pending } = useFormStatus();
+
+  const disableButtonOnSubmit = () => {
+
+  }
 
   return (
     <main className='w-full'>
       <h1 className="text-3xl font-bold text-center">Login</h1>
-      <form className='grid gap-4' action={action}>
+      <form className='grid gap-4' action={action} onSubmit={disableButtonOnSubmit}>
         <div className='grid gap-2' >
           {/* <label htmlFor="name">Name</label> */}
           {/* <input id="name" name="name" placeholder="Name" /> */}
@@ -25,7 +31,7 @@ const LoginForm = () => {
           <Input id='password' name='password' placeholder='Password' />
         </div>
         {/* <button type="submit">Log in</button> */}
-        <Button type='submit'>Log in</Button>
+        <Button type='submit' aria-disabled={pending} disabled={pending}>Log in</Button>
       </form>
     </main >
   )

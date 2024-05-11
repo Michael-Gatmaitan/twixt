@@ -11,10 +11,11 @@ import { apiUrl } from '@/lib/apiUrl'
 
 interface IPostComponent {
   post: IPost,
-  showComments: boolean
+  showComments: boolean;
+  userID: string
 }
 
-const PostComponent = async ({ post, showComments }: IPostComponent) => {
+const PostComponent = async ({ post, showComments, userID }: IPostComponent) => {
   const req = await fetch(`${apiUrl}/user?userID=${post.userID}`);
   const postOwner: IUser = await req.json();
 
@@ -40,7 +41,7 @@ const PostComponent = async ({ post, showComments }: IPostComponent) => {
         <CardContent>{post.postContent}</CardContent>
         <CardFooter className="grid">
           {/* className={`${showComments ? "grid" : null}`} */}
-          <PostButtons likeCount={post.likeCount} commentCount={post.commentCount} postID={post._id} />
+          <PostButtons likeCount={post.likeCount} commentCount={post.commentCount} postID={post._id} userID={userID} />
           {showComments ? <hr className="my-4" /> : null}
 
           {/* <CommentSection postID={post._id} /> */}

@@ -10,12 +10,11 @@ interface IPostButtons {
   likeCount: number;
   commentCount: number;
   postID: string;
+  userID: string;
 }
 
 const PostButtons = (props: IPostButtons) => {
-
-  const authID = getCookie("authorize")?.toString();
-  const { likeCount, postID } = props;
+  const { likeCount, postID, userID } = props;
 
   const [postAlreadyLiked, setPostAlreadyLiked] = useState(false);
   const [likeCountState, setLikeCountState] = useState(likeCount);
@@ -23,16 +22,11 @@ const PostButtons = (props: IPostButtons) => {
   useEffect(() => {
     // Check if user already liked the post
     async function checkIfPostAlreadyLiked() {
-      if (authID === undefined) {
-        const errMsg = "Auth id in post buttons is undefined";
-        console.log(errMsg);
-        throw new Error(errMsg)
-      }
 
       const checkReq = await getCheckIfLiked({
         type: "posts",
         compID: postID,
-        authID
+        userID
       })
 
       console.log(checkReq);
@@ -42,19 +36,19 @@ const PostButtons = (props: IPostButtons) => {
     }
 
     checkIfPostAlreadyLiked();
-  }, [authID, postID]);
+  }, [userID, postID]);
 
   const handleLikePost = async (e: MouseEvent) => {
     // console.log(e);
-    if (authID === undefined) return;
+    if (userID === undefined) return;
     setPostAlreadyLiked(prev => !prev);
 
     if (!postAlreadyLiked) {
-      await postLike({ type: "post", compID: postID, userID: authID })
+      await postLike({ type: "post", compID: postID, userID: userID })
       setLikeCountState(prev => prev + 1);
       // setPostAlreadyLiked(true);
     } else {
-      await deleteLike({ type: "post", compID: postID, userID: authID }).then(data => console.log("Like .then", data));
+      await deleteLike({ type: "post", compID: postID, userID: userID }).then(data => console.log("Like .then", data));
       setLikeCountState(prev => prev - 1);
     }
   }

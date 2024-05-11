@@ -47,7 +47,7 @@ const SignupButton = () => {
   const { pending } = useFormStatus();
 
   return (
-    <Button aria-disabled={pending} type="submit">
+    <Button aria-disabled={pending} disabled={pending} type="submit">
       {pending ? "Submitting..." : "Sign up"}
     </Button>
   )
