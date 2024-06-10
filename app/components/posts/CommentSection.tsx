@@ -3,9 +3,14 @@ import React, { useEffect, useState } from 'react'
 import CommentComponent from './CommentComponent';
 import { getComments } from '@/lib/api_calls/comments';
 import { IComment } from '@/app';
-import PostForm from '@/app/(loggedin-pages)/posts/PostForm';
+import PostForm from '@/app/(loggedin-pages)/posts/create/PostForm';
 
-const CommentSection = (props: { postID: string }) => {
+interface ICommentSection {
+  mongodbID: string;
+  postID: string;
+}
+
+const CommentSection = (props: ICommentSection) => {
   const [comments, setComments] = useState<IComment[]>([]);
 
   const appendNewComment = (newComment: IComment) => {
@@ -26,7 +31,7 @@ const CommentSection = (props: { postID: string }) => {
   return (
     <>
       {/* Show comments here */}
-      <PostForm suppID={props.postID} type='comments' appendNewComment={appendNewComment} />
+      <PostForm suppID={props.postID} mongodbID={props.mongodbID} type='comments' appendNewComment={appendNewComment} />
 
       <div className="grid gap-2 py-2">
         {comments.map(comment => (

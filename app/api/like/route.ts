@@ -8,34 +8,32 @@ import { NextRequest } from "next/server";
 export async function GET(req: NextRequest) {
   const { searchParams } = req.nextUrl;
   const compID_params = searchParams.get("compID");
-  const authID_params = searchParams.get("authID");
-  const doesUserLiked_params = searchParams.get("doesUserLiked");
+  const userID_params = searchParams.get("userID");
 
   await connectDB();
 
   console.log("Like route");
 
+  if (compID_params !== null && userID_params !== null) {
+    // We want to check if uesr alrealike the post
+    const res = await Like.findOne({
+      compID: compID_params,
+      userID: userID_params,
+    });
+
+    console.log(compID_params, userID_params, res);
+    return new Response(JSON.stringify(res));
+  }
+
   // Return all likes for an specific post.
   if (compID_params !== null) {
-    if (doesUserLiked_params !== null) {
-      const res = await Like.find({
-        compID: compID_params,
-        userID: authID_params,
-      });
-
-      console.log(res, compID_params, authID_params);
-      console.log("Checking if does user already liked the component");
-
-      return new Response(JSON.stringify(res));
-    }
-
     const postLikes = await Like.find({ postID: compID_params });
     return new Response(JSON.stringify(postLikes));
   }
 
   // else return all this user liked.
   const allLikes = await Like.find({
-    userID: authID_params,
+    userID: userID_params,
   });
 
   return new Response(JSON.stringify(allLikes));

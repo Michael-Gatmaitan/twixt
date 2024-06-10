@@ -17,7 +17,7 @@ export const verifySession = async () => {
   return { isAuth: true, userID };
 };
 
-export const getMyUserData: () => Promise<IUserWOPassword | null> =
+export const getMyUserData: () => Promise<IUserWOPassword | null> = cache(
   async () => {
     const session = await verifySession();
     if (!session?.isAuth) return null;
@@ -37,4 +37,5 @@ export const getMyUserData: () => Promise<IUserWOPassword | null> =
     }
 
     return null;
-  };
+  }
+);

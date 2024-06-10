@@ -5,11 +5,8 @@ import { Form, FormField, FormLabel, FormItem, FormControl, FormMessage } from '
 import { useForm } from 'react-hook-form';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-import { useAppSelector } from '@/lib/hooks/reduxHooks';
-import { selectMongodbID } from '@/lib/slices/userSlice';
-import { useRouter } from 'next/navigation';
 import { apiUrl } from '@/lib/apiUrl';
-import { startTransition, useRef } from 'react';
+import { useRef } from 'react';
 import { IComment, IReply } from '@/app';
 
 const FormSchema = z.object({
@@ -19,33 +16,30 @@ const FormSchema = z.object({
 
 interface IPostForm {
   type: "posts" | "comments" | "replies",
+  mongodbID: string;
   suppID?: string;
   appendNewComment?: (newComment: IComment) => void;
   appendNewReply?: (newReply: IReply) => void;
 };
 
-const PostForm = ({ type, suppID, appendNewComment, appendNewReply }: IPostForm) => {
-  const router = useRouter();
+const PostForm = ({ type, suppID, mongodbID, appendNewComment, appendNewReply }: IPostForm) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
 
   const formEl = useRef<null | HTMLInputElement>(null);
-
-  const mongodbID = useAppSelector(selectMongodbID);
+  // const mongodbID = useAppSelector(selectMongodbID);
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
-
     // Post as post
-
     const reqBody: { mongodbID: string, formContent: string, suppID?: string | undefined } = {
-      mongodbID,
-      ...values
+      mongodbID, ...values
     };
 
-    if (type === "comments" || type === "replies") {
-      reqBody.suppID = suppID;
-    }
+    const isTypeNotPost: boolean =
+      type === "comments" || type === "replies";
+
+    if (isTypeNotPost) reqBody.suppID = suppID;
 
     const postReq = await fetch(`${apiUrl}/${type}`, {
       method: "POST",
@@ -65,11 +59,6 @@ const PostForm = ({ type, suppID, appendNewComment, appendNewReply }: IPostForm)
       const reqJson: IReply = await postReq.json();
       appendNewReply(reqJson);
     }
-
-
-    // startTransition(() => {
-    //   router.refresh();
-    // });
   }
 
   const placeholder = type === "posts" ? "Post something" : type === "comments" ? "Comment to post" : "Reply to user";

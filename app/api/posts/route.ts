@@ -1,14 +1,11 @@
 import { IPost } from "@/app";
 import connectDB from "@/lib/mongodb";
 import Post from "@/models/Post";
-// import { cookies } from "next/headers";
 import { NextRequest } from "next/server";
 
 // Get all USER_POSTS in database
 export async function GET(req: NextRequest) {
-  // const cookieStore = cookies();
   const searchParams = req.nextUrl.searchParams;
-  // const authID = cookieStore.get("authorize")?.value;
   const userID_params = searchParams.get("userID");
   const postID_params = searchParams.get("postID");
   // const type_params = searchParams.get("type");
@@ -18,13 +15,6 @@ export async function GET(req: NextRequest) {
 
   try {
     await connectDB();
-
-    // if (authID === undefined) {
-    //   return new Response(
-    //     JSON.stringify({ message: "/posts: auth id undefined" }),
-    //     { status: 500 }
-    //   );
-    // }
 
     if (userID_params !== null) {
       const specificUserPosts = await Post.find({

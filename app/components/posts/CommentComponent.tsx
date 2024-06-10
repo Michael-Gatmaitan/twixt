@@ -8,6 +8,7 @@ import React from 'react'
 // import PostForm from '@/app/(loggedin-pages)/posts/PostForm';
 // import ReplySection from './ReplySection';
 import ReplySectionHandler from './ReplySectionHandler';
+import { verifySession } from '@/lib/dal';
 
 interface ICommentComponent {
   comment: IComment
@@ -16,6 +17,8 @@ interface ICommentComponent {
 const CommentComponent = async (props: ICommentComponent) => {
   const { comment } = props;
   const commenter: IUser = await getUser(comment.userID);
+
+  const mongodbID = (await verifySession()).userID as string;
 
   return (
     <div className="p-4 border rounded-lg grid gap-1">
@@ -30,7 +33,7 @@ const CommentComponent = async (props: ICommentComponent) => {
       <div className='text-sm'>{props.comment.commentContent}</div>
       {/* <ReplySection commentID={comment._id} /> */}
 
-      <ReplySectionHandler commentID={comment._id} replyCount={comment.replyCount} />
+      <ReplySectionHandler mongodbID={mongodbID} commentID={comment._id} replyCount={comment.replyCount} />
     </div>
   )
 }

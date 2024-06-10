@@ -27,12 +27,11 @@ const PostButtons = (props: IPostButtons) => {
         type: "posts",
         compID: postID,
         userID
-      })
+      });
 
       console.log(checkReq);
-      if (checkReq.length) {
-        setPostAlreadyLiked(true);
-      }
+
+      if (checkReq?._id) setPostAlreadyLiked(true);
     }
 
     checkIfPostAlreadyLiked();

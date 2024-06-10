@@ -10,14 +10,14 @@ const LoginForm = () => {
   const [state, action] = useFormState(login, undefined);
   const { pending } = useFormStatus();
 
-  const disableButtonOnSubmit = () => {
+  // const disableButtonOnSubmit = () => {
 
-  }
+  // }
 
   return (
     <main className='w-full'>
       <h1 className="text-3xl font-bold text-center">Login</h1>
-      <form className='grid gap-4' action={action} onSubmit={disableButtonOnSubmit}>
+      <form className='grid gap-4' action={action}>
         <div className='grid gap-2' >
           {/* <label htmlFor="name">Name</label> */}
           {/* <input id="name" name="name" placeholder="Name" /> */}

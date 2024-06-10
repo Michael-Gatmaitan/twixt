@@ -41,7 +41,6 @@ export const userSlice = createSlice({
       console.log("Use logged in set to : ", loggedIn);
       state.loggedIn = loggedIn;
     },
-
     setAuthorized: (state, action: PayloadAction<boolean>) => {
       state.authorized = action.payload;
     },

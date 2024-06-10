@@ -1,13 +1,9 @@
-"use client"
-import React from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
-
-import { useAppSelector } from '@/lib/hooks/reduxHooks';
-import { selectLoggedIn } from '@/lib/slices/userSlice';
 import PostGroup from './PostGroup';
+import { getMyUserData } from '@/lib/dal';
 
-const Page = () => {
+const Page = async () => {
 
   // const loggedIn = useAppSelector(selectLoggedIn);
 
@@ -17,11 +13,15 @@ const Page = () => {
   //   </div>
   // }
 
+  const me = await getMyUserData();
+
+  if (!me) return <div>Please login again.</div>
+
   return (
     <div className='container mt-4'>
       <h1>Posts from database</h1>
 
-      <PostGroup />
+      <PostGroup userID={me._id} />
 
       <Button asChild>
         <Link href="/posts/create">Create post</Link>

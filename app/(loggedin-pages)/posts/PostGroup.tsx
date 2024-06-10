@@ -3,13 +3,11 @@ import PostComponent from '@/app/components/posts/PostComponent';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { getPosts } from '@/lib/api_calls/getPosts';
-import { verifySession } from '@/lib/dal';
 import Link from 'next/link';
 import React, { Suspense } from 'react'
 
-const PostGroup = async () => {
+const PostGroup = async (props: { userID: string }) => {
   const posts: Awaited<Promise<IPost[]>> = await getPosts();
-  // const verifiedSession = await verifySession();
 
   try {
     for (const post of posts)
@@ -23,25 +21,18 @@ const PostGroup = async () => {
     </main>
   }
 
-  // if (!verifiedSession?.userID) {
-  //   return <div>
-  //     Please log in again.
-  //   </div>
-  // }
-
   return (
     <main className='grid gap-2'>
-
       {posts.map(post => (
-        <Suspense fallback={<PostSKeleton />} key={post._id}>
-          {/* <PostComponent post={post} showComments={false} userID={verifiedSession.userID} /> */}
+        <Suspense fallback={<PostSkeleton />} key={post._id}>
+          <PostComponent post={post} showComments={false} userID={props.userID} />
         </Suspense>
       ))}
     </main>
   )
 }
 
-const PostSKeleton = () => {
+const PostSkeleton = () => {
   // const rand = Math.floor(Math.random() * 4);
 
   return (

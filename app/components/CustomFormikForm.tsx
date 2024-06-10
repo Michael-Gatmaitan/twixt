@@ -83,7 +83,6 @@ const CustomFormikForm = ({ formType }: FormikFormProps) => {
                     dispatch(setUsername(user.username));
                     dispatch(setPassword(user.password));
                     dispatch(setMongodbID(user._id));
-                    dispatch(setLoggedin(true));
 
                     // router.push("/posts");
                   } else {

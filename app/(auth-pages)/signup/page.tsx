@@ -1,5 +1,4 @@
 import React from "react";
-import CustomFormikForm from "../../components/CustomFormikForm";
 import SignupForm from "@/app/components/SignupForm";
 
 const page = () => {

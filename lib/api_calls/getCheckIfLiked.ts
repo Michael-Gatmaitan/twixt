@@ -13,9 +13,7 @@ export async function getCheckIfLiked(props: IGetCheckIfLiked) {
     throw new Error("CompID cannot be undefined");
   }
 
-  const req = await fetch(
-    `${apiUrl}/like?compID=${compID}&authID=${userID}&doesUserLiked=y`
-  );
+  const req = await fetch(`${apiUrl}/like?compID=${compID}&userID=${userID}`);
 
   console.log(req);
 

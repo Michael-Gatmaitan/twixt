@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 // import PostForm from '@/app/(loggedin-pages)/posts/PostForm'
 import CommentSection from './CommentSection'
 import { apiUrl } from '@/lib/apiUrl'
+import { verifySession } from '@/lib/dal'
 
 interface IPostComponent {
   post: IPost,
@@ -18,6 +19,8 @@ interface IPostComponent {
 const PostComponent = async ({ post, showComments, userID }: IPostComponent) => {
   const req = await fetch(`${apiUrl}/user?userID=${post.userID}`);
   const postOwner: IUser = await req.json();
+
+  const mongodbID = (await verifySession()).userID as string;
 
   return (
     <main>
@@ -45,7 +48,7 @@ const PostComponent = async ({ post, showComments, userID }: IPostComponent) => 
           {showComments ? <hr className="my-4" /> : null}
 
           {/* <CommentSection postID={post._id} /> */}
-          {showComments ? <CommentSection postID={post._id} /> : null}
+          {showComments ? <CommentSection mongodbID={mongodbID} postID={post._id} /> : null}
         </CardFooter>
       </Card>
     </main>

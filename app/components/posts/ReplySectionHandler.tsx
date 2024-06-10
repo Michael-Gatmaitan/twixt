@@ -2,9 +2,11 @@
 import { Button } from '@/components/ui/button';
 import React, { Suspense, useState } from 'react'
 import ReplySection from './ReplySection';
-import PostForm from '@/app/(loggedin-pages)/posts/PostForm';
+import PostForm from '@/app/(loggedin-pages)/posts/create/PostForm';
 
-const ReplySectionHandler = (props: { commentID: string, replyCount: number }) => {
+interface IReplySectionHandler { mongodbID: string, commentID: string, replyCount: number };
+
+const ReplySectionHandler = (props: IReplySectionHandler) => {
   const [showReplies, setShowReplies] = useState(false);
 
   return (
@@ -23,7 +25,7 @@ const ReplySectionHandler = (props: { commentID: string, replyCount: number }) =
 
       {/* </Suspense> */}
       {showReplies ?
-        <ReplySection commentID={props.commentID} />
+        <ReplySection mongodbID={props.mongodbID} commentID={props.commentID} />
         :
         null
       }
