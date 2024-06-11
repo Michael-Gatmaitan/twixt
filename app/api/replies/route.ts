@@ -4,6 +4,8 @@ import { NextRequest } from "next/server";
 import connectDB from "@/lib/mongodb";
 import Reply from "@/models/Reply";
 import Comment from "@/models/Comment";
+import { verifySession } from "@/lib/dal";
+import { logout } from "@/actions/auth";
 
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
@@ -31,17 +33,20 @@ export async function GET(req: NextRequest) {
 // Create a reply to a comment
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { mongodbID, formContent, suppID } = body;
+  const { formContent, suppID } = body;
+
+  const userID = (await verifySession()).userID as string;
+  if (!userID) await logout();
 
   await connectDB();
 
-  if (mongodbID === undefined || formContent === "") {
-    console.log(mongodbID, formContent);
+  if (userID === undefined || formContent === "") {
+    console.log(userID, formContent);
     throw new Error("MongodbID or Reply Content cannot be empty");
   }
 
   const userNewReply = await Reply.create({
-    userID: mongodbID,
+    userID: userID,
     commentID: suppID,
     replyContent: formContent,
   });

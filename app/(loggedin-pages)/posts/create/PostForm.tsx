@@ -16,13 +16,14 @@ const FormSchema = z.object({
 
 interface IPostForm {
   type: "posts" | "comments" | "replies",
-  mongodbID: string;
   suppID?: string;
   appendNewComment?: (newComment: IComment) => void;
   appendNewReply?: (newReply: IReply) => void;
+
+
 };
 
-const PostForm = ({ type, suppID, mongodbID, appendNewComment, appendNewReply }: IPostForm) => {
+const PostForm = ({ type, suppID, appendNewComment, appendNewReply }: IPostForm) => {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
   });
@@ -32,8 +33,8 @@ const PostForm = ({ type, suppID, mongodbID, appendNewComment, appendNewReply }:
 
   const onSubmit = async (values: z.infer<typeof FormSchema>) => {
     // Post as post
-    const reqBody: { mongodbID: string, formContent: string, suppID?: string | undefined } = {
-      mongodbID, ...values
+    const reqBody: { formContent: string, suppID?: string | undefined } = {
+      ...values
     };
 
     const isTypeNotPost: boolean =

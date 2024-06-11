@@ -1,6 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
 import { decrypt } from "./lib/session";
 import { cookies } from "next/headers";
+import { verifySession } from "./lib/dal";
 
 const protectedRoutes = ["/me", "/posts", "/fr-requests", "/fr-req-sent"];
 const publicRoutes = ["/login", "/signup"];
@@ -8,10 +9,10 @@ const publicRoutes = ["/login", "/signup"];
 function pathIncludes(path: string, routes: string[]): boolean {
   if (path[path.length - 1] === "/") return false;
 
-  for (let i = 0; i < routes.length; i++) {
-    const curr = routes[i];
-    if (path.includes(curr)) return true;
-  }
+  // for (let i = 0; i < routes.length; i++) {
+  //   const curr = routes[i];
+  //   if (path.includes(curr)) return true;
+  // }
 
   return false;
 }
@@ -24,6 +25,9 @@ export async function middleware(req: NextRequest) {
 
   const cookie = cookies().get("session")?.value;
   const session = await decrypt(cookie);
+
+  // const v = (await verifySession()).userID as string;
+  // console.log(v);
 
   console.log(session);
 

@@ -11,7 +11,7 @@ export async function encrypt(payload: SessionPayload) {
   return new SignJWT(payload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
-    .setExpirationTime("7d")
+    .setExpirationTime("2d")
     .sign(encodeKey);
 }
 
@@ -21,7 +21,7 @@ export async function decrypt(session: string | undefined = "") {
       algorithms: ["HS256"],
     });
 
-    console.log("Payload in decrypt: ", payload);
+    // console.log("Payload in decrypt: ", payload);
     return payload;
   } catch (error) {
     console.log("Decrypt: Failed to verify session");
@@ -30,10 +30,12 @@ export async function decrypt(session: string | undefined = "") {
 }
 
 export async function createSession(userID: string) {
-  const expiresAt = new Date(Date.now() * 7 * 24 * 60 * 60 * 1000);
+  // Set session expiration to 1 week (7 days)
+  const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
   const session = await encrypt({ userID, expiresAt });
 
   console.log(session);
+  console.log(expiresAt);
 
   cookies().set("session", session, {
     httpOnly: true,
@@ -42,6 +44,8 @@ export async function createSession(userID: string) {
     sameSite: "lax",
     path: "/",
   });
+
+  console.log("Updated session: ", cookies().get("session"));
 }
 
 export async function updateSession() {
@@ -51,7 +55,8 @@ export async function updateSession() {
 
   if (!session || !payload) return null;
 
-  const extendedExpireDate = new Date(Date.now() * 7 * 24 * 60 * 60 * 1000);
+  // Extend the session expiration to 1 week (7 days)
+  const extendedExpireDate = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
 
   cookies().set("session", session, {
     httpOnly: true,
@@ -60,6 +65,8 @@ export async function updateSession() {
     sameSite: "lax",
     path: "/",
   });
+
+  console.log("Updated session: ", cookies().get("session"));
 }
 
 export async function deleteSession() {

@@ -18,8 +18,6 @@ const CommentComponent = async (props: ICommentComponent) => {
   const { comment } = props;
   const commenter: IUser = await getUser(comment.userID);
 
-  const mongodbID = (await verifySession()).userID as string;
-
   return (
     <div className="p-4 border rounded-lg grid gap-1">
       <div>
@@ -33,7 +31,7 @@ const CommentComponent = async (props: ICommentComponent) => {
       <div className='text-sm'>{props.comment.commentContent}</div>
       {/* <ReplySection commentID={comment._id} /> */}
 
-      <ReplySectionHandler mongodbID={mongodbID} commentID={comment._id} replyCount={comment.replyCount} />
+      <ReplySectionHandler commentID={comment._id} replyCount={comment.replyCount} />
     </div>
   )
 }

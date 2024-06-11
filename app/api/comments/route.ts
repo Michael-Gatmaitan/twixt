@@ -2,21 +2,26 @@ import Comment from "@/models/Comment";
 import connectDB from "@/lib/mongodb";
 import { NextRequest } from "next/server";
 import Post from "@/models/Post";
+import { verifySession } from "@/lib/dal";
+import { logout } from "@/actions/auth";
 
 // Create a comment to a post
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { mongodbID, formContent, suppID } = body;
+  const { formContent, suppID } = body;
+
+  const userID = (await verifySession()).userID as string;
+  if (!userID) await logout();
 
   await connectDB();
 
-  if (mongodbID === undefined || formContent === "")
+  if (userID === undefined || formContent === "")
     throw new Error("MongodbID or Post Content cannot be empty");
 
-  // console.log(mongodbID, formContent);
+  // console.log(userID, formContent);
 
   const userNewComment = await Comment.create({
-    userID: mongodbID,
+    userID: userID,
     postID: suppID,
     commentContent: formContent,
   });

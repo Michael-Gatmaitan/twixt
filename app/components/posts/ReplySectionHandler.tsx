@@ -4,7 +4,7 @@ import React, { Suspense, useState } from 'react'
 import ReplySection from './ReplySection';
 import PostForm from '@/app/(loggedin-pages)/posts/create/PostForm';
 
-interface IReplySectionHandler { mongodbID: string, commentID: string, replyCount: number };
+interface IReplySectionHandler { commentID: string, replyCount: number };
 
 const ReplySectionHandler = (props: IReplySectionHandler) => {
   const [showReplies, setShowReplies] = useState(false);
@@ -25,7 +25,7 @@ const ReplySectionHandler = (props: IReplySectionHandler) => {
 
       {/* </Suspense> */}
       {showReplies ?
-        <ReplySection mongodbID={props.mongodbID} commentID={props.commentID} />
+        <ReplySection commentID={props.commentID} />
         :
         null
       }

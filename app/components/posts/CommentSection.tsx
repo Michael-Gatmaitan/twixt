@@ -6,7 +6,6 @@ import { IComment } from '@/app';
 import PostForm from '@/app/(loggedin-pages)/posts/create/PostForm';
 
 interface ICommentSection {
-  mongodbID: string;
   postID: string;
 }
 
@@ -31,7 +30,7 @@ const CommentSection = (props: ICommentSection) => {
   return (
     <>
       {/* Show comments here */}
-      <PostForm suppID={props.postID} mongodbID={props.mongodbID} type='comments' appendNewComment={appendNewComment} />
+      <PostForm suppID={props.postID} type='comments' appendNewComment={appendNewComment} />
 
       <div className="grid gap-2 py-2">
         {comments.map(comment => (

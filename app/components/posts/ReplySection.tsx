@@ -6,7 +6,7 @@ import ReplyComponent from './ReplyComponent';
 import PostForm from '@/app/(loggedin-pages)/posts/create/PostForm';
 import { getReplies } from '@/lib/api_calls/replies';
 
-interface IReplySection { mongodbID: string, commentID: string }
+interface IReplySection { commentID: string }
 
 const ReplySection = (props: IReplySection) => {
   const [replies, setReplies] = useState<IReply[]>([]);
@@ -26,7 +26,7 @@ const ReplySection = (props: IReplySection) => {
 
   return (
     <>
-      <PostForm suppID={props.commentID} mongodbID={props.mongodbID} type='replies' appendNewReply={appendNewReply} />
+      <PostForm suppID={props.commentID} type='replies' appendNewReply={appendNewReply} />
       <div className="grid gap-2">
         {replies.map(reply => (
           <ReplyComponent key={reply._id} reply={reply} />

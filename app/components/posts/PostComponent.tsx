@@ -20,8 +20,6 @@ const PostComponent = async ({ post, showComments, userID }: IPostComponent) => 
   const req = await fetch(`${apiUrl}/user?userID=${post.userID}`);
   const postOwner: IUser = await req.json();
 
-  const mongodbID = (await verifySession()).userID as string;
-
   return (
     <main>
       <Card>
@@ -48,7 +46,7 @@ const PostComponent = async ({ post, showComments, userID }: IPostComponent) => 
           {showComments ? <hr className="my-4" /> : null}
 
           {/* <CommentSection postID={post._id} /> */}
-          {showComments ? <CommentSection mongodbID={mongodbID} postID={post._id} /> : null}
+          {showComments ? <CommentSection postID={post._id} /> : null}
         </CardFooter>
       </Card>
     </main>

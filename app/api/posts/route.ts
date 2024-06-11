@@ -1,4 +1,6 @@
+import { logout } from "@/actions/auth";
 import { IPost } from "@/app";
+import { verifySession } from "@/lib/dal";
 import connectDB from "@/lib/mongodb";
 import Post from "@/models/Post";
 import { NextRequest } from "next/server";
@@ -60,17 +62,20 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { mongodbID, formContent } = body;
+  const { formContent } = body;
+
+  const userID = (await verifySession()).userID as string;
+  if (!userID) await logout();
 
   await connectDB();
 
-  if (mongodbID === undefined || formContent === "") {
-    console.log(mongodbID, formContent);
+  if (userID === undefined || formContent === "") {
+    console.log(userID, formContent);
     throw new Error("MongodbID or Post Content cannot be empty");
   }
 
   const userNewPost = await Post.create({
-    userID: mongodbID,
+    userID: userID,
     postContent: formContent,
   });
 

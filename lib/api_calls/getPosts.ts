@@ -6,7 +6,7 @@ export async function getPosts(userID?: string): Promise<IPost[]> {
     ? `${apiUrl}/posts?userID=${userID}`
     : `${apiUrl}/posts`;
 
-  const reqPosts = await fetch(reqString);
+  const reqPosts = await fetch(reqString, { cache: "no-cache" });
   return await reqPosts.json();
 }
 
