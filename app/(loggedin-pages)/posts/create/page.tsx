@@ -7,7 +7,7 @@ const page = async () => {
 
   return (
     <div className='container'>
-      <PostForm type="posts" mongodbID={mongodbID} />
+      <PostForm type="posts" />
     </div>
   )
 }
