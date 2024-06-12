@@ -4,19 +4,22 @@ import connectDB from "@/lib/mongodb";
 import { verifySession } from "@/lib/dal";
 
 export async function GET(req: NextRequest) {
-  const mongodbid = req.cookies.get("authorize")?.value;
-  console.log("mongoid in fr req route ", mongodbid);
+  const mongodbid = (await verifySession()).userID;
+  // const mongodbid = (await verifySession()).userID;
+  console.log(`mongodbid of ${mongodbid}`);
+  // console.log("mongoid in fr req route ", mongodbid);
 
-  const session = await verifySession();
+  // const session = await verifySession();
 
-  if (!session.userID && !session.isAuth)
-    return new Response(JSON.stringify({ message: "id not found" }), {
-      status: 500,
-    });
+  // if (!session.userID && !session.isAuth)
+  //   return new Response(JSON.stringify({ message: "id not found" }), {
+  //     status: 500,
+  //   });
 
   const friendRequests = await Friendship.find(
     {
-      user2ID: session.userID,
+      // user2ID: session.userID,
+      user2ID: mongodbid,
       status: "pending",
     },
     { user1ID: 1, _id: 1, createdAt: 1 }

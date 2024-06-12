@@ -9,7 +9,10 @@ import { IUser, IUserWOPassword } from "@/app";
 
 export const verifySession = async () => {
   const cookie = cookies().get("session")?.value;
+
+  console.log(`cookie ${cookie}`);
   const session = await decrypt(cookie);
+  console.log(`session ${session?.userID}`);
 
   // if (!session?.userID) redirect("/login");
   if (!session?.userID) return { isAuth: false, userID: null };

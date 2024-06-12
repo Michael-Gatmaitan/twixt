@@ -1,4 +1,5 @@
 import { IFriendship } from "@/app";
+import { verifySession } from "@/lib/dal";
 import connectDB from "@/lib/mongodb";
 import Friendship from "@/models/Friendship";
 import { cookies } from "next/headers";
@@ -8,7 +9,8 @@ export async function GET(req: NextRequest) {
   const cookieStore = cookies();
   // user1ID, user2ID
   const searchParams = req.nextUrl.searchParams;
-  const user1ID = cookieStore.get("authorize")?.value;
+
+  const user1ID = (await verifySession()).userID;
   const user2ID = searchParams.get("userID");
 
   let areYouTheRequestSender = false;
@@ -54,7 +56,7 @@ export async function POST(req: NextRequest) {
   // user1ID, user2ID
   const cookieStore = cookies();
   const searchParams = req.nextUrl.searchParams;
-  const user1ID = cookieStore.get("authorize")?.value;
+  const user1ID = (await verifySession()).userID;
   const user2ID = searchParams.get("userID");
 
   if (!user1ID || !user2ID) {

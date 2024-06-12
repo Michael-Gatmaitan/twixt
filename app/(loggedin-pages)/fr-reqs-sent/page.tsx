@@ -1,6 +1,5 @@
 import GetFrRequests from './GetFrRequestsSent';
 import PageContent from './PageContent';
-
 const page = () => {
 
   // console.log("FR req sents: ", frReqSentRes);
@@ -9,7 +8,8 @@ const page = () => {
   return (
     <main className='container'>
       <GetFrRequests />
-      {/* <PageContent requestSents={frReqRes} /> */}
+      {/* <PageCont
+      ent requestSents={frReqRes} /> */}
       {/* //   Friend requests sent
 
     //   {frReqSentRes.map(user => (

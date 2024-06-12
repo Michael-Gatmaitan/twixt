@@ -15,10 +15,7 @@ interface IFriendshipButtons {
 
 // todo: Add loading state
 const FriendshipButtons = ({ friendshipID, friendshipStatus, userID, areYouTheRequestSender }: IFriendshipButtons) => {
-
-
   console.log(friendshipStatus);
-
   return (
     <div className="mt-6 gap-2 flex">
       <p>{areYouTheRequestSender ? "Yes, im the sender" : "No, im not the sender"}</p>

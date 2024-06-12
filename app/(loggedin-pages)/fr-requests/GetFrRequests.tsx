@@ -1,19 +1,31 @@
+"use client"
 import FriendRequester from "@/app/(loggedin-pages)/fr-requests/FriendRequester";
 import { formatDistance, subDays } from "date-fns";
-import { IFriendRequests } from "@/app";
+import { IFriendship } from "@/app";
 import { apiUrl } from "@/lib/apiUrl";
+import { useEffect, useState } from "react";
 
-export default async function GetFrRequests() {
-  const response = await fetch(
-    `${apiUrl}/fr-requests`
-    , { cache: 'no-store' });
+export default function GetFrRequests() {
 
-  const frReqs: IFriendRequests[] = await response.json();
+  const [frs, setFrs] = useState<IFriendship[]>([]);
+
+  useEffect(() => {
+    async function getFrRequests() {
+      const response = await fetch(`${apiUrl}/fr-requests`);
+      const frReqs: IFriendship[] = await response.json();
+
+      if (response.ok) {
+        setFrs(frReqs);
+      }
+    }
+
+    getFrRequests();
+  }, []);
 
   return (
     <div>
-      {!frReqs.length ? (<div>No friend requests.</div>) :
-        frReqs.map(reqFriendship => {
+      {!frs.length ? (<div>No friend requests.</div>) :
+        frs.map(reqFriendship => {
           const { _id, user1ID, createdAt } = reqFriendship;
           const date = formatDistance(subDays(new Date(createdAt), 0), new Date(), { addSuffix: true });
 

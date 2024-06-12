@@ -8,7 +8,6 @@ import { Button } from '@/components/ui/button'
 // import PostForm from '@/app/(loggedin-pages)/posts/PostForm'
 import CommentSection from './CommentSection'
 import { apiUrl } from '@/lib/apiUrl'
-import { verifySession } from '@/lib/dal'
 
 interface IPostComponent {
   post: IPost,

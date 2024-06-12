@@ -1,9 +1,10 @@
+import { verifySession } from "@/lib/dal";
 import Friendship from "@/models/Friendship";
 import { NextRequest } from "next/server";
 
 // either cancel or not
 export async function GET(req: NextRequest) {
-  const mongodbid = req.cookies.get("authorize")?.value;
+  const mongodbid = (await verifySession()).userID;
   console.log("mongoid in fr req SENT route ", mongodbid);
 
   if (!mongodbid)
