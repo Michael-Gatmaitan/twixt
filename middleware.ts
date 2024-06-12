@@ -9,10 +9,10 @@ const publicRoutes = ["/login", "/signup"];
 function pathIncludes(path: string, routes: string[]): boolean {
   if (path[path.length - 1] === "/") return false;
 
-  // for (let i = 0; i < routes.length; i++) {
-  //   const curr = routes[i];
-  //   if (path.includes(curr)) return true;
-  // }
+  for (let i = 0; i < routes.length; i++) {
+    const curr = routes[i];
+    if (path.includes(curr)) return true;
+  }
 
   return false;
 }
