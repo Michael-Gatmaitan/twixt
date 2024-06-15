@@ -1,7 +1,6 @@
 import { NextResponse, NextRequest } from "next/server";
 import { decrypt } from "./lib/session";
 import { cookies } from "next/headers";
-import { verifySession } from "./lib/dal";
 
 const protectedRoutes = ["/me", "/posts", "/fr-requests", "/fr-req-sent"];
 const publicRoutes = ["/login", "/signup"];

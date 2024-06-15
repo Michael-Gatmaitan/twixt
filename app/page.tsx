@@ -8,6 +8,7 @@ export default function Home() {
       <div className="flex items-center gap-2">
 
       </div>
+
       {/* <ModeToggle /> */}
 
       <p className="text-2xl">EVERYTHING IS STILL ON GOING TO TESTS LOL</p>
