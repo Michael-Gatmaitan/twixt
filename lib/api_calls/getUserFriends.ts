@@ -7,10 +7,10 @@ export async function getUserFriends(
   const fetchFriends = await fetch(`${apiUrl}/friends?userID=${userID}`);
   const res = await fetchFriends.json();
 
-  if (!res[0]?._id) {
-    const friends: IFriendship[] = res;
-    return friends;
-  }
+  // if (!res[0]?._id) {
+  //   const friends: IFriendship[] = res;
+  //   return friends;
+  // }
 
-  return null;
+  return res;
 }

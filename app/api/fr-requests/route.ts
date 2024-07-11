@@ -5,8 +5,8 @@ import { verifySession } from "@/lib/dal";
 
 export async function GET(req: NextRequest) {
   const mongodbid = (await verifySession()).userID;
+
   // const mongodbid = (await verifySession()).userID;
-  console.log(`mongodbid of ${mongodbid}`);
   // console.log("mongoid in fr req route ", mongodbid);
 
   // const session = await verifySession();

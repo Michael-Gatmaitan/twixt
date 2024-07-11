@@ -5,6 +5,8 @@ import connectDB from "@/lib/mongodb";
 import Post from "@/models/Post";
 import { NextRequest } from "next/server";
 
+export const dynamic = "force-dynamic";
+
 // Get all USER_POSTS in database
 export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;

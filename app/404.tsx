@@ -1,5 +1,3 @@
-"use client";
-
 const ErrorPage = () => {
   return <div>{"Page doesn't exists"}</div>;
 };

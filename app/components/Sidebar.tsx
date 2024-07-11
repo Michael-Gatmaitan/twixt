@@ -1,5 +1,5 @@
 "use client"
-import React, { useMemo } from 'react'
+import React from 'react'
 import { useAppSelector, useAppDispatch } from '@/lib/hooks/reduxHooks';
 import {
   AiFillHome as HomeIcon,
@@ -17,14 +17,12 @@ import { useRouter } from 'next/navigation';
 
 import { selectShowSidebar, toggleShowLogoutModal, toggleShowSidebar } from '@/lib/slices/statesSlice';
 
-import { selectLoggedIn } from '@/lib/slices/userSlice';
 import { Button } from '@/components/ui/button';
 // import { CgSpinner } from 'react-icons/cg';
 
 const Sidebar = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const loggedIn = useAppSelector(selectLoggedIn);
   const showSidebar = useAppSelector(selectShowSidebar);
 
   const closeSidebar = (path?: string) => {
@@ -38,7 +36,6 @@ const Sidebar = () => {
 
   const handleShowLogoutModal = () => {
     closeSidebar();
-
     dispatch(toggleShowLogoutModal(true));
   }
 

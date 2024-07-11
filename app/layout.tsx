@@ -19,6 +19,7 @@ import { verifySession } from "@/lib/dal";
 const montserrat = Montserrat({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
+
   variable: "--font-montserrat"
 });
 
@@ -63,6 +64,7 @@ export default async function RootLayout({
 
               <main className="container lg:flex lg:justify-between lg:h-screen">
                 {session.isAuth ? <Sidebar /> : null}
+                {/* <Sidebar /> */}
                 {children}
               </main>
             </HooksComponent>
@@ -72,3 +74,5 @@ export default async function RootLayout({
     </html>
   );
 }
+
+// export const revalidate = 0;

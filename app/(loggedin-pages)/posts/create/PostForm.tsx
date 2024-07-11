@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button';
 import { apiUrl } from '@/lib/apiUrl';
 import { useRef } from 'react';
 import { IComment, IReply } from '@/app';
+import replyAction from '@/actions/replyAction';
 
 const FormSchema = z.object({
   formContent: z.string().min(2, { message: "Min of 2" })
@@ -66,7 +67,7 @@ const PostForm = ({ type, suppID, appendNewComment, appendNewReply }: IPostForm)
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className='flex justify-between items-end gap-2'>
+      <form action={replyAction} onSubmit={form.handleSubmit(onSubmit)} className='flex justify-between items-end gap-2'>
         <FormField
           control={form.control}
           name="formContent"

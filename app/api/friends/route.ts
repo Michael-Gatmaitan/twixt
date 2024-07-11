@@ -67,13 +67,13 @@ export async function GET(req: NextRequest) {
       status: "accepted",
     });
 
-    if (friends) {
-      return new Response(JSON.stringify(friends));
-    }
+    console.log(friends);
 
-    return new Response(JSON.stringify({ message: "Problem occured" }), {
-      status: 500,
-    });
+    return new Response(JSON.stringify(friends));
+
+    // return new Response(JSON.stringify({ message: "Problem occured" }), {
+    //   status: 500,
+    // });
   } catch (err) {
     console.log(`Problem occured in fetching friends of user ${userID}`);
     return new Response(JSON.stringify({ message: "Problem occured" }), {

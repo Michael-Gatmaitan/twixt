@@ -1,10 +1,10 @@
 "use client";
 import React from 'react'
 import { Button } from '@/components/ui/button';
-import AddFriendButton from './(relationship-buttons)/AddFriendButton';
-import RespondRequestButton from './(relationship-buttons)/RespondRequestButton';
-import RequestSentButton from './(relationship-buttons)/RequestSentButton';
-import AlreadyFriendButton from './(relationship-buttons)/AlreadyFriendButton';
+import AddFriendButton from '../../../user/[userID]/(relationship-buttons)/AddFriendButton';
+import RespondRequestButton from '../../../user/[userID]/(relationship-buttons)/RespondRequestButton';
+import RequestSentButton from '../../../user/[userID]/(relationship-buttons)/RequestSentButton';
+import AlreadyFriendButton from '../../../user/[userID]/(relationship-buttons)/AlreadyFriendButton';
 
 interface IFriendshipButtons {
   friendshipID: string;

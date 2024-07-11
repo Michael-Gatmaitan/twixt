@@ -1,14 +1,13 @@
 "use client";
 import { Button } from '@/components/ui/button';
 import React, { Suspense, useState } from 'react'
-import ReplySection from './ReplySection';
-import PostForm from '@/app/(loggedin-pages)/posts/create/PostForm';
+// import PostForm from '@/app/(loggedin-pages)/posts/create/PostForm';
 
-interface IReplySectionHandler { commentID: string, replyCount: number };
+interface IReplySectionHandler { commentID: string, replyCount: number, children: React.ReactNode };
 
-const ReplySectionHandler = (props: IReplySectionHandler) => {
+const ReplySectionHandler = ({ replyCount, children }: IReplySectionHandler) => {
   const [showReplies, setShowReplies] = useState(false);
-
+  console.log(children)
   return (
     <>
 
@@ -18,17 +17,25 @@ const ReplySectionHandler = (props: IReplySectionHandler) => {
         null
       } */}
       <Button variant="ghost" onClick={() => setShowReplies(prev => !prev)}>
-        {showReplies ? "Hide" : `Show ${props.replyCount}`} reply
+        {showReplies ? "Hide" : `Show ${replyCount}`} reply
       </Button>
 
       {/* // <Suspense fallback={<p>Reply loading</p>}> */}
 
       {/* </Suspense> */}
+      {/* {showReplies ?
+        // <ReplySection commentID={props.commentID} />
+        :
+        null
+      } */}
       {showReplies ?
-        <ReplySection commentID={props.commentID} />
+        <Suspense fallback={<div>Loading</div>}>
+          {children}
+        </Suspense>
         :
         null
       }
+      {/* {children} */}
     </>
   )
 }

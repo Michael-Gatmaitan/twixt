@@ -1,20 +1,24 @@
-import MeContent from '@/app/(loggedin-pages)/me/MeContent';
-import MyFriends from './MyFriends';
-import { getMyUserData } from '@/lib/dal';
+import MyFriends from '../../components/me/MyFriends';
+import { getUser } from '@/lib/api_calls/getUser';
+import { IUser, IUserWOPassword } from '@/app';
+import MyDetails from '../../components/me/MyDetails';
 
 const page = async () => {
 
-  const me = await getMyUserData();
+  const me: IUserWOPassword = await getUser();
 
-  if (!me) return <div>Log in againnnn</div>
+  if (!me?._id) {
+    return <main className='container'>
+      No user found
+    </main>
+  }
 
   return (
     <main className='container'>
-      <MeContent me={me} />
-
+      <MyDetails me={me} />
       <MyFriends userID={me._id} />
     </main>
   )
 }
 
-export default page
+export default page;

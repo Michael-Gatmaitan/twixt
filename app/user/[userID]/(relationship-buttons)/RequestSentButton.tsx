@@ -33,7 +33,7 @@ const RequestSentButton = ({ friendshipID, userID }: { friendshipID: string, use
           <Button>Request sent</Button>
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent>
+        <DropdownMenuContent>    
           <DropdownMenuItem onClick={() => handleRequestSent()}>Cancel</DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

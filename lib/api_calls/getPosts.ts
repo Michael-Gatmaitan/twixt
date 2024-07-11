@@ -1,12 +1,13 @@
 import { IPost } from "@/app";
 import { apiUrl } from "../apiUrl";
+import { revalidate } from "@/app/(loggedin-pages)/posts/page";
 
 export async function getPosts(userID?: string): Promise<IPost[]> {
   const reqString = userID
     ? `${apiUrl}/posts?userID=${userID}`
     : `${apiUrl}/posts`;
 
-  const reqPosts = await fetch(reqString, { cache: "no-cache" });
+  const reqPosts = await fetch(reqString);
   return await reqPosts.json();
 }
 

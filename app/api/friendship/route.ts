@@ -6,10 +6,9 @@ import { cookies } from "next/headers";
 import { type NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
-  const cookieStore = cookies();
+  // const cookieStore = cookies();
   // user1ID, user2ID
   const searchParams = req.nextUrl.searchParams;
-
   const user1ID = (await verifySession()).userID;
   const user2ID = searchParams.get("userID");
 
@@ -33,12 +32,13 @@ export async function GET(req: NextRequest) {
     areYouTheRequestSender = true;
   }
 
-  console.log(friendship);
+  console.log("Friendship", friendship);
 
   if (friendship) {
     console.log(`GET: Friendship with ${user2ID} found`);
   } else {
     console.log(`GET: No friendship found with ${user2ID}`);
+    console.log();
     return new Response(
       JSON.stringify([
         null,
@@ -54,7 +54,7 @@ export async function GET(req: NextRequest) {
 
 export async function POST(req: NextRequest) {
   // user1ID, user2ID
-  const cookieStore = cookies();
+  // const cookieStore = cookies();
   const searchParams = req.nextUrl.searchParams;
   const user1ID = (await verifySession()).userID;
   const user2ID = searchParams.get("userID");

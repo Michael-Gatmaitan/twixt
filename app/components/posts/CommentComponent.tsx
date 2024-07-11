@@ -8,7 +8,7 @@ import React from 'react'
 // import PostForm from '@/app/(loggedin-pages)/posts/PostForm';
 // import ReplySection from './ReplySection';
 import ReplySectionHandler from './ReplySectionHandler';
-import { verifySession } from '@/lib/dal';
+import ReplySection from './ReplySection';
 
 interface ICommentComponent {
   comment: IComment
@@ -31,7 +31,10 @@ const CommentComponent = async (props: ICommentComponent) => {
       <div className='text-sm'>{props.comment.commentContent}</div>
       {/* <ReplySection commentID={comment._id} /> */}
 
-      <ReplySectionHandler commentID={comment._id} replyCount={comment.replyCount} />
+      <ReplySectionHandler commentID={comment._id} replyCount={comment.replyCount}>
+        <ReplySection commentID={comment._id} />
+      </ReplySectionHandler>
+
     </div>
   )
 }
