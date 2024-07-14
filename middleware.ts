@@ -6,11 +6,15 @@ const protectedRoutes = ["/me", "/posts", "/fr-requests", "/fr-req-sent"];
 const publicRoutes = ["/login", "/signup"];
 
 function pathIncludes(path: string, routes: string[]): boolean {
-  if (path[path.length - 1] === "/") return false;
+  // if (path[path.length - 1] === "/") return false;
 
-  for (let i = 0; i < routes.length; i++) {
-    const curr = routes[i];
-    if (path.includes(curr)) return true;
+  if (path[path.length - 1] === "/") {
+    console.log("HOME PATH");
+    return false;
+  }
+
+  for (const route of routes) {
+    if (path.includes(route)) return true;
   }
 
   return false;
@@ -28,9 +32,17 @@ export async function middleware(req: NextRequest) {
   // const v = (await verifySession()).userID as string;
   // console.log(v);
 
-  console.log(session);
+  console.log(path);
 
-  if (isProtectedRoute && !session?.userID && !path.startsWith("/login")) {
+  // if ( && !session?.userID) {
+  //   return NextResponse.redirect(new URL("/login", req.nextUrl));
+  // }
+
+  if (
+    (path === "/" || isProtectedRoute) &&
+    !session?.userID &&
+    !path.startsWith("/login")
+  ) {
     return NextResponse.redirect(new URL("/login", req.nextUrl));
   }
 

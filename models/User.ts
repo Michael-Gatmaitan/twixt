@@ -22,6 +22,12 @@ const userSchema = new Schema<IUser>({
     type: String,
     required: true,
   },
+  profileImageSrc: {
+    type: String,
+    required: true,
+    default:
+      "https://lastfm.freetls.fastly.net/i/u/770x0/043ab1adfe3f4881b8bdc12a9ababe60.jpg#043ab1adfe3f4881b8bdc12a9ababe60",
+  },
   createdAt: {
     type: Date,
     default: () => Date.now(),

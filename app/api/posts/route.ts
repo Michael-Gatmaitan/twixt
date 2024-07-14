@@ -12,7 +12,6 @@ export async function GET(req: NextRequest) {
   const searchParams = req.nextUrl.searchParams;
   const userID_params = searchParams.get("userID");
   const postID_params = searchParams.get("postID");
-  // const type_params = searchParams.get("type");
 
   // * If there's a postID in searchParams, return
   // * the specific post based in ID.

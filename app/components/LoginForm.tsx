@@ -1,10 +1,14 @@
 "use client"
 import { login } from '@/actions/auth';
-import { Input } from '@/components/ui/input';
+import { Input, InputProps } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Button } from '@/components/ui/button';
 import { useFormState } from 'react-dom';
 import { useFormStatus } from 'react-dom';
+import { forwardRef, useEffect, useState } from 'react';
+import { EyeIcon, EyeOffIcon } from 'lucide-react';
+import { cn } from '@/lib/utils';
+import PasswordInput from './PasswordInput';
 
 const LoginForm = () => {
   const [state, action] = useFormState(login, undefined);
@@ -13,6 +17,9 @@ const LoginForm = () => {
   // const disableButtonOnSubmit = () => {
 
   // }
+  useEffect(() => console.log("Pending", pending), [pending]);
+
+  const [password, setPassword] = useState("");
 
   return (
     <main className='w-full'>
@@ -28,7 +35,8 @@ const LoginForm = () => {
           {/* <label htmlFor="password">Password</label>
         <input id="password" name="password" type="password" /> */}
           <Label htmlFor='password'>Password</Label>
-          <Input id='password' name='password' placeholder='Password' />
+          {/* <Input type='password' id='password' name='password' placeholder='Password' /> */}
+          <PasswordInput id='password' placeholder='Password' name='password' />
         </div>
         {/* <button type="submit">Log in</button> */}
         <Button type='submit' aria-disabled={pending} disabled={pending}>Log in</Button>

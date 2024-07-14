@@ -24,7 +24,7 @@ export async function decrypt(session: string | undefined = "") {
     // console.log("Payload in decrypt: ", payload);
     return payload;
   } catch (error) {
-    console.log("Decrypt: Failed to verify session");
+    // console.log("Decrypt: Failed to verify session");
     return null;
   }
 }
@@ -42,13 +42,13 @@ export async function createSession(userID: string) {
     path: "/",
   });
 
-  console.log("Updated session: ", cookies().get("session"));
+  // console.log("Updated session: ", cookies().get("session"));
 }
 
 export async function updateSession() {
   const session = cookies().get("session")?.value;
   const payload = await decrypt(session);
-  console.log("Decrypted session:", payload);
+  // console.log("Decrypted session:", payload);
 
   if (!session || !payload) return null;
 
@@ -63,7 +63,7 @@ export async function updateSession() {
     path: "/",
   });
 
-  console.log("Updated session: ", cookies().get("session"));
+  // console.log("Updated session: ", cookies().get("session"));
 }
 
 export async function deleteSession() {

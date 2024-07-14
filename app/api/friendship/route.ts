@@ -38,7 +38,6 @@ export async function GET(req: NextRequest) {
     console.log(`GET: Friendship with ${user2ID} found`);
   } else {
     console.log(`GET: No friendship found with ${user2ID}`);
-    console.log();
     return new Response(
       JSON.stringify([
         null,

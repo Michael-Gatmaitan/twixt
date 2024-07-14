@@ -12,11 +12,9 @@ const LogoutModal = () => {
   const router = useRouter();
 
   const clearLoginData = () => {
-
     logout();
-
-    router.replace("/login");
   }
+
   return (
     showLogoutModal ? (
       <main className="w-screen h-screen absolute top-0 left-0 bg-opacity-50 bg-black grid place-items-center z-50">

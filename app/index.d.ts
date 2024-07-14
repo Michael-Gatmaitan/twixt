@@ -24,6 +24,7 @@ interface IUser {
   password: string;
   bio: string;
   status: string;
+  profileImageSrc: string;
   createdAt: Date;
 }
 

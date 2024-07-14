@@ -1,7 +1,7 @@
-import MyFriends from '../../components/me/MyFriends';
+import MyFriends from './MyFriends';
 import { getUser } from '@/lib/api_calls/getUser';
 import { IUser, IUserWOPassword } from '@/app';
-import MyDetails from '../../components/me/MyDetails';
+import MyDetails from './MyDetails';
 
 const page = async () => {
 

@@ -11,18 +11,12 @@ export async function GET(req: NextRequest, res: Response) {
   const searchParams = req.nextUrl.searchParams;
   const userIDq = searchParams.get("userID");
 
-  console.log(req.cookies.getAll().length);
-
-  const allCookies = cookies().getAll();
-  console.log(`allll coooookiesss ${allCookies.length}`);
-
   await connectDB();
 
   try {
     if (!userIDq) {
       // Get the current user's details
       const userID = (await verifySession()).userID;
-      console.log("User id for ffff", userID);
       const user: IUser | null = await User.findOne(
         {
           _id: userID,

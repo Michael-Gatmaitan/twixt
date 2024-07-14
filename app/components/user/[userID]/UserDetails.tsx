@@ -1,7 +1,11 @@
+"use server"
+
 import { getUser } from '@/lib/api_calls/getUser'
 import { timeDistance } from '@/lib/time_formatters/timeDistance';
 import { Calendar } from 'lucide-react';
+import Image from 'next/image';
 import React from 'react'
+import UserProfileImage from './UserProfileImage';
 
 const UserDetails = async ({ userID }: { userID: string }) => {
   const userDetails = await getUser(userID);
@@ -13,13 +17,15 @@ const UserDetails = async ({ userID }: { userID: string }) => {
   // Bio
   // Status (?)
   const dateJoined: Date | string = timeDistance(userDetails.createdAt);
-
+  const { profileImageSrc } = userDetails;
   return (
     <div className='grid gap-2 text-white'>
       <div className='text-sm font-medium text-white text-opacity-80'># {userDetails.username}</div>
       <div className='flex gap-4 items-center'>
         {/* Profile and username */}
-        <div className="w-20 h-20 bg-slate-500 rounded-full" />
+        <div className="w-20 h-20 bg-slate-500 rounded-full">
+          <UserProfileImage src={profileImageSrc} />
+        </div>
         <div className='text-4xl font-bold'>{userDetails.username}</div>
 
       </div>

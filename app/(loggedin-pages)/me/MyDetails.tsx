@@ -2,6 +2,7 @@ import { IUserWOPassword } from '@/app';
 import { timeDistance } from '@/lib/time_formatters/timeDistance'
 import { Calendar, Pencil } from 'lucide-react';
 import React from 'react'
+import ChangeProfileButton from './ChangeProfileButton';
 
 const MyDetails = ({ me }: { me: IUserWOPassword }) => {
 
@@ -12,7 +13,9 @@ const MyDetails = ({ me }: { me: IUserWOPassword }) => {
       <div className='text-sm font-medium text-white text-opacity-80'># {me.username}</div>
       <div className='flex gap-4 items-center'>
         {/* Profile and username */}
-        <div className="w-20 h-20 bg-slate-500 rounded-full" />
+        <div className="relative w-20 h-20 bg-slate-500 rounded-full">
+          <ChangeProfileButton />
+        </div>
         <div className='text-4xl font-bold'>{me.username}</div>
 
       </div>
@@ -23,7 +26,7 @@ const MyDetails = ({ me }: { me: IUserWOPassword }) => {
       </div>
 
       <div className='flex gap-2 items-center'>
-        <Calendar />
+        <Calendar width={18} height={18} />
         <div className='text-base text-white text-opacity-80'>
           You joined {dateJoined}
         </div>

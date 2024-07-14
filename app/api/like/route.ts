@@ -12,8 +12,6 @@ export async function GET(req: NextRequest) {
 
   await connectDB();
 
-  console.log("Like route");
-
   if (compID_params !== null && userID_params !== null) {
     // We want to check if uesr alrealike the post
     const res = await Like.findOne({
@@ -21,7 +19,6 @@ export async function GET(req: NextRequest) {
       userID: userID_params,
     });
 
-    console.log(compID_params, userID_params, res);
     return new Response(JSON.stringify(res));
   }
 
