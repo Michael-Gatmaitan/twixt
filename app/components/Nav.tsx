@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import TWIXTLogo from '@/public/logo/twixt.svg';
+import TWIXTLogo from "@/public/logo/twixt.svg";
 import NavMenu from "./NavMenu";
 import ToggleMode from "./ToggleMode";
 

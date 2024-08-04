@@ -1,7 +1,7 @@
 "use client";
 
-import { UploadButton } from '@/lib/utils/uploadthing';
-import React from 'react'
+import { UploadButton } from "@/lib/utils/uploadthing";
+import React from "react";
 
 const UploadProfile = () => {
   return (
@@ -14,12 +14,12 @@ const UploadProfile = () => {
           alert("Upload Completed");
         }}
         onUploadError={(error: Error) => {
-          // Do something with the error.
+          // Do something with the error. asdasdasdd
           alert(`ERROR! ${error.message}`);
         }}
       />
     </>
-  )
-}
+  );
+};
 
-export default UploadProfile
+export default UploadProfile;

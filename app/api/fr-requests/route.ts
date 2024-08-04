@@ -22,7 +22,7 @@ export async function GET(req: NextRequest) {
       user2ID: mongodbid,
       status: "pending",
     },
-    { user1ID: 1, _id: 1, createdAt: 1 }
+    { user1ID: 1, _id: 1, createdAt: 1 },
   );
 
   if (friendRequests) return new Response(JSON.stringify(friendRequests));
@@ -51,7 +51,7 @@ export async function PUT(req: NextRequest) {
         $set: {
           status: body.response,
         },
-      }
+      },
     );
 
     console.log(update);
