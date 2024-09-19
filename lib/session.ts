@@ -21,14 +21,13 @@ export async function decrypt(session: string | undefined = "") {
       algorithms: ["HS256"],
     });
 
-    // console.log("Payload in decrypt: ", payload);
     return payload;
   } catch (error) {
-    // console.log("Decrypt: Failed to verify session");
     return null;
   }
 }
 
+// Create or extend session expiration
 export async function createSession(userID: string) {
   // Set session expiration to 1 week (7 days)
   const expiresAt = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000);
@@ -41,8 +40,6 @@ export async function createSession(userID: string) {
     sameSite: "lax",
     path: "/",
   });
-
-  // console.log("Updated session: ", cookies().get("session"));
 }
 
 export async function updateSession() {

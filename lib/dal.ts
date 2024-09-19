@@ -40,5 +40,5 @@ export const getMyUserData: () => Promise<IUserWOPassword | null> = cache(
     }
 
     return null;
-  }
+  },
 );

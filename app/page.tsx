@@ -2,12 +2,9 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 
 export default function Home() {
-
   return (
     <main className="flex container flex-col items-center justify-between">
-      <div className="flex items-center gap-2">
-
-      </div>
+      <div className="flex items-center gap-2"></div>
 
       {/* <ModeToggle /> */}
 
@@ -15,6 +12,6 @@ export default function Home() {
 
       <Link href="posts/create/">CREATE POST</Link>
       <Link href="posts/">POST</Link>
-    </main >
+    </main>
   );
 }

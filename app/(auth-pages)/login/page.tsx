@@ -2,10 +2,11 @@ import React from "react";
 import CustomFormikForm from "../../components/CustomFormikForm";
 import { FormikHelpers } from "formik";
 import LoginForm from "@/app/components/LoginForm";
+import Link from "next/link";
+
 // import { getCookie } from "cookies-next";
 
 const page = () => {
-
   // if (getCookie("mongodbid")) {
   //   return <div>You are already logged in.</div>
   // }
@@ -15,6 +16,8 @@ const page = () => {
       {/* <h1 className="text-3xl font-bold text-center pt-4">Log in</h1> */}
       {/* <CustomFormikForm formType="login" /> */}
       <LoginForm />
+
+      <Link href={`/signup`}>Sign up here!!!</Link>
 
       <div className="bg-purple-700 hidden lg:block">
         <div className="2xl">Discover a new world here with us!</div>

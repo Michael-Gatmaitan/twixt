@@ -29,6 +29,7 @@ export async function signup(state: FormState, formData: FormData) {
     console.log("User exists.");
     return {
       message: "User already exists",
+      type: "duplicate",
     };
   }
 
@@ -47,6 +48,7 @@ export async function signup(state: FormState, formData: FormData) {
   if (!newUser) {
     return {
       message: "There was an error while creating a new user.",
+      type: "error",
     };
   }
 
@@ -58,8 +60,6 @@ export async function signup(state: FormState, formData: FormData) {
 }
 
 export async function login(state: FormState, formData: FormData) {
-  // const formDataName = formData.get("name");
-  // const formDataPassword = formData.get("password");
   const validatedFields = SignupFormSchema.safeParse({
     name: formData.get("name"),
     password: formData.get("password"),
@@ -80,7 +80,7 @@ export async function login(state: FormState, formData: FormData) {
     {
       username: name,
     },
-    { _id: 1, password: 1 }
+    { _id: 1, password: 1 },
   );
 
   console.log(user, name);
